@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Case Study Template | Ofir Levy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================
+     DESIGN SYSTEM: Editorial Portfolio Template
+     Fonts: DM Serif Display (headers) + DM Sans (body) + JetBrains Mono (technical)
+     Tone: Warm minimalism, refined editorial
+     ============================================ */
+  
+  :root {
+    --ink: #0f0f0f;
+    --paper: #f5f2ec;
+    --mid: #7a7570;
+    --rule: #d9d4cc;
+    --accent: #0066cc;  /* Change per project: VMware=#0066cc, AWS=#ff9900 */
+    --accent-dark: #004999;  /* Darker version of accent */
+    --dark-bg: #1a1a1a;  /* For dark sections */
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'DM Sans', sans-serif; font-weight: 300;
+    line-height: 1.7; -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAVIGATION */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.25rem 3rem;
+    background: rgba(245,242,236,0.93); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-logo { font-family: 'DM Serif Display', serif; font-size: 1rem; letter-spacing: 0.02em; color: var(--ink); text-decoration: none; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* HERO SECTION */
+  .hero {
+    padding: 9rem 3rem 5rem; max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 380px; gap: 4rem;
+    align-items: end; border-bottom: 1px solid var(--rule);
+  }
+  .hero-meta { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; color: var(--mid); text-transform: uppercase; }
+  .tag::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--mid); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.4rem,5vw,4.2rem); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); max-width: 620px; }
+  h1 em { font-style: italic; color: var(--accent-dark); }
+  
+  /* Hero stats grid */
+  .hero-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .hero-stat { background: var(--paper); padding: 1.25rem; }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.35rem; }
+  .stat-value { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
+
+  /* SECTIONS */
+  .section { max-width: 1200px; margin: 0 auto; padding: 5rem 3rem; border-bottom: 1px solid var(--rule); }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  
+  h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.6rem,3vw,2.6rem); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1.5rem; }
+  h3 { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--ink); margin-bottom: 0.75rem; margin-top: 2rem; }
+  p { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: 680px; }
+  p + p { margin-top: 1rem; }
+  
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .pullquote { border-left: 3px solid var(--accent-dark); padding: 1rem 0 1rem 2rem; margin: 2.5rem 0; font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.45rem; line-height: 1.4; color: var(--ink); max-width: 640px; }
+
+  /* DARK SECTION - for contrast */
+  .dark-section { background: var(--dark-bg); color: var(--paper); padding: 5rem 3rem; }
+  .dark-inner { max-width: 1200px; margin: 0 auto; }
+  .dark-section .section-label { color: rgba(255,255,255,0.4); }
+  .dark-section .section-label::after { background: rgba(255,255,255,0.1); }
+  .dark-section h2 { color: var(--paper); }
+  .dark-section p { color: rgba(245,242,236,0.7); }
+
+  /* ARTIFACTS - for images/mockups/wireframes */
+  .artifact { margin-top: 2.5rem; border: 1px solid var(--rule); overflow: hidden; max-width: 600px; margin-left: auto; margin-right: auto; }
+  .artifact + .artifact { margin-top: 1px; }
+  .artifact-header { padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 1rem; background: #f0ece4; }
+  .artifact-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+  .artifact-title { font-size: 0.82rem; font-weight: 500; color: var(--ink); }
+  .artifact img { max-width: 100%; height: auto; display: block; background: #fff; }
+  .artifact-caption { padding: 0.75rem 1.25rem; font-size: 0.78rem; color: var(--mid); line-height: 1.5; font-style: italic; border-top: 1px solid var(--rule); background: #f0ece4; }
+
+  /* CARD GRIDS - for problem/solution/feature breakdown */
+  .card-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-top: 2rem; }
+  .card { background: var(--paper); padding: 1.75rem 1.5rem; }
+  .card:first-child { background: var(--dark-bg); color: var(--paper); }
+  .card:first-child h3, .card:first-child .card-num { color: var(--paper); }
+  .card:first-child p { color: rgba(245,242,236,0.7); }
+  .card-num { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 1.25rem; }
+  .card:first-child .card-num { color: var(--accent); opacity: 0.7; }
+  .card h3 { font-family: 'DM Sans', sans-serif; font-size: 0.92rem; font-weight: 500; margin-bottom: 0.6rem; margin-top: 0; }
+  .card p { font-size: 0.82rem; line-height: 1.65; color: #5a5550; max-width: none; }
+
+  /* OUTCOME BAR - for results/metrics */
+  .outcome-bar { background: var(--accent); color: white; padding: 4rem 3rem; }
+  .outcome-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem; }
+  .outcome-num { font-family: 'DM Serif Display', serif; font-size: 3.5rem; line-height: 1; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .outcome-label { font-size: 0.85rem; opacity: 0.85; line-height: 1.5; }
+
+  /* BACK BUTTON */
+  .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; border: 1px solid var(--rule); padding: 0.6rem 1.25rem; transition: all 0.2s; margin-top: 2.5rem; }
+  .back-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+  /* FOOTER */
+  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--rule); }
+  .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
+  .footer-nav { display: flex; gap: 2rem; list-style: none; }
+  .footer-nav a { font-size: 0.78rem; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+  .footer-nav a:hover { color: var(--ink); }
+
+  /* SCROLL REVEAL ANIMATION */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero, .two-col { grid-template-columns: 1fr; }
+    .card-grid { grid-template-columns: 1fr; }
+    .outcome-inner { grid-template-columns: 1fr; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .section, .dark-section { padding: 3.5rem 1.5rem; }
+    footer { flex-direction: column; gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="http://www.ofirlevydesign.com/" class="nav-logo">Ofir Levy</a>
+  <ul class="nav-links">
+    <li><a href="http://www.ofirlevydesign.com/">Work</a></li>
+    <li><a href="http://www.ofirlevydesign.com/about">About</a></li>
+    <li><a href="http://www.ofirlevydesign.com/findme">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-meta">
+      <span class="tag">Company Name &middot; Date</span>
+      <span class="tag">Project Type &middot; Discipline</span>
+    </div>
+    <h1>Project Title with<br><em>Emphasis Word</em><br>on Multiple Lines</h1>
+    <a href="http://www.ofirlevydesign.com/" class="back-btn">&larr; All work</a>
+  </div>
+  <div>
+    <div class="hero-stat-grid">
+      <div class="hero-stat"><div class="stat-label">Role</div><div class="stat-value">Sr. UX Designer</div></div>
+      <div class="hero-stat"><div class="stat-label">Employer</div><div class="stat-value">Company Name</div></div>
+      <div class="hero-stat"><div class="stat-label">Timeline</div><div class="stat-value">6 months</div></div>
+      <div class="hero-stat"><div class="stat-label">Team</div><div class="stat-value">4 designers, 8 engineers</div></div>
+      <div class="hero-stat"><div class="stat-label">Status</div><div class="stat-value">Shipped Q4 2024</div></div>
+      <div class="hero-stat"><div class="stat-label">Impact</div><div class="stat-value">15K+ users</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 01: CONTEXT -->
+<div class="section reveal">
+  <div class="section-label">01 &mdash; Context</div>
+  <div class="two-col">
+    <div>
+      <h2>This is the section headline</h2>
+      <p>This is body copy explaining the context, background, or problem space. It uses DM Sans at 300 weight with generous line-height for readability.</p>
+      <p>Multiple paragraphs are separated with comfortable spacing. Each paragraph should be concise and focused on a single idea.</p>
+    </div>
+    <div>
+      <div class="pullquote">&ldquo;This is a customer quote or key insight that deserves emphasis.&rdquo;</div>
+      <p>Additional context or explanation can continue here, providing depth to the narrative.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 02: PROBLEM BREAKDOWN -->
+<div class="section reveal">
+  <div class="section-label">02 &mdash; Problem</div>
+  <h2>Three-part problem statement</h2>
+  <p>Introduction paragraph explaining the challenge or opportunity.</p>
+  
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-num">Key Challenge</div>
+      <h3>First problem</h3>
+      <p>Description of the first major challenge or pain point users face.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">User Impact</div>
+      <h3>Second problem</h3>
+      <p>Description of how this affects users or the business.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">Business Risk</div>
+      <h3>Third problem</h3>
+      <p>Description of competitive or market implications.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 03: VISUAL ARTIFACTS -->
+<div class="section reveal">
+  <div class="section-label">03 &mdash; Design Process</div>
+  <h2>Wireframes and prototypes</h2>
+  <p>Narrative explaining the design exploration and iteration process.</p>
+
+  <!-- Example artifact with image -->
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Wireframe</span>
+      <span class="artifact-title">Early Concept — Information Architecture</span>
+    </div>
+    <img src="data:image/svg+xml,%3Csvg width='800' height='600' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='800' height='600' fill='%23f5f2ec'/%3E%3Ctext x='400' y='300' font-family='DM Sans' font-size='18' fill='%237a7570' text-anchor='middle'%3EYour image here%3C/text%3E%3C/svg%3E" alt="Placeholder for wireframe">
+    <div class="artifact-caption">Caption explaining what this wireframe shows and why it matters to the story.</div>
+  </div>
+</div>
+
+<!-- SECTION 04: DARK SECTION (OPTIONAL) -->
+<div class="dark-section reveal">
+  <div class="dark-inner">
+    <div class="section-label">04 &mdash; Solution</div>
+    <h2>Feature highlights</h2>
+    <p>Use dark sections for visual contrast and to emphasize key moments in the narrative.</p>
+
+    <!-- Another artifact example in dark theme -->
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Hi-Fi Mockup</span>
+        <span class="artifact-title">Final Design — Dashboard View</span>
+      </div>
+      <img src="data:image/svg+xml,%3Csvg width='800' height='600' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='800' height='600' fill='%231a1a1a'/%3E%3Ctext x='400' y='300' font-family='DM Sans' font-size='18' fill='%23f5f2ec' text-anchor='middle'%3EYour image here%3C/text%3E%3C/svg%3E" alt="Placeholder for mockup">
+      <div class="artifact-caption">Dark sections work well for showcasing polished mockups or final designs.</div>
+    </div>
+  </div>
+</div>
+
+<!-- OUTCOME BAR -->
+<div class="outcome-bar reveal">
+  <div class="outcome-inner">
+    <div><div class="outcome-num">85%</div><div class="outcome-label">Increase in successful task completion after redesign</div></div>
+    <div><div class="outcome-num">12K</div><div class="outcome-label">Active monthly users within first quarter</div></div>
+    <div><div class="outcome-num">40%</div><div class="outcome-label">Reduction in support tickets related to workflow</div></div>
+  </div>
+</div>
+
+<!-- RETURN TO PORTFOLIO -->
+<div class="section" style="text-align:center;border:none;">
+  <div class="tag" style="justify-content:center;margin-bottom:1rem;">Return to portfolio</div>
+  <a href="http://www.ofirlevydesign.com/" style="font-family:'DM Serif Display',serif;font-size:2rem;color:var(--ink);text-decoration:none;letter-spacing:-0.01em;opacity:0.35;transition:opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.35">View all work &rarr;</a>
+</div>
+
+<footer>
+  <div class="footer-credit">&copy; Ofir Levy &middot; Sr. UX Designer</div>
+  <ul class="footer-nav">
+    <li><a href="http://www.ofirlevydesign.com/">Work</a></li>
+    <li><a href="http://www.ofirlevydesign.com/about">About</a></li>
+    <li><a href="http://www.ofirlevydesign.com/findme">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+  // Scroll reveal animation
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, {threshold:0.06});
+  reveals.forEach(el => io.observe(el));
+
+  // Hero stagger animation
+  document.querySelectorAll('.hero > div > *').forEach((el,i) => {
+    el.style.cssText = `opacity:0;transform:translateY(16px);transition:opacity 0.6s ease ${i*0.1}s,transform 0.6s ease ${i*0.1}s`;
+    setTimeout(() => { el.style.opacity='1'; el.style.transform='none'; }, 80);
+  });
+</script>
+
+<!--
+===========================================
+QUICK REFERENCE: Key Customizations
+===========================================
+
+1. CHANGE ACCENT COLOR:
+   - Edit --accent and --accent-dark in :root
+   - VMware blue: --accent:#0066cc, --accent-dark:#004999
+   - AWS orange: --accent:#ff9900, --accent-dark:#ec7211
+
+2. ADD YOUR IMAGES:
+   - Replace placeholder SVGs in .artifact img src=""
+   - Use base64 encoded images or external URLs
+   - Keep images at 600px max-width for crisp rendering
+
+3. DARK SECTIONS:
+   - Use .dark-section wrapper for visual contrast
+   - Works well for: workflows, final designs, feature highlights
+   - Images in dark sections get special styling
+
+4. CARD GRIDS:
+   - Use .card-grid for 3-column layouts
+   - First card is always dark/highlighted
+   - Good for: problems, features, process steps
+
+5. RESPONSIVE:
+   - Automatically stacks on mobile (<900px)
+   - All grids become single column
+   - Nav compresses, sections adjust padding
+
+===========================================
+-->
+
+</body>
+</html>

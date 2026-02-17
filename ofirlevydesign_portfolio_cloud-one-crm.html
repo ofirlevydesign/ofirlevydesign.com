@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudOne CRM Platform Redesign - Ofir Levy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            padding: 40px 0 60px;
+            border-bottom: 1px solid #eee;
+        }
+
+        nav {
+            margin-bottom: 40px;
+        }
+
+        nav a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #0082E3;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2A2C38;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .project-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            padding: 40px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .meta-item h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .meta-item p {
+            font-size: 16px;
+            color: #333;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #2A2C38;
+        }
+
+        h3 {
+            font-size: 24px;
+            margin: 40px 0 20px;
+            color: #2A2C38;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .image-container {
+            margin: 60px 0;
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .image-full {
+            margin: 60px 0;
+        }
+
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .before-after-item {
+            text-align: center;
+        }
+
+        .before-after-item h3 {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #666;
+        }
+
+        .before-after-item .image-placeholder {
+            height: 400px;
+        }
+
+        .highlight-box {
+            background: #f0f7ff;
+            border-left: 4px solid #0082E3;
+            padding: 30px;
+            margin: 40px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box h3 {
+            margin-top: 0;
+            color: #0082E3;
+        }
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+            align-items: center;
+            text-align: center;
+        }
+
+        .client-logo {
+            padding: 30px 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .client-logo:hover {
+            background: #0082E3;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .process-section {
+            background: #fafafa;
+            padding: 80px 0;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin: 40px 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin: 40px 0;
+        }
+
+        .grid-item {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .grid-item h3 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding-left: 30px;
+            position: relative;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        ul li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #0082E3;
+            font-weight: bold;
+        }
+
+        footer {
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid #eee;
+            background: #fafafa;
+        }
+
+        footer a {
+            color: #0082E3;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            .before-after,
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .image-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html">← Back to Portfolio</a>
+            </nav>
+            <h1>CloudOne CRM Platform</h1>
+            <p class="subtitle">Consolidating four disjointed platforms into a unified, elegant CRM solution for automotive dealerships</p>
+            
+            <div class="project-meta">
+                <div class="meta-item">
+                    <h3>Role</h3>
+                    <p>Senior Product Designer</p>
+                </div>
+                <div class="meta-item">
+                    <h3>Timeline</h3>
+                    <p>2016-2017</p>
+                </div>
+                <div class="meta-item">
+                    <h3>Team</h3>
+                    <p>Cross-functional (Design, Engineering, Product)</p>
+                </div>
+                <div class="meta-item">
+                    <h3>Company</h3>
+                    <p>CloudOne</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <div class="container">
+                <div class="image-full">
+                    <div class="image-placeholder">CloudOne Dashboard Overview</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>Overview</h2>
+                <p>CloudOne works with car dealerships and advertising agencies to automate and perfect their customer acquisition strategies. The company offers a targeted package of print and online advertising, a robust call-center, and a sophisticated and intelligent CRM platform dealerships and agencies utilize to zero in on customers and mobilize them into the showrooms.</p>
+                
+                <div class="highlight-box">
+                    <h3>The Challenge</h3>
+                    <p>CloudOne was offering four separate, complex, and disjointed data management web platforms to its customers. Our users needed a simpler and more efficient unified platform to organize the data for its frustrated users.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="process-section">
+            <div class="container">
+                <h2>Problem • Task • Action • Results</h2>
+                
+                <div class="grid-2">
+                    <div class="grid-item">
+                        <h3>Problem</h3>
+                        <p>CloudOne was offering four separate, complex, and disjointed data management web platforms to its customers. Our users needed a simpler and more efficient unified platform to organize the data for its frustrated users.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Task</h3>
+                        <p>As the Sr. product designer for CloudOne, I needed to consolidate the four platforms and redesign a single, unified, and elegant platform to simplify our users' data management process.</p>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="grid-item">
+                        <h3>Action</h3>
+                        <p>I led my cross-functional team in the design process of a unified CRM platform.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Results</h3>
+                        <p>We released an improved, unified, simplified, and polished CRM platform, making our users' workflow easier and delightful.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>Discovery & Research</h2>
+                
+                <h3>Understanding the Problem</h3>
+                <div class="image-container">
+                    <div class="image-placeholder">Four Separate Platforms</div>
+                </div>
+                <p>The first step was to identify the core issues with the existing platforms. Users were forced to switch between four different interfaces, each with its own design language, navigation patterns, and data structures. This created confusion, inefficiency, and frustration.</p>
+
+                <h3>Talking to Customers</h3>
+                <p>I conducted interviews and gathered feedback from key customers including major dealerships and advertising agencies:</p>
+                
+                <div class="clients-grid">
+                    <div class="client-logo">Tonkin Acura</div>
+                    <div class="client-logo">Nissan Marin</div>
+                    <div class="client-logo">Lakeview Ford</div>
+                    <div class="client-logo">iHeart Media</div>
+                    <div class="client-logo">Premier Kia</div>
+                    <div class="client-logo">Louisville Dodge</div>
+                    <div class="client-logo">Xcel Media</div>
+                </div>
+
+                <p>Through these conversations, I identified the key pain points and user needs that would drive the design direction.</p>
+            </div>
+        </section>
+
+        <section class="process-section">
+            <div class="container">
+                <h2>Design Process</h2>
+                
+                <h3>User Flows & Information Architecture</h3>
+                <div class="image-container">
+                    <div class="image-placeholder">User Flows & Object Action Models</div>
+                </div>
+                <p>I mapped out user flows for key tasks like sharing content, viewing campaign data, and managing leads. This helped us understand how to consolidate functionality from four platforms into intuitive workflows.</p>
+
+                <div class="image-container">
+                    <div class="image-placeholder">Information Architecture</div>
+                </div>
+                <p>Working collaboratively with the team, I organized the information architecture using card sorting and affinity mapping to ensure the new structure made sense to our users.</p>
+
+                <h3>Sketching & Wireframing</h3>
+                <div class="image-container">
+                    <div class="image-placeholder">Early Sketches & Wireframes</div>
+                </div>
+                <p>I created numerous sketches and low-fidelity wireframes to explore different layout options and interaction patterns. This rapid iteration phase allowed us to test ideas quickly before investing in high-fidelity designs.</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>Design System</h2>
+                <p>Part of this project also involved creating a new design system that would provide consistency across the entire platform and enable faster development.</p>
+
+                <h3>Grid System</h3>
+                <div class="image-container">
+                    <div class="image-placeholder">Responsive Grid System</div>
+                </div>
+                <p>I developed a flexible grid system that could accommodate different widget sizes and layouts, ensuring consistency while allowing for customization based on user needs.</p>
+
+                <h3>Component Library</h3>
+                <div class="image-container">
+                    <div class="image-placeholder">UI Component Specifications</div>
+                </div>
+                <p>Created detailed specifications for all UI components including navigation, buttons, form elements, data visualizations, and more. This ensured consistency and streamlined the development process.</p>
+            </div>
+        </section>
+
+        <section class="process-section">
+            <div class="container">
+                <h2>Key Features</h2>
+
+                <div class="grid-3">
+                    <div class="grid-item">
+                        <h3>Unified Dashboard</h3>
+                        <p>A single, customizable dashboard that provides users with at-a-glance insights into their key metrics, replacing multiple disconnected views.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Data Visualization</h3>
+                        <p>Interactive charts and graphs that make complex campaign data easy to understand and act upon.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Campaign Management</h3>
+                        <p>Streamlined tools for creating, monitoring, and optimizing marketing campaigns across multiple channels.</p>
+                    </div>
+                </div>
+
+                <div class="image-container">
+                    <div class="image-placeholder">Dashboard Widget Examples</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>Final Designs</h2>
+
+                <h3>Dashboard</h3>
+                <div class="image-container">
+                    <div class="image-placeholder">Final Dashboard Design</div>
+                </div>
+                <p>The redesigned dashboard provides users with customizable widgets showing dealer count, population coverage, lead performance, and month-to-date trends—all in one unified view.</p>
+
+                <h3>Campaign Overview</h3>
+                <div class="image-container">
+                    <div class="image-placeholder">Campaign Detail Page</div>
+                </div>
+                <p>Campaign pages give users comprehensive views of performance metrics, including mail pieces, leads, contacts, appointments, and response rates, with interactive charts for leads by day, source breakdown, and geographic distribution.</p>
+
+                <h3>Lead Management</h3>
+                <div class="image-container">
+                    <div class="image-placeholder">Lead Management Interface</div>
+                </div>
+                <p>The lead management system provides detailed lead information, activity history, and contact management in a clean, organized interface that helps users track and convert prospects efficiently.</p>
+            </div>
+        </section>
+
+        <section class="process-section">
+            <div class="container">
+                <h2>Before & After</h2>
+                
+                <div class="before-after">
+                    <div class="before-after-item">
+                        <div class="image-placeholder">Dashboard Before</div>
+                        <h3>Before</h3>
+                    </div>
+                    <div class="before-after-item">
+                        <div class="image-placeholder">Dashboard After</div>
+                        <h3>After</h3>
+                    </div>
+                </div>
+
+                <div class="before-after">
+                    <div class="before-after-item">
+                        <div class="image-placeholder">Campaign Before</div>
+                        <h3>Before</h3>
+                    </div>
+                    <div class="before-after-item">
+                        <div class="image-placeholder">Campaign After</div>
+                        <h3>After</h3>
+                    </div>
+                </div>
+
+                <div class="before-after">
+                    <div class="before-after-item">
+                        <div class="image-placeholder">Leads Before</div>
+                        <h3>Before</h3>
+                    </div>
+                    <div class="before-after-item">
+                        <div class="image-placeholder">Leads After</div>
+                        <h3>After</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>Additional Features</h2>
+
+                <h3>Responsive Design</h3>
+                <div class="image-container">
+                    <div class="image-placeholder">Responsive Design Examples</div>
+                </div>
+                <p>The platform was designed to work seamlessly across desktop, tablet, and mobile devices, ensuring users could access their data anywhere.</p>
+
+                <h3>White-Labeling</h3>
+                <div class="image-container">
+                    <div class="image-placeholder">White-Label Example</div>
+                </div>
+                <p>Built-in white-labeling capabilities allowed agencies to customize the platform with their own branding, creating a seamless experience for their dealer clients.</p>
+            </div>
+        </section>
+
+        <section class="process-section">
+            <div class="container">
+                <h2>Impact & Results</h2>
+                
+                <div class="highlight-box">
+                    <h3>Key Outcomes</h3>
+                    <ul>
+                        <li>Successfully consolidated four separate platforms into one unified system</li>
+                        <li>Reduced user training time and support tickets</li>
+                        <li>Improved user satisfaction scores from customers and internal teams</li>
+                        <li>Created a scalable design system that enabled faster feature development</li>
+                        <li>Established CloudOne as a more competitive solution in the automotive CRM space</li>
+                    </ul>
+                </div>
+
+                <h3>What I Learned</h3>
+                <p>This project reinforced the importance of deeply understanding user needs before jumping into solutions. By spending time with customers and mapping their workflows, we were able to create a platform that truly solved their problems rather than just making the old system look prettier.</p>
+                <p>Leading a cross-functional team through such a significant redesign also taught me valuable lessons about stakeholder management, balancing technical constraints with user needs, and the importance of creating a shared vision that everyone could rally behind.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p><a href="index.html">← Back to Portfolio</a></p>
+            <p style="margin-top: 20px; color: #999;">© 2024 Ofir Levy. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
