@@ -34,27 +34,30 @@
   /* NAVIGATION */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex; justify-content: space-between; align-items: flex-end;
     padding: 1.25rem 3rem;
     background: rgba(245,242,236,0.93); backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--rule);
   }
-  .nav-logo { font-family: 'DM Serif Display', serif; font-size: 1rem; letter-spacing: 0.02em; color: var(--ink); text-decoration: none; }
+  .nav-logo { display: inline-flex; align-items: center; text-decoration: none; transition: opacity 0.2s; }
+  .nav-logo:hover { opacity: 0.6; }
+  .nav-logo svg { height: 24px; width: auto; display: block; fill: var(--ink); }
   .nav-links { display: flex; gap: 2.5rem; list-style: none; }
   .nav-links a { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: var(--ink); }
 
   /* HERO SECTION */
   .hero {
-    padding: 9rem 3rem 5rem; max-width: 1200px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 380px; gap: 4rem;
-    align-items: end; border-bottom: 1px solid var(--rule);
+    padding: 0 3rem 5rem; max-width: 1200px; margin: 0 auto;
+    /* 66px gap below nav (nav ~57px tall) */
+    padding-top: calc(57px + 66px);
   }
-  .hero-meta { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .hero-meta { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 70px; }
   .tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; color: var(--mid); text-transform: uppercase; }
   .tag::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--mid); }
-  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.4rem,5vw,4.2rem); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); max-width: 620px; }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.4rem,5vw,4.2rem); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); max-width: 620px; margin-bottom: 54px; }
   h1 em { font-style: italic; color: var(--accent-dark); }
+  .hero-description { font-size: 1.15rem; line-height: 1.7; color: #3a3632; max-width: 720px; margin-bottom: 70px; }
   
   /* Hero stats grid */
   .hero-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
@@ -63,7 +66,7 @@
   .stat-value { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
 
   /* SECTIONS */
-  .section { max-width: 1200px; margin: 0 auto; padding: 5rem 3rem; border-bottom: 1px solid var(--rule); }
+  .section { max-width: 1200px; margin: 0 auto; padding: 5rem 3rem; }
   .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; }
   .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
   
@@ -114,11 +117,8 @@
   .back-btn:hover { border-color: var(--ink); color: var(--ink); }
 
   /* FOOTER */
-  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--rule); }
+  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; text-align: center; border-top: 1px solid var(--rule); }
   .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
-  .footer-nav { display: flex; gap: 2rem; list-style: none; }
-  .footer-nav a { font-size: 0.78rem; color: var(--mid); text-decoration: none; transition: color 0.2s; }
-  .footer-nav a:hover { color: var(--ink); }
 
   /* SCROLL REVEAL ANIMATION */
   .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
@@ -132,41 +132,37 @@
     nav { padding: 1rem 1.5rem; }
     .nav-links { gap: 1.5rem; }
     .section, .dark-section { padding: 3.5rem 1.5rem; }
-    footer { flex-direction: column; gap: 1.5rem; }
+    footer { padding: 2rem 1.5rem; }
   }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="http://www.ofirlevydesign.com/" class="nav-logo">Ofir Levy</a>
+  <a href="index.html" class="nav-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156.6 42.23"><path d="M13.75,5.58c7.16,0,12.09,5.29,12.09,12.42s-4.93,12.42-12.09,12.42S1.66,25.13,1.66,18,6.59,5.58,13.75,5.58ZM13.75,8.79c-5.15,0-8.39,3.92-8.39,9.21s3.24,9.21,8.39,9.21,8.39-3.96,8.39-9.21-3.31-9.21-8.39-9.21Z"/><path d="M28.04,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v10.65h-3.6V5.98Z"/><path d="M45.9,5.98h3.6v24.01h-3.6V5.98Z"/><path d="M60.8,20.74h-4.5v9.25h-3.6V5.98h10.11c4.57,0,7.7,2.95,7.7,7.38s-2.92,6.62-5.98,7.02l6.16,9.61h-4.18l-5.72-9.25ZM62.35,9.15h-6.05v8.42h6.05c2.59,0,4.46-1.69,4.46-4.21s-1.87-4.21-4.46-4.21Z"/><path d="M79.92,5.98h3.6v20.84h10.91v3.17h-14.51V5.98Z"/><path d="M96.23,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v7.49h12.53v3.17h-16.13V5.98Z"/><path d="M112.21,5.98h4.1l7.67,20.09,7.7-20.09h4.1l-9.54,24.01h-4.5l-9.54-24.01Z"/><path d="M143.42,19.94l-9.4-13.97h4.14l7.06,10.73,6.98-10.73h4.18l-9.36,13.97v10.04h-3.6v-10.04Z"/></svg></a>
   <ul class="nav-links">
-    <li><a href="http://www.ofirlevydesign.com/">Work</a></li>
-    <li><a href="http://www.ofirlevydesign.com/about">About</a></li>
-    <li><a href="http://www.ofirlevydesign.com/findme">Contact</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div>
-    <div class="hero-meta">
-      <span class="tag">Company Name &middot; Date</span>
-      <span class="tag">Project Type &middot; Discipline</span>
-    </div>
-    <h1>Project Title with<br><em>Emphasis Word</em><br>on Multiple Lines</h1>
-    <a href="http://www.ofirlevydesign.com/" class="back-btn">&larr; All work</a>
+  <div class="hero-meta">
+    <span class="tag">Company Name &middot; Date</span>
+    <span class="tag">Project Type &middot; Discipline</span>
   </div>
-  <div>
-    <div class="hero-stat-grid">
-      <div class="hero-stat"><div class="stat-label">Role</div><div class="stat-value">Sr. UX Designer</div></div>
-      <div class="hero-stat"><div class="stat-label">Employer</div><div class="stat-value">Company Name</div></div>
-      <div class="hero-stat"><div class="stat-label">Timeline</div><div class="stat-value">6 months</div></div>
-      <div class="hero-stat"><div class="stat-label">Team</div><div class="stat-value">4 designers, 8 engineers</div></div>
-      <div class="hero-stat"><div class="stat-label">Status</div><div class="stat-value">Shipped Q4 2024</div></div>
-      <div class="hero-stat"><div class="stat-label">Impact</div><div class="stat-value">15K+ users</div></div>
-    </div>
+  <h1>Project Title with<br><em>Emphasis Word</em><br>on Multiple Lines</h1>
+  <p class="hero-description">A one or two sentence summary describing what this project was about and what you set out to achieve. Keep it clear and compelling.</p>
+  <div class="hero-stat-grid">
+    <div class="hero-stat"><div class="stat-label">Role</div><div class="stat-value">Sr. UX Designer</div></div>
+    <div class="hero-stat"><div class="stat-label">Employer</div><div class="stat-value">Company Name</div></div>
+    <div class="hero-stat"><div class="stat-label">Timeline</div><div class="stat-value">6 months</div></div>
+    <div class="hero-stat"><div class="stat-label">Team</div><div class="stat-value">4 designers, 8 engineers</div></div>
+    <div class="hero-stat"><div class="stat-label">Status</div><div class="stat-value">Shipped Q4 2024</div></div>
+    <div class="hero-stat"><div class="stat-label">Impact</div><div class="stat-value">15K+ users</div></div>
   </div>
+  <a href="http://www.ofirlevydesign.com/" class="back-btn">&larr; All work</a>
 </div>
 
 <!-- SECTION 01: CONTEXT -->
@@ -257,17 +253,11 @@
 
 <!-- RETURN TO PORTFOLIO -->
 <div class="section" style="text-align:center;border:none;">
-  <div class="tag" style="justify-content:center;margin-bottom:1rem;">Return to portfolio</div>
-  <a href="http://www.ofirlevydesign.com/" style="font-family:'DM Serif Display',serif;font-size:2rem;color:var(--ink);text-decoration:none;letter-spacing:-0.01em;opacity:0.35;transition:opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.35">View all work &rarr;</a>
+  <a href="http://www.ofirlevydesign.com/" class="back-btn">Return to portfolio</a>
 </div>
 
 <footer>
-  <div class="footer-credit">&copy; Ofir Levy &middot; Sr. UX Designer</div>
-  <ul class="footer-nav">
-    <li><a href="http://www.ofirlevydesign.com/">Work</a></li>
-    <li><a href="http://www.ofirlevydesign.com/about">About</a></li>
-    <li><a href="http://www.ofirlevydesign.com/findme">Contact</a></li>
-  </ul>
+  <div class="footer-credit">Ofir Levy &mdash; Designer &mdash; 2026</div>
 </footer>
 
 <script>
@@ -279,7 +269,7 @@
   reveals.forEach(el => io.observe(el));
 
   // Hero stagger animation
-  document.querySelectorAll('.hero > div > *').forEach((el,i) => {
+  document.querySelectorAll('.hero > *').forEach((el,i) => {
     el.style.cssText = `opacity:0;transform:translateY(16px);transition:opacity 0.6s ease ${i*0.1}s,transform 0.6s ease ${i*0.1}s`;
     setTimeout(() => { el.style.opacity='1'; el.style.transform='none'; }, 80);
   });
