@@ -81,13 +81,16 @@
   .dark-section p { color: rgba(245,242,236,0.7); }
 
   /* ARTIFACTS */
-  .artifact { margin-top: 2.5rem; border: 1px solid var(--rule); overflow: hidden; }
+  .artifact { margin-top: 2.5rem; border: 1px solid var(--rule); overflow: hidden; max-width: 600px; margin-left: auto; margin-right: auto; }
   .artifact.wide { max-width: 100%; }
   .artifact + .artifact { margin-top: 1px; }
   .artifact-header { padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 1rem; background: #f0ece4; }
   .artifact-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
   .artifact-title { font-size: 0.82rem; font-weight: 500; color: var(--ink); }
-  .artifact img { max-width: 100%; height: auto; display: block; background: #fff; }
+  .artifact img { max-width: 100%; height: auto; display: block; background: #fff; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .artifact img { image-rendering: auto; } /* let retina screens use smooth downscaling when image has enough pixels */
+  }
   .artifact-caption { padding: 0.75rem 1.25rem; font-size: 0.78rem; color: var(--mid); line-height: 1.5; font-style: italic; border-top: 1px solid var(--rule); background: #f0ece4; }
 
   /* CARD GRIDS */
@@ -111,7 +114,7 @@
   .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2.5rem; }
   .compare-item { position: relative; }
   .compare-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.75rem; }
-  .compare-item img { width: 100%; height: auto; display: block; border: 1px solid var(--rule); }
+  .compare-item img { width: 100%; height: auto; display: block; border: 1px solid var(--rule); image-rendering: -webkit-optimize-contrast; }
 
   /* OUTCOME BAR */
   .outcome-bar { background: var(--accent); color: white; padding: 4rem 3rem; }
@@ -224,7 +227,7 @@
   <h2>Understanding the problem</h2>
   <p>The first step was to identify the core issues with the existing platforms. Users were forced to switch between four different interfaces, each with its own design language, navigation patterns, and data structures. This created confusion, inefficiency, and frustration.</p>
 
-  <div class="artifact wide">
+  <div class="artifact">
     <div class="artifact-header">
       <span class="artifact-label">Audit</span>
       <span class="artifact-title">Identifying the Problem &mdash; Isolated and Outdated Business Platforms</span>
@@ -255,7 +258,7 @@
     <p>I mapped out user flows for key tasks like sharing content, viewing campaign data, and managing leads. This helped us understand how to consolidate functionality from four platforms into intuitive workflows.</p>
     <p>Working collaboratively with the team, I organized the information architecture using card sorting and affinity mapping to ensure the new structure made sense to our users.</p>
 
-    <div class="artifact wide">
+    <div class="artifact">
       <div class="artifact-header">
         <span class="artifact-label">Wireframe</span>
         <span class="artifact-title">Dashboard Layout Exploration &mdash; Responsive Grid Structures</span>
@@ -284,7 +287,7 @@
   </div>
 
   <h3>Primary navigation</h3>
-  <div class="artifact wide">
+  <div class="artifact">
     <div class="artifact-header">
       <span class="artifact-label">Spec</span>
       <span class="artifact-title">Primary Navigation &mdash; Component Specifications</span>
@@ -385,7 +388,7 @@
       <div class="artifact-caption">Leads list with comprehensive data columns, color-coded disposition indicators, and pagination.</div>
     </div>
 
-    <div class="artifact wide">
+    <div class="artifact">
       <div class="artifact-header">
         <span class="artifact-label">Hi-Fi</span>
         <span class="artifact-title">Lead Detail &mdash; Consolidated Information &amp; Activity Timeline</span>
@@ -394,7 +397,7 @@
       <div class="artifact-caption">Lead detail consolidating applicant, vehicle, employment, activity timeline, and notes in a single scrollable view.</div>
     </div>
 
-    <div class="artifact wide">
+    <div class="artifact">
       <div class="artifact-header">
         <span class="artifact-label">Hi-Fi</span>
         <span class="artifact-title">Lead Editing &mdash; Inline Modal Form</span>
