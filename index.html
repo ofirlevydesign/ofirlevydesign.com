@@ -46,7 +46,7 @@
       padding-top: calc(57px + 66px);
     }
     .hero-meta { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 70px; }
-    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.4rem,5vw,4.2rem); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); max-width: 620px; margin-bottom: 54px; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(3rem,6.5vw,5.5rem); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); max-width: 900px; margin-bottom: 54px; }
     h1 em { font-style: italic; color: var(--accent-dark); }
     .hero-description { font-size: 1.15rem; line-height: 1.7; color: #3a3632; max-width: 720px; margin-bottom: 0px; }
 
@@ -54,7 +54,7 @@
     .section { max-width: 1200px; margin: 0 auto; padding: 0.5rem 3rem 5rem 3rem; border-bottom: 1px solid var(--rule); }
     .section:last-of-type { border-bottom: none; }
     
-    h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.6rem,3vw,2.6rem); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1.5rem; }
+    h2 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem,4vw,3rem); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1.5rem; }
     h3 { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--ink); margin-bottom: 0.75rem; margin-top: 2rem; }
     p { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: 680px; }
     p + p { margin-top: 1rem; }
@@ -246,20 +246,24 @@
       </a>
     </div>
 
-    <!-- Case Study 6: Tanzu Services -->
+    <!-- Case Study 6: Tanzu Services (hidden)
     <div class="case-study-item">
       <div class="case-study-meta">VMWARE · 2024</div>
       <h3>The Tanzu Services Story</h3>
       <p class="case-study-description">Platform architecture and service design for VMware's modern application platform and Kubernetes runtime.</p>
       <div class="case-study-status">PLATFORM DESIGN</div>
     </div>
+    -->
 
     <!-- Case Study 7: SageMaker -->
     <div class="case-study-item">
-      <div class="case-study-meta">AMAZON WEB SERVICES · 2024</div>
-      <h3>Amazon SageMaker Unified Studio Project Entity Tables</h3>
-      <p class="case-study-description">Data table interface design for unified ML and data analytics platform, enabling seamless project management.</p>
-      <div class="case-study-status">DATA INTERFACE</div>
+      <a href="sagemaker-entity-tables.html">
+        <div class="case-study-meta">AMAZON WEB SERVICES · 2024</div>
+        <h3>Amazon SageMaker Unified Studio Project Entity Tables</h3>
+        <p class="case-study-description">Data table interface design for unified ML and data analytics platform, enabling seamless project management.</p>
+        <div class="case-study-status">DATA INTERFACE</div>
+        <span class="case-study-link">→</span>
+      </a>
     </div>
   </div>
 </div>
