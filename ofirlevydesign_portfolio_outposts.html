@@ -57,9 +57,8 @@
   .stat-value { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
 
   /* SECTIONS */
-  .section { max-width: 1200px; margin: 0 auto; padding: 5rem 3rem; border-bottom: 1px solid var(--rule); }
+  .section { max-width: 1200px; margin: 0 auto; padding: 5rem 3rem; border-top: 1px solid var(--rule); }
   .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; }
-  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
   h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.6rem,3vw,2.6rem); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1.5rem; }
   h3 { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--ink); margin-bottom: 0.75rem; margin-top: 2rem; }
   p { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: 680px; }
@@ -167,7 +166,7 @@
   .back-btn:hover { border-color: var(--ink); color: var(--ink); }
 
   /* FOOTER */
-  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--rule); }
+  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; border-top: 1px solid var(--rule); }
   .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
   .footer-nav { display: flex; gap: 2rem; list-style: none; }
   .footer-nav a { font-size: 0.78rem; color: var(--mid); text-decoration: none; transition: color 0.2s; }
@@ -224,7 +223,6 @@
   </div>
 </div>
 
-<!-- 01 CONTEXT -->
 <div class="section reveal">
   <div class="section-label">01 &mdash; Context</div>
   <div class="two-col">
@@ -261,7 +259,6 @@
   </div>
 </div>
 
-<!-- 02 PROBLEM -->
 <div class="section reveal">
   <div class="section-label">02 &mdash; Problem &amp; Opportunity</div>
   <h2>Enterprise customers told us exactly what they needed</h2>
@@ -276,7 +273,6 @@
   </ul>
 </div>
 
-<!-- 03 RESEARCH -->
 <div class="section reveal">
   <div class="section-label">03 &mdash; Research</div>
   <h2>Customer interactions that shaped the workflow</h2>
@@ -302,7 +298,6 @@
   </div>
 </div>
 
-<!-- 04 WORKSHOP -->
 <div class="section reveal">
   <div class="section-label">04 &mdash; Team Workshop</div>
   <h2>A north star built in collaboration, not isolation</h2>
@@ -474,8 +469,7 @@
 </div>
 
 <div class="section" style="text-align:center;border:none;">
-  <div class="tag" style="justify-content:center;margin-bottom:1rem;">Return to portfolio</div>
-  <a href="http://www.ofirlevydesign.com/" style="font-family:'DM Serif Display',serif;font-size:2rem;color:var(--ink);text-decoration:none;letter-spacing:-0.01em;opacity:0.35;transition:opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.35">View all work &rarr;</a>
+  <a href="index.html" class="back-btn" style="display:inline-flex;margin:0;">&larr; Return to design case studies</a>
 </div>
 
 <footer>

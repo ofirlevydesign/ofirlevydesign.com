@@ -65,9 +65,8 @@
   .stat-value { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
 
   /* SECTIONS */
-  .section { max-width: 1200px; margin: 0 auto; padding: 5rem 3rem; border-bottom: 1px solid var(--rule); }
+  .section { max-width: 1200px; margin: 0 auto; padding: 5rem 3rem; border-top: 1px solid var(--rule); }
   .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; }
-  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
   
   h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.6rem,3vw,2.6rem); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1.5rem; }
   h3 { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--ink); margin-bottom: 0.75rem; margin-top: 2rem; }
@@ -116,7 +115,7 @@
   .back-btn:hover { border-color: var(--ink); color: var(--ink); }
 
   /* FOOTER */
-  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; text-align: center; border-top: 1px solid var(--rule); }
+  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; border-top: 1px solid var(--rule); }
   .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
 
   /* SCROLL REVEAL ANIMATION */
@@ -355,9 +354,8 @@
   </div>
 </div>
 
-<!-- RETURN TO PORTFOLIO -->
-<div class="section" style="text-align:center;border:none;padding-top:3rem;">
-  <a href="index.html" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--mid)'">Return to portfolio &rarr;</a>
+<div class="section" style="text-align:center;border:none;">
+  <a href="index.html" class="back-btn" style="display:inline-flex;margin:0;">&larr; Return to design case studies</a>
 </div>
 
 <footer>
