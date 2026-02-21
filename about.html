@@ -128,6 +128,11 @@
     color: var(--ink);
   }
 
+  /* RESUME BUTTON */
+  .resume-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; border: 1px solid var(--rule); padding: 0.6rem 1.25rem; transition: all 0.2s; margin-top: 1.5rem; }
+  .resume-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .resume-btn .ext-icon { width: 7px; height: 7px; display: inline-block; }
+
   /* FOOTER */
   footer {
     max-width: 1200px;
@@ -193,12 +198,15 @@
 </section>
 
 <main class="content">
-  <h1>About</h1>
+  <h1>My <span style="color: rgb(236, 114, 17);">Background</span></h1>
 
   <div class="section">
     <p>I'm a product design leader with 20+ years of experience shaping complex enterprise and consumer experiences across cloud, infrastructure, and retail. I have designed for companies such as Western Digital, VMware, and Amazon Web Services, leading teams and driving end to end product vision from insight to execution.</p>
     
     <p>Throughout my career, I've specialized in areas where design can have the most impact. Complex workflows, cost transparency, data driven interfaces, and large scale platform experiences. I believe great enterprise UX isn't about hiding complexity. It's about revealing the right information at the right time.</p>
+    
+    <a href="OfirLevy_Designer_Resume_01-26.pdf" class="resume-btn" target="_blank" rel="noopener noreferrer">Resume <img src="icon_open_external.svg" alt="" class="ext-icon"></a>
+    <br>
   </div>
 
   <div class="section">
