@@ -118,6 +118,24 @@
   .dark-section .artifact-title { color: var(--paper); }
   .dark-section .artifact-caption { background: rgba(255,255,255,0.04); border-top-color: rgba(255,255,255,0.12); color: rgba(245,242,236,0.4); }
 
+  .prototype-section .artifact,
+  .workflow-section .artifact {
+    max-width: 980px;
+  }
+
+  .prototype-section .artifact + .artifact,
+  .workflow-section .artifact + .artifact {
+    margin-top: 20px;
+  }
+
+  .prototype-section .artifact img,
+  .workflow-section .artifact img {
+    width: 100%;
+    height: auto;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+
   /* WORKFLOW CARDS */
   .workflow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2.5rem; }
   .workflow-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 2rem; }
@@ -297,7 +315,7 @@
   </div>
 </div>
 
-<div class="dark-section reveal">
+<div class="dark-section reveal workflow-section">
   <div class="dark-inner">
     <div class="section-label">05 &mdash; User Workflows</div>
     <h2>Two distinct paths: first-time vs. returning users</h2>
@@ -342,7 +360,7 @@
     </div>
 
     <!-- Decision points diagram -->
-    <div class="artifact" style="margin-top:2rem;">
+    <div class="artifact" style="margin-top:20px;">
       <div class="artifact-header">
         <span class="artifact-label">Workflow Logic</span>
         <span class="artifact-title">Decision Points &mdash; Contextual Widget Behavior</span>
@@ -353,7 +371,7 @@
   </div>
 </div>
 
-<div class="section reveal">
+<div class="section reveal prototype-section">
   <div class="section-label">06 &mdash; Design Approach</div>
   <h2>Progressive disclosure meets contextual awareness</h2>
   <p>The design prioritizes both ease of use and information hierarchy, carefully balancing visibility with workspace efficiency. The widget uses a three-level progressive disclosure model to prevent cognitive overload while ensuring critical information is always accessible.</p>
@@ -372,7 +390,7 @@
   <p>Minimal interference with primary tasks. Quick access to crucial information. Progressive disclosure of details. Contextual relevance based on user state and query phase. Defensive and noninvasive presence that adapts to workflow context.</p>
 </div>
 
-<div class="dark-section reveal">
+<div class="dark-section reveal prototype-section">
   <div class="dark-inner">
     <div class="section-label">07 &mdash; Wireframes &amp; Prototypes</div>
     <h2>From concept sketches to interactive prototypes</h2>
