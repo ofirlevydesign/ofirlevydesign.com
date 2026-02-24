@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Western Digital MyCloud Media Desktop Widget Patent | Ofir Levy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --paper: #f5f2ec;
+    --mid: #7a7570;
+    --rule: #d9d4cc;
+    --accent: #2a69b8;
+    --accent-dark: #154c8e;
+    --dark: #1f2833;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.25rem 3rem;
+    background: rgba(245,242,236,0.93);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-logo { display: inline-flex; align-items: center; text-decoration: none; transition: opacity 0.2s; }
+  .nav-logo svg { height: 24px; display: block; fill: var(--ink); }
+  .nav-logo:hover { opacity: 0.6; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+
+  .hero {
+    padding: 9rem 3rem 5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 4rem;
+    align-items: end;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-meta { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; color: var(--mid); text-transform: uppercase; }
+  .tag::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--mid); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.4rem,5vw,4.2rem); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); max-width: 720px; }
+  h1 em { font-style: italic; color: var(--accent-dark); }
+
+  .hero-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .hero-stat { background: var(--paper); padding: 1.25rem; }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.35rem; }
+  .stat-value { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
+
+  .section { max-width: 1200px; margin: 0 auto; padding: 5rem 3rem; border-top: 1px solid var(--rule); }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+  h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.6rem,3vw,2.6rem); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1.5rem; }
+  h3 { font-family: 'DM Sans', sans-serif; font-size: 0.98rem; font-weight: 500; margin-bottom: 0.6rem; margin-top: 0; }
+  p { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: 700px; }
+  p + p { margin-top: 1rem; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .pullquote { border-left: 3px solid var(--accent-dark); padding: 1rem 0 1rem 2rem; margin: 2.5rem 0; font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.45rem; line-height: 1.4; color: var(--ink); max-width: 640px; }
+
+  .problem-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-top: 2rem; }
+  .problem-card { background: var(--paper); padding: 1.75rem 1.5rem; }
+  .problem-card:first-child { background: var(--dark); color: var(--paper); }
+  .problem-card:first-child h3, .problem-card:first-child .problem-num { color: var(--paper); }
+  .problem-card:first-child p { color: rgba(245,242,236,0.76); max-width: none; }
+  .problem-num { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 1.25rem; }
+  .problem-card:first-child .problem-num { color: rgba(138,188,244,0.85); }
+  .problem-card p { font-size: 0.82rem; line-height: 1.65; color: #5a5550; max-width: none; }
+
+  .artifact { margin-top: 2.5rem; border: 1px solid var(--rule); overflow: hidden; max-width: 980px; margin-left: auto; margin-right: auto; }
+  .artifact + .artifact { margin-top: 20px; }
+  .artifact-header { padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 1rem; background: #f0ece4; }
+  .artifact-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+  .artifact-title { font-size: 0.82rem; font-weight: 500; color: var(--ink); }
+  .artifact img { width: 100%; height: auto; display: block; background: #fff; }
+  .artifact-caption { padding: 0.75rem 1.25rem; font-size: 0.78rem; color: var(--mid); line-height: 1.5; font-style: italic; border-top: 1px solid var(--rule); background: #f0ece4; }
+
+  .dark-section { background: var(--dark); color: var(--paper); padding: 5rem 3rem; }
+  .dark-inner { max-width: 1200px; margin: 0 auto; }
+  .dark-section .section-label { color: rgba(138,188,244,0.74); }
+  .dark-section h2 { color: var(--paper); }
+  .dark-section p { color: rgba(245,242,236,0.72); }
+
+  .swf-shell {
+    margin-top: 2.5rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.04);
+    padding: 2rem;
+  }
+  .swf-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(138,188,244,0.85);
+    margin-bottom: 0.8rem;
+  }
+  .swf-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--paper);
+    margin-bottom: 0.9rem;
+  }
+  .swf-desc {
+    font-size: 0.9rem;
+    color: rgba(245,242,236,0.68);
+    line-height: 1.65;
+    margin-bottom: 1.35rem;
+    max-width: 900px;
+  }
+  .swf-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .swf-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(138,188,244,0.65);
+    background: transparent;
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.72rem 1rem;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .swf-btn:hover { background: rgba(138,188,244,0.14); }
+  .swf-note {
+    margin-top: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.52);
+    line-height: 1.65;
+    max-width: 980px;
+  }
+
+  .outcome-bar { background: var(--accent); color: #fff; padding: 4rem 3rem; }
+  .outcome-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem; align-items: start; }
+  .outcome-num { font-family: 'DM Serif Display', serif; font-size: 3.5rem; line-height: 1; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .outcome-label { font-size: 0.85rem; opacity: 0.9; line-height: 1.5; }
+
+  .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; border: 1px solid var(--rule); padding: 0.6rem 1.25rem; transition: all 0.2s; margin-top: 2.5rem; }
+  .back-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .back-btn .ext-icon { width: 7px; height: 7px; display: inline-block; }
+
+  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; border-top: 1px solid var(--rule); }
+  .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  .clickable-img { cursor: zoom-in; transition: opacity 0.2s; }
+  .clickable-img:hover { opacity: 0.85; }
+  .lightbox { display:none; position:fixed; inset:0; z-index:9999; background:rgba(15,15,15,0.92); backdrop-filter:blur(6px); overflow:auto; padding:2rem; cursor:zoom-out; }
+  .lightbox.open { display:flex; }
+  .lightbox img { display:block; margin:auto; box-shadow:0 8px 40px rgba(0,0,0,0.5); flex-shrink:0; max-width:95vw; max-height:95vh; width:auto; height:auto; }
+  .lightbox-hint { position:absolute; bottom:1.5rem; left:50%; transform:translateX(-50%); font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.35); }
+
+  @media (max-width: 900px) {
+    .hero, .two-col { grid-template-columns: 1fr; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .outcome-inner { grid-template-columns: 1fr; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .section, .dark-section { padding: 3.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156.6 42.23"><path d="M13.75,5.58c7.16,0,12.09,5.29,12.09,12.42s-4.93,12.42-12.09,12.42S1.66,25.13,1.66,18,6.59,5.58,13.75,5.58ZM13.75,8.79c-5.15,0-8.39,3.92-8.39,9.21s3.24,9.21,8.39,9.21,8.39-3.96,8.39-9.21-3.31-9.21-8.39-9.21Z"/><path d="M28.04,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v10.65h-3.6V5.98Z"/><path d="M45.9,5.98h3.6v24.01h-3.6V5.98Z"/><path d="M60.8,20.74h-4.5v9.25h-3.6V5.98h10.11c4.57,0,7.7,2.95,7.7,7.38s-2.92,6.62-5.98,7.02l6.16,9.61h-4.18l-5.72-9.25ZM62.35,9.15h-6.05v8.42h6.05c2.59,0,4.46-1.69,4.46-4.21s-1.87-4.21-4.46-4.21Z"/><path d="M79.92,5.98h3.6v20.84h10.91v3.17h-14.51V5.98Z"/><path d="M96.23,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v7.49h12.53v3.17h-16.13V5.98Z"/><path d="M112.21,5.98h4.1l7.67,20.09,7.7-20.09h4.1l-9.54,24.01h-4.5l-9.54-24.01Z"/><path d="M143.42,19.94l-9.4-13.97h4.14l7.06,10.73,6.98-10.73h4.18l-9.36,13.97v10.04h-3.6v-10.04Z"/></svg></a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="hero-meta">
+      <span class="tag">Western Digital &middot; 2013</span>
+      <span class="tag">Patent &middot; End-to-End UX Story</span>
+      <span class="tag">Hardware &rarr; Onboarding &rarr; Desktop UX &rarr; Patent</span>
+    </div>
+    <h1>Western Digital MyCloud<br><em>Media Desktop Widget</em><br>Patent</h1>
+    <a href="http://www.ofirlevydesign.com/" class="back-btn">&larr; All work</a>
+    <a href="wd-mycloud-mediahub-assets/Patent_20150095776.pdf" class="back-btn" style="margin-left:1.25rem;" target="_blank" rel="noopener noreferrer">PATENT PDF <img src="icon_open_external.svg" alt="" class="ext-icon"></a>
+  </div>
+  <div>
+    <div class="hero-stat-grid">
+      <div class="hero-stat"><div class="stat-label">Role</div><div class="stat-value">UX / Interaction Designer</div></div>
+      <div class="hero-stat"><div class="stat-label">Employer</div><div class="stat-value">Western Digital</div></div>
+      <div class="hero-stat"><div class="stat-label">Product</div><div class="stat-value">MyCloud Desktop Experience</div></div>
+      <div class="hero-stat"><div class="stat-label">Scope</div><div class="stat-value">Information Architecture + Widget UX</div></div>
+      <div class="hero-stat"><div class="stat-label">Output</div><div class="stat-value">Filed Patent (US 20150095776)</div></div>
+      <div class="hero-stat"><div class="stat-label">Stage</div><div class="stat-value">Concept, Prototype, Patent Filing</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">01 &mdash; Context</div>
+  <div class="two-col">
+    <div>
+      <h2>Designing a MyCloud desktop widget for fast upload and instant playback</h2>
+      <p>MyCloud is a personal NAS drive (network-attached storage) for home users who upload, store, and access media and files from a dedicated device. The core product story here was the desktop widget itself: a lightweight MyCloud surface that lets users quickly drag files into their NAS for upload, then access and play media directly from the same widget context.</p>
+      <p>The interaction model had to feel immediate and familiar, like a native desktop utility, while still communicating storage and sharing behavior tied to a personal cloud device.</p>
+      <p>Visually, the widget was intentionally designed to look and feel like the MyCloud product language, while introducing moments of fun and humor in upload and playback interactions to make the experience more human.</p>
+    </div>
+    <div>
+      <div class="pullquote">&ldquo;The experience had to feel like everyday folders, while still communicating permissions, sharing, and cloud trust states.&rdquo;</div>
+      <p>The broader flow work connected setup, onboarding, launch moments, and ongoing widget actions into one coherent model users could understand without technical training.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">02 &mdash; End-to-End Flow</div>
+  <h2>From MyCloud device model to daily desktop behavior</h2>
+  <p>This blueprint gives visitors the system context immediately after the core product story: what the MyCloud ecosystem includes, and how users move from hardware and onboarding to software entry and daily file interaction.</p>
+  <p>It maps packaging, learning center onboarding, desktop iconography, splash transitions, and application entry states into one E2E narrative.</p>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Flow Blueprint</span>
+      <span class="artifact-title">WD MyCloud brand and interaction journey</span>
+    </div>
+    <img src="wd-mycloud-mediahub-assets/WDMyCloud_BrandFlowV5.png" alt="WD MyCloud end-to-end brand and software flow diagram" loading="lazy">
+    <div class="artifact-caption">This E2E map explains the broader MyCloud journey before diving into specific widget interaction design decisions.</div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">03 &mdash; Problem</div>
+  <h2>Three UX gaps that shaped the patent direction</h2>
+  <p>Exploration and stakeholder review surfaced recurring friction around comprehension, confidence, and continuity across device and software entry points.</p>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-num">Mental Model</div>
+      <h3>Personal cloud state was hard to read</h3>
+      <p>Users understood local folders, not distributed storage behaviors. The interaction needed to make ownership, destination, and folder intent visible at a glance.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">Permissions</div>
+      <h3>Permission intent was hidden</h3>
+      <p>Private versus shared behavior often lived in secondary settings. The proposed model surfaced lock/share state in context so actions felt safe and reversible.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">Cross-Surface</div>
+      <h3>Experience continuity broke across surfaces</h3>
+      <p>Packaging, onboarding, web splash states, and desktop application moments lacked a unified language. The solution required a single E2E interaction storyline.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">04 &mdash; Concept Exploration</div>
+  <h2>Early sketches established the core interaction grammar</h2>
+  <p>Initial ideation focused on category grouping, lock/share semantics, and directional movement around the device as the primary organizing anchor.</p>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Sketch</span>
+      <span class="artifact-title">Folder spreading pattern</span>
+    </div>
+    <img src="wd-mycloud-mediahub-assets/Widget_SpreadingFolders.png" alt="Early sketch of folder spreading interactions around MyCloud device" loading="lazy">
+    <div class="artifact-caption">First-pass concept exploring radial folder distribution and category ownership around a central MyCloud node.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Sketch</span>
+      <span class="artifact-title">Folder opening and lock state expression</span>
+    </div>
+    <img src="wd-mycloud-mediahub-assets/Widget_FolderOpening.png" alt="Sketch showing folder opening and locked versus shared states" loading="lazy">
+    <div class="artifact-caption">Second-pass sketch refining access-state iconography and transition clarity between personal and shared content groups.</div>
+  </div>
+</div>
+
+<div class="dark-section reveal">
+  <div class="dark-inner">
+    <div class="section-label">05 &mdash; Interactive Preview</div>
+    <h2>Original SWF concept prototype</h2>
+    <p>This artifact is a legacy Flash file and must be opened with a standalone Flash Player projector app (outside the browser).</p>
+
+    <div class="swf-shell">
+      <div class="swf-meta">Prototype Artifact</div>
+      <div class="swf-title">BaliWidget_09-16-2010.swf</div>
+      <p class="swf-desc">Use the link below to open the source SWF. If Flash Player Projector is installed and associated with SWF files, your system can launch it directly.</p>
+      <div class="swf-actions">
+        <a class="swf-btn" href="wd-mycloud-mediahub-assets/BaliWidget_09-16-2010.swf">DOWNLOAD AND OPEN SWF FILE</a>
+      </div>
+      <p class="swf-note">Browser security blocks legacy Flash plugin execution. For true Flash playback, open the SWF in Adobe Flash Player 32 Projector or equivalent standalone runtime.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">06 &mdash; Patent Outcome</div>
+  <h2>Concept work formalized into patent documentation</h2>
+  <p>This design effort translated exploratory interaction design into a defensible intellectual property narrative: problem framing, interaction model, flow logic, and visual artifacts aligned to patent language.</p>
+  <p>The attached patent PDF includes the formal claims and reference figures connected to this MyCloud widget interaction approach, closing the E2E story from concept to filed documentation.</p>
+  <a href="wd-mycloud-mediahub-assets/Patent_20150095776.pdf" class="back-btn" target="_blank" rel="noopener noreferrer">PATENT PDF <img src="icon_open_external.svg" alt="" class="ext-icon"></a>
+</div>
+
+<div class="outcome-bar reveal">
+  <div class="outcome-inner">
+    <div><div class="outcome-num">E2E</div><div class="outcome-label">One continuous UX narrative from hardware onboarding to in-product desktop interaction</div></div>
+    <div><div class="outcome-num">US</div><div class="outcome-label">Interaction concept documented in published US patent filing 20150095776</div></div>
+    <div><div class="outcome-num">Flow</div><div class="outcome-label">Unified artifact set: sketches, system blueprint, interactive prototype, and formal patent PDF</div></div>
+  </div>
+</div>
+
+<div class="section" style="text-align:center;border:none;">
+  <a href="index.html" class="back-btn" style="display:inline-flex;margin:0;">&larr; Return to design case studies</a>
+</div>
+
+<footer>
+  <p class="footer-credit">© 2026 Ofir Levy · Sr. UX Designer</p>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="Enlarged view">
+  <span class="lightbox-hint">Click or press Esc to close</span>
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, {threshold:0.06});
+  reveals.forEach(el => io.observe(el));
+
+  document.querySelectorAll('.hero > div > *').forEach((el,i) => {
+    el.style.cssText = `opacity:0;transform:translateY(16px);transition:opacity 0.6s ease ${i*0.1}s,transform 0.6s ease ${i*0.1}s`;
+    setTimeout(() => { el.style.opacity='1'; el.style.transform='none'; }, 80);
+  });
+
+  function openLightbox(src) {
+    var img = document.getElementById('lightbox-img');
+    img.src = src;
+    img.style.width = '';
+    img.style.height = '';
+    img.onload = function() {
+      var viewportWidth = window.innerWidth * 0.95;
+      var viewportHeight = window.innerHeight * 0.95;
+      var dpr = window.devicePixelRatio || 1;
+      var maxCrispWidth = img.naturalWidth / dpr;
+      var maxCrispHeight = img.naturalHeight / dpr;
+      var widthRatio = viewportWidth / maxCrispWidth;
+      var heightRatio = viewportHeight / maxCrispHeight;
+      var scale = Math.min(widthRatio, heightRatio, 1);
+      img.style.width = (maxCrispWidth * scale) + 'px';
+      img.style.height = 'auto';
+    };
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.artifact img').forEach(function(img) {
+    img.classList.add('clickable-img');
+    img.addEventListener('click', function() {
+      openLightbox(this.src);
+    });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeLightbox();
+    }
+  });
+</script>
+</body>
+</html>
