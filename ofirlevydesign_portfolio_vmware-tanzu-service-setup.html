@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VMware Tanzu Service Setup | Ofir Levy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --paper: #f5f2ec;
+    --mid: #7a7570;
+    --rule: #d9d4cc;
+    --accent: #2a69b8;
+    --accent-dark: #154c8e;
+    --dark: #1f2833;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.25rem 3rem;
+    background: rgba(245,242,236,0.93);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-logo { display: inline-flex; align-items: center; text-decoration: none; transition: opacity 0.2s; }
+  .nav-logo svg { height: 24px; display: block; fill: var(--ink); }
+  .nav-logo:hover { opacity: 0.6; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+
+  .hero {
+    padding: 9rem 3rem 5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 4rem;
+    align-items: end;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-meta { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; color: var(--mid); text-transform: uppercase; }
+  .tag::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--mid); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.4rem,5vw,4.2rem); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); max-width: 720px; }
+  h1 em { font-style: italic; color: var(--accent-dark); }
+
+  .hero-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .hero-stat { background: var(--paper); padding: 1.25rem; }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.35rem; }
+  .stat-value { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
+
+  .section { max-width: 1200px; margin: 0 auto; padding: 5rem 3rem; border-top: 1px solid var(--rule); }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+  h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.6rem,3vw,2.6rem); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1.5rem; }
+  h3 { font-family: 'DM Sans', sans-serif; font-size: 0.98rem; font-weight: 500; margin-bottom: 0.6rem; margin-top: 0; }
+  .story-subheader { margin-top: 40px; }
+  p { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: 700px; }
+  p + p { margin-top: 1rem; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .pullquote { border-left: 3px solid var(--accent-dark); padding: 1rem 0 1rem 2rem; margin: 2.5rem 0; font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.45rem; line-height: 1.4; color: var(--ink); max-width: 640px; }
+
+  .problem-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-top: 2rem; }
+  .problem-card { background: var(--paper); padding: 1.75rem 1.5rem; }
+  .problem-card:first-child { background: var(--dark); color: var(--paper); }
+  .problem-card:first-child h3, .problem-card:first-child .problem-num { color: var(--paper); }
+  .problem-card:first-child p { color: rgba(245,242,236,0.76); max-width: none; }
+  .problem-num { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 1.25rem; }
+  .problem-card:first-child .problem-num { color: rgba(138,188,244,0.85); }
+  .problem-card p { font-size: 0.82rem; line-height: 1.65; color: #5a5550; max-width: none; }
+
+  .artifact { margin-top: 2.5rem; border: 1px solid var(--rule); overflow: hidden; max-width: 980px; margin-left: auto; margin-right: auto; }
+  .artifact + .artifact { margin-top: 20px; }
+  .artifact-header { padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 1rem; background: #f0ece4; }
+  .artifact-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+  .artifact-title { font-size: 0.82rem; font-weight: 500; color: var(--ink); }
+  .artifact img { width: 100%; height: auto; display: block; background: #fff; }
+  .artifact-caption { padding: 0.75rem 1.25rem; font-size: 0.78rem; color: var(--mid); line-height: 1.5; font-style: italic; border-top: 1px solid var(--rule); background: #f0ece4; }
+
+  .dark-section { background: var(--dark); color: var(--paper); padding: 5rem 3rem; }
+  .dark-inner { max-width: 1200px; margin: 0 auto; }
+  .dark-section .section-label { color: rgba(138,188,244,0.74); }
+  .dark-section h2 { color: var(--paper); }
+  .dark-section p { color: rgba(245,242,236,0.72); }
+
+  .outcome-bar { background: var(--accent); color: #fff; padding: 4rem 3rem; }
+  .outcome-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem; align-items: start; }
+  .outcome-num { font-family: 'DM Serif Display', serif; font-size: 3.5rem; line-height: 1; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .outcome-label { font-size: 0.85rem; opacity: 0.9; line-height: 1.5; }
+
+  .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; border: 1px solid var(--rule); padding: 0.6rem 1.25rem; transition: all 0.2s; margin-top: 2.5rem; }
+  .back-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .back-btn .ext-icon { width: 7px; height: 7px; display: inline-block; }
+
+  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; border-top: 1px solid var(--rule); }
+  .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  .clickable-img { cursor: zoom-in; transition: opacity 0.2s; }
+  .clickable-img:hover { opacity: 0.85; }
+  .lightbox { display:none; position:fixed; inset:0; z-index:9999; background:rgba(15,15,15,0.92); backdrop-filter:blur(6px); overflow:auto; padding:2rem; cursor:zoom-out; }
+  .lightbox.open { display:flex; }
+  .lightbox img { display:block; margin:auto; box-shadow:0 8px 40px rgba(0,0,0,0.5); flex-shrink:0; max-width:95vw; max-height:95vh; width:auto; height:auto; }
+  .lightbox-hint { position:absolute; bottom:1.5rem; left:50%; transform:translateX(-50%); font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.35); }
+
+  @media (max-width: 900px) {
+    .hero, .two-col { grid-template-columns: 1fr; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .outcome-inner { grid-template-columns: 1fr; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .section, .dark-section { padding: 3.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156.6 42.23"><path d="M13.75,5.58c7.16,0,12.09,5.29,12.09,12.42s-4.93,12.42-12.09,12.42S1.66,25.13,1.66,18,6.59,5.58,13.75,5.58ZM13.75,8.79c-5.15,0-8.39,3.92-8.39,9.21s3.24,9.21,8.39,9.21,8.39-3.96,8.39-9.21-3.31-9.21-8.39-9.21Z"/><path d="M28.04,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v10.65h-3.6V5.98Z"/><path d="M45.9,5.98h3.6v24.01h-3.6V5.98Z"/><path d="M60.8,20.74h-4.5v9.25h-3.6V5.98h10.11c4.57,0,7.7,2.95,7.7,7.38s-2.92,6.62-5.98,7.02l6.16,9.61h-4.18l-5.72-9.25ZM62.35,9.15h-6.05v8.42h6.05c2.59,0,4.46-1.69,4.46-4.21s-1.87-4.21-4.46-4.21Z"/><path d="M79.92,5.98h3.6v20.84h10.91v3.17h-14.51V5.98Z"/><path d="M96.23,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v7.49h12.53v3.17h-16.13V5.98Z"/><path d="M112.21,5.98h4.1l7.67,20.09,7.7-20.09h4.1l-9.54,24.01h-4.5l-9.54-24.01Z"/><path d="M143.42,19.94l-9.4-13.97h4.14l7.06,10.73,6.98-10.73h4.18l-9.36,13.97v10.04h-3.6v-10.04Z"/></svg></a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="hero-meta">
+      <span class="tag">VMware Tanzu · Platform UX</span>
+      <span class="tag">Service Setup · End-to-End Workflow</span>
+      <span class="tag">Discovery → Configuration → Validation</span>
+    </div>
+    <h1>VMware Tanzu<br><em>Service Setup</em><br>Experience</h1>
+    <a href="http://www.ofirlevydesign.com/" class="back-btn">&larr; All work</a>
+    <a href="tanzu-service-setup-assets/Tanzu_Service_Setup_Story.pdf" class="back-btn" style="margin-left:1.25rem;" target="_blank" rel="noopener noreferrer">PROJECT PDF <img src="icon_open_external.svg" alt="" class="ext-icon"></a>
+  </div>
+  <div>
+    <div class="hero-stat-grid">
+      <div class="hero-stat"><div class="stat-label">Role</div><div class="stat-value">Lead Product Designer</div></div>
+      <div class="hero-stat"><div class="stat-label">Company</div><div class="stat-value">VMware</div></div>
+      <div class="hero-stat"><div class="stat-label">Domain</div><div class="stat-value">Tanzu Service Provisioning</div></div>
+      <div class="hero-stat"><div class="stat-label">Scope</div><div class="stat-value">Setup Flow + Interaction System</div></div>
+      <div class="hero-stat"><div class="stat-label">Artifacts</div><div class="stat-value">10 Core Journey Frames</div></div>
+      <div class="hero-stat"><div class="stat-label">Outcome</div><div class="stat-value">Aligned, Scalable Setup Narrative</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">01 &mdash; Context</div>
+  <div class="two-col">
+    <div>
+      <h2>Making Tanzu service setup understandable from first touch</h2>
+      <p>This work focused on reducing setup friction for teams configuring Tanzu services. The objective was to guide users from initial intent through required configuration decisions without forcing deep platform knowledge up front.</p>
+      <p>The UX direction combined progressive disclosure, clear defaults, and explicit system feedback so users could move confidently through setup, validation, and completion.</p>
+    </div>
+    <div>
+      <div class="pullquote">&ldquo;Enterprise setup needed to feel guided, not overwhelming, while preserving expert control when it mattered.&rdquo;</div>
+      <p>The design language mapped each step to a clear purpose, helping platform admins understand what to decide now versus what could be tuned later.</p>
+    </div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Context Visual</span>
+      <span class="artifact-title">Confluence of VMware Cloud, vSphere, and VMware Tanzu</span>
+    </div>
+    <img src="tanzu-service-setup-assets/TKGS_9.png" alt="Confluence of VMware Cloud, vSphere, and VMware Tanzu" loading="lazy">
+    <div class="artifact-caption">This framing visual establishes how VMware Cloud, vSphere, and VMware Tanzu converge before the setup journey details begin.</div>
+  </div>
+
+  <h3 class="story-subheader">The Customer Problem Story</h3>
+  <p>Before walking through each setup step, this next artifact explains the core product story: what customer pain appears at service-parameter time, where the decision burden spikes, and how the proposed interaction model reduces that burden with clearer defaults and guidance.</p>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">E2E Story</span>
+      <span class="artifact-title">Service parameter detail: customer problem and solution model</span>
+    </div>
+    <img src="tanzu-service-setup-assets/TKGS_5.png" alt="Tanzu service parameter detail showing customer problem and solution framing" loading="lazy">
+    <div class="artifact-caption">Placed at the beginning to explain the end-to-end customer problem and the solution strategy before detailed flow steps.</div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">02 &mdash; End-to-End Flow</div>
+  <h2>From service selection to environment-ready confirmation</h2>
+  <p>The core journey was designed as a connected story across entry, configuration, dependency checks, and success state. This flow structure helped teams maintain momentum while still understanding technical implications at each checkpoint.</p>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Flow</span>
+      <span class="artifact-title">Setup entry and service intent framing</span>
+    </div>
+    <img src="tanzu-service-setup-assets/TKGS_1.png" alt="Tanzu service setup entry screen" loading="lazy">
+    <div class="artifact-caption">Initial frame establishes setup objective, scope, and user confidence before deep configuration begins.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Flow</span>
+      <span class="artifact-title">Guided configuration progression</span>
+    </div>
+    <img src="tanzu-service-setup-assets/TKGS_2.png" alt="Tanzu guided setup configuration screen" loading="lazy">
+    <div class="artifact-caption">Core setup controls are grouped by decision type to reduce cognitive load and keep technical sequencing clear.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Flow</span>
+      <span class="artifact-title">Validation and completion state</span>
+    </div>
+    <img src="tanzu-service-setup-assets/TKGS_3.png" alt="Tanzu setup validation and completion state" loading="lazy">
+    <div class="artifact-caption">System checks and resolution cues make errors actionable and make success states explicit for handoff to operations.</div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">03 &mdash; Design Challenges</div>
+  <h2>Three constraints that shaped the setup framework</h2>
+  <p>Research and cross-functional feedback highlighted recurring friction that informed the final interaction model.</p>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-num">Complexity</div>
+      <h3>Too many setup variables too early</h3>
+      <p>Users were exposed to advanced settings before establishing baseline service intent. The design introduced staged disclosure to protect flow continuity.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">Confidence</div>
+      <h3>Unclear impact of decisions</h3>
+      <p>Configuration choices lacked immediate consequence visibility. Inline guidance and contextual feedback reduced guesswork and rework.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">Continuity</div>
+      <h3>Weak transition between setup and operations</h3>
+      <p>Completion states were not always actionable. Final states were reframed around readiness, dependencies, and next-step clarity.</p>
+    </div>
+  </div>
+</div>
+
+<div class="dark-section reveal">
+  <div class="dark-inner">
+    <div class="section-label">04 &mdash; Setup Sequence</div>
+    <h2>Core setup sequence frames</h2>
+    <p>These extracted frames capture key moments in the service-setup lifecycle and document how users progress through progressively deeper configuration.</p>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Frame 04</span>
+        <span class="artifact-title">Configuration expansion</span>
+      </div>
+      <img src="tanzu-service-setup-assets/TKGS_4.png" alt="Tanzu setup frame 4" loading="lazy">
+    </div>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Frame 06</span>
+        <span class="artifact-title">Infrastructure checks</span>
+      </div>
+      <img src="tanzu-service-setup-assets/TKGS_6.png" alt="Tanzu setup frame 6" loading="lazy">
+    </div>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Frame 07</span>
+        <span class="artifact-title">Progress state and remediation</span>
+      </div>
+      <img src="tanzu-service-setup-assets/TKGS_7.png" alt="Tanzu setup frame 7" loading="lazy">
+    </div>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Frame 08</span>
+        <span class="artifact-title">Dependency status visibility</span>
+      </div>
+      <img src="tanzu-service-setup-assets/TKGS_8.png" alt="Tanzu setup frame 8" loading="lazy">
+    </div>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Frame 10</span>
+        <span class="artifact-title">Ready-state handoff</span>
+      </div>
+      <img src="tanzu-service-setup-assets/TKGS_10.png" alt="Tanzu setup frame 10" loading="lazy">
+    </div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">05 &mdash; Outcome</div>
+  <h2>A more navigable setup experience for enterprise platform teams</h2>
+  <p>The final concept positioned Tanzu setup as a guided workflow: clear entry point, predictable progression, and meaningful feedback at every stage. This strengthened onboarding confidence while preserving the flexibility expected by advanced operators.</p>
+  <p>The complete case narrative and supporting visuals are also available in the project PDF.</p>
+  <a href="tanzu-service-setup-assets/Tanzu_Service_Setup_Story.pdf" class="back-btn" target="_blank" rel="noopener noreferrer">PROJECT PDF <img src="icon_open_external.svg" alt="" class="ext-icon"></a>
+</div>
+
+<div class="outcome-bar reveal">
+  <div class="outcome-inner">
+    <div><div class="outcome-num">E2E</div><div class="outcome-label">Unified setup arc from first intent to validated service readiness</div></div>
+    <div><div class="outcome-num">UX</div><div class="outcome-label">Progressive disclosure model that balances simplicity with expert control</div></div>
+    <div><div class="outcome-num">10</div><div class="outcome-label">Key prototype frames extracted and organized as reusable case-study evidence</div></div>
+  </div>
+</div>
+
+<div class="section" style="text-align:center;border:none;">
+  <a href="index.html" class="back-btn" style="display:inline-flex;margin:0;">&larr; Return to design case studies</a>
+</div>
+
+<footer>
+  <p class="footer-credit">© 2026 Ofir Levy · Sr. UX Designer</p>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="Enlarged view">
+  <span class="lightbox-hint">Click or press Esc to close</span>
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, {threshold:0.06});
+  reveals.forEach(el => io.observe(el));
+
+  document.querySelectorAll('.hero > div > *').forEach((el,i) => {
+    el.style.cssText = `opacity:0;transform:translateY(16px);transition:opacity 0.6s ease ${i*0.1}s,transform 0.6s ease ${i*0.1}s`;
+    setTimeout(() => { el.style.opacity='1'; el.style.transform='none'; }, 80);
+  });
+
+  function openLightbox(src) {
+    var img = document.getElementById('lightbox-img');
+    img.src = src;
+    img.style.width = '';
+    img.style.height = '';
+    img.onload = function() {
+      var viewportWidth = window.innerWidth * 0.95;
+      var viewportHeight = window.innerHeight * 0.95;
+      var dpr = window.devicePixelRatio || 1;
+      var maxCrispWidth = img.naturalWidth / dpr;
+      var maxCrispHeight = img.naturalHeight / dpr;
+      var widthRatio = viewportWidth / maxCrispWidth;
+      var heightRatio = viewportHeight / maxCrispHeight;
+      var scale = Math.min(widthRatio, heightRatio, 1);
+      img.style.width = (maxCrispWidth * scale) + 'px';
+      img.style.height = 'auto';
+    };
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.artifact img').forEach(function(img) {
+    img.classList.add('clickable-img');
+    img.addEventListener('click', function() {
+      openLightbox(this.src);
+    });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeLightbox();
+    }
+  });
+</script>
+</body>
+</html>
