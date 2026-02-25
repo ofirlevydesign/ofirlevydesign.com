@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amazon SageMaker Unified Studio: Release Center | Ofir Levy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --paper: #f5f2ec;
+    --mid: #7a7570;
+    --rule: #d9d4cc;
+    --accent: #ff9900;
+    --accent-dark: #ec7211;
+    --dark: #1f2833;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.25rem 3rem;
+    background: rgba(245,242,236,0.93);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-logo { display: inline-flex; align-items: center; text-decoration: none; transition: opacity 0.2s; }
+  .nav-logo svg { height: 24px; display: block; fill: var(--ink); }
+  .nav-logo:hover { opacity: 0.6; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+
+  .hero {
+    padding: 9rem 3rem 5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 4rem;
+    align-items: end;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-meta { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; color: var(--mid); text-transform: uppercase; }
+  .tag::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--mid); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.4rem,5vw,4.2rem); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); max-width: 720px; }
+  h1 em { font-style: italic; color: var(--accent-dark); }
+
+  .hero-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .hero-stat { background: var(--paper); padding: 1.25rem; }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.35rem; }
+  .stat-value { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
+
+  .section { max-width: 1200px; margin: 0 auto; padding: 5rem 3rem; border-top: 1px solid var(--rule); }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+  h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.6rem,3vw,2.6rem); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1.5rem; }
+  h3 { font-family: 'DM Sans', sans-serif; font-size: 0.98rem; font-weight: 500; margin-bottom: 0.6rem; margin-top: 0; }
+  .context-followup { margin-top: 40px; }
+  p { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: 760px; }
+  p + p { margin-top: 1rem; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .pullquote { border-left: 3px solid var(--accent-dark); padding: 1rem 0 1rem 2rem; margin: 2.5rem 0; font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.45rem; line-height: 1.4; color: var(--ink); max-width: 640px; }
+
+  .problem-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-top: 2rem; }
+  .problem-card { background: var(--paper); padding: 1.75rem 1.5rem; }
+  .problem-card:first-child { background: var(--dark); color: var(--paper); }
+  .problem-card:first-child h3, .problem-card:first-child .problem-num { color: var(--paper); }
+  .problem-card:first-child p { color: rgba(245,242,236,0.76); max-width: none; }
+  .problem-num { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 1.25rem; }
+  .problem-card:first-child .problem-num { color: rgba(255,153,0,0.9); }
+  .problem-card p { font-size: 0.82rem; line-height: 1.65; color: #5a5550; max-width: none; }
+
+  .artifact { margin-top: 2.5rem; border: 1px solid var(--rule); overflow: hidden; max-width: 980px; margin-left: auto; margin-right: auto; }
+  .artifact + .artifact { margin-top: 20px; }
+  .wireframe-section .artifact,
+  .hifi-section .artifact { max-width: 833px; }
+  .artifact-header { padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 1rem; background: #f0ece4; }
+  .artifact-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+  .artifact-title { font-size: 0.82rem; font-weight: 500; color: var(--ink); }
+  .artifact img { width: 100%; height: auto; display: block; background: #fff; }
+  .artifact-caption { padding: 0.75rem 1.25rem; font-size: 0.78rem; color: var(--mid); line-height: 1.5; font-style: italic; border-top: 1px solid var(--rule); background: #f0ece4; }
+
+  .dark-section { background: var(--dark); color: var(--paper); padding: 5rem 3rem; }
+  .dark-inner { max-width: 1200px; margin: 0 auto; }
+  .dark-section .section-label { color: rgba(255,153,0,0.8); }
+  .dark-section h2 { color: var(--paper); }
+  .dark-section p { color: rgba(245,242,236,0.72); }
+
+  .link-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.14); margin-top: 2rem; }
+  .link-card { background: rgba(255,255,255,0.02); padding: 1.5rem; }
+  .link-card h3 { color: var(--paper); margin-bottom: 0.65rem; }
+  .link-card p { font-size: 0.84rem; color: rgba(245,242,236,0.62); max-width: none; margin-bottom: 1rem; }
+  .proto-btn {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(255,153,0,0.75);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.55rem 0.8rem;
+    text-decoration: none;
+  }
+  .proto-btn:hover { background: rgba(255,153,0,0.14); }
+
+  .outcome-bar { background: var(--accent); color: #fff; padding: 4rem 3rem; }
+  .outcome-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem; align-items: start; }
+  .outcome-num { font-family: 'DM Serif Display', serif; font-size: 3.5rem; line-height: 1; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .outcome-label { font-size: 0.85rem; opacity: 0.9; line-height: 1.5; }
+
+  .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; border: 1px solid var(--rule); padding: 0.6rem 1.25rem; transition: all 0.2s; margin-top: 2.5rem; }
+  .back-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .back-btn .ext-icon { width: 7px; height: 7px; display: inline-block; }
+
+  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; border-top: 1px solid var(--rule); }
+  .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  .clickable-img { cursor: zoom-in; transition: opacity 0.2s; }
+  .clickable-img:hover { opacity: 0.85; }
+  .lightbox { display:none; position:fixed; inset:0; z-index:9999; background:rgba(15,15,15,0.92); backdrop-filter:blur(6px); overflow:auto; padding:2rem; cursor:zoom-out; }
+  .lightbox.open { display:flex; }
+  .lightbox img { display:block; margin:auto; box-shadow:0 8px 40px rgba(0,0,0,0.5); flex-shrink:0; max-width:99vw; max-height:99vh; width:auto; height:auto; image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges; }
+  .lightbox.scroll-mode { display:block; padding:1rem; overflow:auto; }
+  .lightbox.scroll-mode img { margin:0; max-width:none; max-height:none; }
+  .lightbox-hint { position:absolute; bottom:1.5rem; left:50%; transform:translateX(-50%); font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.35); }
+
+  @media (max-width: 900px) {
+    .hero, .two-col { grid-template-columns: 1fr; }
+    .problem-grid, .link-grid { grid-template-columns: 1fr; }
+    .outcome-inner { grid-template-columns: 1fr; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .section, .dark-section { padding: 3.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156.6 42.23"><path d="M13.75,5.58c7.16,0,12.09,5.29,12.09,12.42s-4.93,12.42-12.09,12.42S1.66,25.13,1.66,18,6.59,5.58,13.75,5.58ZM13.75,8.79c-5.15,0-8.39,3.92-8.39,9.21s3.24,9.21,8.39,9.21,8.39-3.96,8.39-9.21-3.31-9.21-8.39-9.21Z"/><path d="M28.04,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v10.65h-3.6V5.98Z"/><path d="M45.9,5.98h3.6v24.01h-3.6V5.98Z"/><path d="M60.8,20.74h-4.5v9.25h-3.6V5.98h10.11c4.57,0,7.7,2.95,7.7,7.38s-2.92,6.62-5.98,7.02l6.16,9.61h-4.18l-5.72-9.25ZM62.35,9.15h-6.05v8.42h6.05c2.59,0,4.46-1.69,4.46-4.21s-1.87-4.21-4.46-4.21Z"/><path d="M79.92,5.98h3.6v20.84h10.91v3.17h-14.51V5.98Z"/><path d="M96.23,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v7.49h12.53v3.17h-16.13V5.98Z"/><path d="M112.21,5.98h4.1l7.67,20.09,7.7-20.09h4.1l-9.54,24.01h-4.5l-9.54-24.01Z"/><path d="M143.42,19.94l-9.4-13.97h4.14l7.06,10.73,6.98-10.73h4.18l-9.36,13.97v10.04h-3.6v-10.04Z"/></svg></a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="hero-meta">
+      <span class="tag">Amazon Web Services · SageMaker Unified Studio</span>
+      <span class="tag">Release Center · DevOps Workflow Integration</span>
+      <span class="tag">Domain Setup &rarr; Project Work &rarr; Stage Promotion</span>
+    </div>
+    <h1>Amazon SageMaker Unified Studio<br><em>Release Center</em><br>DevOps Experience</h1>
+    <a href="index.html" class="back-btn">&larr; All work</a>
+    <a href="https://www.figma.com/proto/Od5wY3Csz66Zg1hAndZbAT/portf_RC1?node-id=1-183142&p=f&t=hnk3O9MXQs4924hK-1&scaling=scale-down-width&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A183142" class="back-btn" style="margin-left:1.25rem;" target="_blank" rel="noopener noreferrer">PROJECT PROTOTYPE <img src="icon_open_external.svg" alt="" class="ext-icon"></a>
+  </div>
+  <div>
+    <div class="hero-stat-grid">
+      <div class="hero-stat"><div class="stat-label">Role</div><div class="stat-value">Senior UX Designer</div></div>
+      <div class="hero-stat"><div class="stat-label">Company</div><div class="stat-value">Amazon Web Services</div></div>
+      <div class="hero-stat"><div class="stat-label">Product</div><div class="stat-value">SageMaker Unified Studio (SMUS)</div></div>
+      <div class="hero-stat"><div class="stat-label">Feature</div><div class="stat-value">Release Center (stage-aware DevOps UX)</div></div>
+      <div class="hero-stat"><div class="stat-label">Scope</div><div class="stat-value">E2E workflow + release-stage interaction model</div></div>
+      <div class="hero-stat"><div class="stat-label">Stage Model</div><div class="stat-value">Dev · Test · Pre-prod · Prod</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">01 &mdash; Context</div>
+  <h2>What is SMUS, what is DevOps, and why this integration matters</h2>
+  <p>Amazon SageMaker Unified Studio (SMUS) is a unified off-console environment for data analytics and AI creation where teams build notebooks, data assets, ML models, and AI applications in one governed workspace. DevOps is the set of practices that connects development and operations through CI/CD, enabling faster and safer release cycles.</p>
+  <p>Adding a DevOps stage environment directly into SMUS is valuable because users no longer need to break flow between artifact creation and release preparation. Instead, they can create, validate, and promote artifacts with release intent visible across stage contexts before production rollout.</p>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">SMUS Overview</span>
+      <span class="artifact-title">What Amazon SageMaker Unified Studio includes</span>
+    </div>
+    <img src="smus-releasecenter-assets/smus_image_what-is-smus.png" alt="Amazon SageMaker Unified Studio overview" loading="lazy">
+    <div class="artifact-caption">Amazon SageMaker Unified Studio is a unified data and AI development environment that brings project setup, data access and analysis, model/app building, and artifact collaboration into one governed workspace. These images represent that end-to-end SMUS flow, from project creation to data work and AI artifact creation in a single product experience.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">E2E Story Diagram</span>
+      <span class="artifact-title">Release Center end-to-end workflow narrative</span>
+    </div>
+    <img src="smus-releasecenter-assets/ReleaseCenter_E2E_workflow_stages.png" alt="Release Center end-to-end story diagram" loading="lazy">
+    <div class="artifact-caption">This diagram illustrates the project’s end-to-end story: domain and project setup, stage-aware artifact operations (Dev/Test/Pre-prod/Prod), and controlled progression toward production release inside the SMUS workflow.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Context</span>
+      <span class="artifact-title">SMUS product structure</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_product-structure.png" alt="SMUS product structure" loading="lazy">
+    <div class="artifact-caption">This view explains the foundational SMUS structure: domains are the primary entities, and each domain can contain multiple projects. Domains are created in the AWS Console using AWS platform resources. After a domain is launched in the external SMUS off-console experience, data professionals can create projects inside that domain. Each project is provisioned using project profiles that data administrators preconfigure for the domain in the AWS Console.</div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h2 class="context-followup">The SMUS workflow and the customer need to release artifacts</h2>
+      <p>In the SMUS workflow, teams discover and prepare data, build notebooks and models, and create AI applications and related artifacts inside a unified product surface. Work can move quickly during creation, but delivery confidence depends on a clear path to release.</p>
+      <p>Customer need was explicit: after building artifacts, they needed a reliable way to move those artifacts toward production through controlled environments without breaking context or relying on disconnected handoffs.</p>
+    </div>
+    <div>
+      <div class="pullquote">&ldquo;Creation was already unified in SMUS. Customers needed release to be just as unified.&rdquo;</div>
+      <p>This section reframes the core gap: artifact creation existed in SMUS, but release progression required clearer in-product stage flow to support safe production readiness.</p>
+    </div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Context</span>
+      <span class="artifact-title">SMUS product workflow</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_product-workflow.png" alt="SMUS product workflow" loading="lazy">
+    <div class="artifact-caption">This end-to-end SMUS workflow shows how teams move from domain onboarding and project setup, into data discovery, query and transformation work, notebook/model/app artifact creation, repository commits, and collaboration handoffs. It also highlights where release operations were historically disconnected from the in-product creation flow, clarifying why stage-aware Release Center integration is critical for moving artifacts from active development toward controlled production readiness.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Context</span>
+      <span class="artifact-title">Customer problem framing</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_context_customer-problem.png" alt="Release Center customer problem context" loading="lazy">
+    <div class="artifact-caption">Context artifact showing why build and release fragmentation created friction across SMUS personas.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Context</span>
+      <span class="artifact-title">Key Subject terms Relevant to Release Center</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_context_key-terms.png" alt="SMUS key terms and contextual model" loading="lazy">
+    <div class="artifact-caption">Shared language used with partners and customers to align how domains, projects, artifacts, and release stages connect.</div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">02 &mdash; DevOps + Stages</div>
+  <h2>Bringing DevOps and CI/CD stages into the SMUS experience</h2>
+  <p>DevOps combines development and operations practices so teams can continuously build, validate, and release software through CI/CD pipelines. In SMUS, users previously created artifacts, notebooks, models, and AI apps, then depended on external tools to manage release and deployment workflows.</p>
+  <p>Release Center introduces in-product stage awareness so users can work within Dev, Test, Pre-prod, and Prod contexts and move artifacts down a defined CD path while keeping delivery intent visible in SMUS.</p>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Workshop</span>
+      <span class="artifact-title">Problem-to-solution translation</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_context_explanation_solution.png" alt="Release Center explanation of solution from workshop" loading="lazy">
+    <div class="artifact-caption">Facilitation artifact used to translate customer pain points into a staged Release Center interaction model.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">MVP Model</span>
+      <span class="artifact-title">High-level Release Center flow</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_high-level-MVP-workflow.png" alt="Release Center high-level MVP workflow" loading="lazy">
+    <div class="artifact-caption">AI/DevOps-oriented flow framing used to define how stages and promotion behavior should appear in-product.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">MVP Scope</span>
+      <span class="artifact-title">Expanded workflow set</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_10-MVP-workflows.png" alt="Release Center 10 MVP workflows" loading="lazy">
+    <div class="artifact-caption">Detailed workflow set illustrating release actions, responsibilities, and system boundaries.</div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">03 &mdash; Work Process</div>
+  <h2>Collaboration process across design, engineering, PM, and customers</h2>
+  <p>This work required intensive collaboration with back-end and front-end engineers, product managers, and technical writers, plus repeated customer conversations to validate release-stage assumptions and real-world pipeline behavior.</p>
+  <p>Customer discussions with Intuit, Siemens, and Oracle informed the journey mapping, stage semantics, and release guardrails represented in the final UX direction.</p>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">E2E Workflow</span>
+      <span class="artifact-title">Collaborative workflow artifact for Release Center stage setup and operation</span>
+    </div>
+    <img src="smus-releasecenter-assets/ReleaseCenter_E2E_workflow_stages.png" alt="Release Center end-to-end workflow with release stages" loading="lazy">
+    <div class="artifact-caption">Screenshot of a collaborative workflow artifact created with design, PM, and engineering partners to map the end-to-end path users follow to configure Release Center stages and operate within those stages in SMUS before releasing artifacts to production.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Workshop</span>
+      <span class="artifact-title">Workflow and journey-map synthesis</span>
+    </div>
+    <img src="smus-releasecenter-assets/Workshop_workflow_ReleaseCenter_E2E_code-CI-CD.png" alt="Release Center workshop journey and workflow diagram" loading="lazy">
+    <div class="artifact-caption">Cross-functional workshop board used to align customer journeys with CI/CD-stage behaviors.</div>
+  </div>
+</div>
+
+<div class="section reveal wireframe-section">
+  <div class="section-label">04 &mdash; Wireframes</div>
+  <h2>Design work in progress: wireframe exploration</h2>
+  <p>Wireframes were used to test information architecture, stage visibility, and commit/promotion interactions before visual polish. The focus was behavior clarity first, then visual refinement.</p>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Wireframe</span>
+      <span class="artifact-title">Snapshot from multi-round, multi-board wireframing</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_wireframes_multi-rounds.png" alt="Release Center wireframes across multiple rounds" loading="lazy">
+    <div class="artifact-caption">This image is a snapshot from a broader multi-step wireframing phase. Across multiple rounds and boards, I worked closely with PM and developers to iterate on ideas, test interaction directions, and refine stage setup and artifact-release flows before moving to hi-fi design.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Wireframe</span>
+      <span class="artifact-title">Project creation with stages</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_wireframe_brainstorm_project-creation-with-stages.png" alt="Wireframe for project creation with stage setup" loading="lazy">
+    <div class="artifact-caption">Wireframe concept for embedding stage configuration early in project creation.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Wireframe</span>
+      <span class="artifact-title">Project homepage stage state changes</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_wireframe_project-homepage_Stages_change.png" alt="Wireframe for project homepage stage changes" loading="lazy">
+    <div class="artifact-caption">Stage-change behavior in early homepage concepts before hi-fi implementation.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Wireframe</span>
+      <span class="artifact-title">Query Editor tool commit interaction</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_wireframe_project_tool_query-editor_commit.png" alt="Wireframe of query editor tool commit flow" loading="lazy">
+    <div class="artifact-caption">Wireframe exploration of how users working in the project Query Editor make a code change and commit that change into the project repository flow.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Wireframe</span>
+      <span class="artifact-title">Project commits and stage pipeline</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_wireframe_brainstorm_project_RC-CD-pipeline_commits.png" alt="Wireframe for project commits in release center CD pipeline" loading="lazy">
+    <div class="artifact-caption">Exploration of commit visibility and stage-based progression mechanics.</div>
+  </div>
+
+</div>
+
+<div class="dark-section reveal hifi-section">
+  <div class="dark-inner">
+    <div class="section-label">05 &mdash; Hi-Fi Comps</div>
+    <h2>Integrating DevOps stages into domains and projects</h2>
+    <p>Hi-fi comps formalized the core interaction concept: admins configure DevOps stages at domain level, then every project created in that domain inherits stage-aware release contexts. Users can work on artifacts in any stage and advance artifacts down the CD pipeline, while pipeline monitoring and management remain connected to third-party tools such as GitHub and GitLab.</p>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Hi-Fi</span>
+        <span class="artifact-title">Release Center hi-fi prototyping round 1</span>
+      </div>
+      <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_hi-fi_prototyping1.png" alt="Release Center hi-fi prototyping round 1" loading="lazy">
+      <div class="artifact-caption">First hi-fi pass refining visual hierarchy, stage cues, and promotion affordances.</div>
+    </div>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Hi-Fi</span>
+        <span class="artifact-title">Release Center hi-fi prototyping round 2</span>
+      </div>
+      <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_hi-fi_prototyping2.png" alt="Release Center hi-fi prototyping round 2" loading="lazy">
+      <div class="artifact-caption">Second hi-fi round validating stage operations and artifact progression behavior before finalization.</div>
+    </div>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Hi-Fi</span>
+        <span class="artifact-title">Domain-level DevOps stage configuration</span>
+      </div>
+      <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_AWS-console_domain-management_DevOps-stage-configuration2.png" alt="Hi-fi domain management with DevOps stage configuration" loading="lazy">
+      <div class="artifact-caption">Admin-level stage setup in domain configuration establishes release structure for downstream project work.</div>
+    </div>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Hi-Fi</span>
+        <span class="artifact-title">Project creation with Release Center stages</span>
+      </div>
+      <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_project-creation_DevOps-stage-configuration.png" alt="Hi-fi project creation with DevOps stages" loading="lazy">
+      <div class="artifact-caption">Project setup inherits and operationalizes stage strategy defined at domain level.</div>
+    </div>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Hi-Fi</span>
+        <span class="artifact-title">Project homepage stage contexts</span>
+      </div>
+      <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_project-homepage_Stages_Dev.png" alt="Hi-fi project homepage with dev stage" loading="lazy">
+      <div class="artifact-caption">Users can work inside explicit stage contexts (Dev/Test/Pre-prod/Prod) while editing artifacts.</div>
+    </div>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Hi-Fi</span>
+        <span class="artifact-title">Query Editor code change and Dev-stage commit</span>
+      </div>
+      <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_project_QueryEditor_commit-change.png" alt="Data analyst commits Query Editor code change in Dev stage" loading="lazy">
+      <div class="artifact-caption">This screen shows a data analyst working in the Amazon Query Editor tool inside SMUS, making a code change and committing that change to the project repository while operating in the Dev stage environment.</div>
+    </div>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Hi-Fi</span>
+        <span class="artifact-title">Commit flow from Dev to Prod</span>
+      </div>
+      <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_project_commits_stage-change_prod.png" alt="Hi-fi commit stage change toward production" loading="lazy">
+      <div class="artifact-caption">Artifacts can be advanced down the CD path from lower-risk environments toward production readiness.</div>
+    </div>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Hi-Fi</span>
+        <span class="artifact-title">Stage transitions and commit progression</span>
+      </div>
+      <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_project-homepage_Stages_change.png" alt="Hi-fi stage change on project homepage" loading="lazy">
+      <div class="artifact-caption">Stage-change controls support explicit release progression while preserving environment separation.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">06 &mdash; Outcome</div>
+  <h2>Safer, faster release operations inside the SMUS platform</h2>
+  <p>Release Center adds structured stage isolation and governance into everyday SMUS workflows. Teams can isolate risk, apply guardrails at each stage, and still move faster because release context stays connected to artifact creation and collaboration.</p>
+  <p>The result is a more reliable release loop: clearer ownership, safer promotions, and expedited delivery pipelines for analytics and AI artifacts.</p>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Outcome</span>
+      <span class="artifact-title">SMUS Information architecture before Release Center</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_IA_before RC.png" alt="SMUS information architecture before Release Center" loading="lazy">
+    <div class="artifact-caption">Before Release Center: release behavior lived outside the main SMUS operating model.</div>
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Outcome</span>
+      <span class="artifact-title">Release Center integrated architecture</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_IA_after RC.png" alt="SMUS information architecture after Release Center" loading="lazy">
+    <div class="artifact-caption">After Release Center: stage-aware release operations become a first-class part of SMUS project workflows.</div>
+  </div>
+
+</div>
+
+<div class="outcome-bar reveal">
+  <div class="outcome-inner">
+    <div><div class="outcome-num">E2E</div><div class="outcome-label">One connected flow from admin domain setup to team-level artifact promotion and release</div></div>
+    <div><div class="outcome-num">4</div><div class="outcome-label">Integrated release stages surfaced in product UX: Dev, Test, Pre-prod, and Prod</div></div>
+    <div><div class="outcome-num">DX</div><div class="outcome-label">DevOps handoff friction reduced by keeping release context inside SMUS workspaces</div></div>
+  </div>
+</div>
+
+<div class="section" style="text-align:center;border:none;">
+  <a href="index.html" class="back-btn" style="display:inline-flex;margin:0;">&larr; Return to design case studies</a>
+</div>
+
+<footer>
+  <p class="footer-credit">© 2026 Ofir Levy · Sr. UX Designer</p>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="Enlarged view">
+  <span class="lightbox-hint">Click or press Esc to close</span>
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, {threshold:0.06});
+  reveals.forEach(el => io.observe(el));
+
+  document.querySelectorAll('.hero > div > *').forEach((el,i) => {
+    el.style.cssText = `opacity:0;transform:translateY(16px);transition:opacity 0.6s ease ${i*0.1}s,transform 0.6s ease ${i*0.1}s`;
+    setTimeout(() => { el.style.opacity='1'; el.style.transform='none'; }, 80);
+  });
+
+  function openLightbox(src) {
+    var lightbox = document.getElementById('lightbox');
+    var img = document.getElementById('lightbox-img');
+    lightbox.classList.remove('scroll-mode');
+    img.src = src;
+    img.style.width = '';
+    img.style.height = '';
+    img.style.maxWidth = '';
+    img.style.maxHeight = '';
+    img.onload = function() {
+      var viewportWidth = window.innerWidth * 0.98;
+      var viewportHeight = window.innerHeight * 0.98;
+
+      if (src.indexOf('ReleaseCenter_E2E_workflow_stages.png') !== -1) {
+        lightbox.classList.add('scroll-mode');
+        var oversizedWidth = Math.max(img.naturalWidth * 0.168, window.innerWidth * 0.57);
+        img.style.width = oversizedWidth + 'px';
+        img.style.height = 'auto';
+        img.style.maxWidth = 'none';
+        img.style.maxHeight = 'none';
+        return;
+      }
+
+      if (src.indexOf('Workshop_workflow_ReleaseCenter_E2E_code-CI-CD.png') !== -1) {
+        lightbox.classList.add('scroll-mode');
+        var workshopWidth = Math.max(img.naturalWidth * 0.14336, window.innerWidth * 0.36352);
+        img.style.width = workshopWidth + 'px';
+        img.style.height = 'auto';
+        img.style.maxWidth = 'none';
+        img.style.maxHeight = 'none';
+        return;
+      }
+
+      var widthRatio = viewportWidth / img.naturalWidth;
+      var heightRatio = viewportHeight / img.naturalHeight;
+      var scale = Math.min(widthRatio, heightRatio, 1);
+      img.style.width = (img.naturalWidth * scale) + 'px';
+      img.style.height = 'auto';
+    };
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    var lightbox = document.getElementById('lightbox');
+    lightbox.classList.remove('open');
+    lightbox.classList.remove('scroll-mode');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.artifact img').forEach(function(img) {
+    img.classList.add('clickable-img');
+    img.addEventListener('click', function() {
+      openLightbox(this.src);
+    });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeLightbox();
+    }
+  });
+</script>
+</body>
+</html>
