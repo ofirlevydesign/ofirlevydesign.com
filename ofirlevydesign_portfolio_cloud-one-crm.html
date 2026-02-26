@@ -78,6 +78,7 @@
   .dark-section h2 { color: var(--paper); }
   .dark-section h3 { color: var(--paper); }
   .dark-section p { color: rgba(245,242,236,0.7); }
+  .dark-section .artifact + .artifact { margin-top: 20px; }
 
   /* ARTIFACTS */
   .artifact { margin-top: 2.5rem; border: 1px solid var(--rule); overflow: hidden; max-width: 600px; margin-left: auto; margin-right: auto; }
@@ -128,15 +129,25 @@
   /* BACK BUTTON */
   .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; border: 1px solid var(--rule); padding: 0.6rem 1.25rem; transition: all 0.2s; margin-top: 2.5rem; }
   .back-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .dark-section .back-btn { border-color: rgba(245,242,236,0.35); color: rgba(245,242,236,0.8); }
+  .dark-section .back-btn:hover { border-color: var(--paper); color: var(--paper); }
   .back-btn .ext-icon { width: 7px; height: 7px; display: inline-block; }
 
   /* FOOTER */
-  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; border-top: 1px solid var(--rule); }}
+  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; border-top: 1px solid var(--rule); }
   .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
 
   /* SCROLL REVEAL */
   .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
   .reveal.visible { opacity: 1; transform: none; }
+
+  /* Lightbox modal */
+  .clickable-img { cursor: zoom-in; transition: opacity 0.2s; }
+  .clickable-img:hover { opacity: 0.85; }
+  .lightbox { display:none; position:fixed; inset:0; z-index:9999; background:rgba(15,15,15,0.92); backdrop-filter:blur(6px); overflow:auto; padding:2rem; cursor:zoom-out; }
+  .lightbox.open { display:flex; }
+  .lightbox img { display:block; margin:auto; box-shadow:0 8px 40px rgba(0,0,0,0.5); flex-shrink:0; max-width:95vw; max-height:95vh; width:auto; height:auto; image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges; }
+  .lightbox-hint { position:absolute; bottom:1.5rem; left:50%; transform:translateX(-50%); font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.35); }
 
   /* RESPONSIVE */
   @media (max-width: 900px) {
@@ -349,6 +360,7 @@
 
     <h3>Dashboard</h3>
     <p>The redesigned dashboard provides users with customizable widgets showing dealer count, population coverage, lead performance, and month-to-date trends&mdash;all in one unified view.</p>
+    <a href="https://www.figma.com/proto/0LaH2sSIvolb3DSFBImR6R/CloudOne_UnifiedCRM_Dashboard?node-id=1-16&p=f&t=Rs1ap7OLGJMotFXq-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A16" class="back-btn" target="_blank" rel="noopener noreferrer">DASHBOARD PROTOTYPE <img src="icon_open_external.svg" alt="" class="ext-icon"></a>
     <div class="artifact wide">
       <div class="artifact-header">
         <span class="artifact-label">Hi-Fi</span>
@@ -510,6 +522,11 @@
   <div class="footer-credit">Ofir Levy &mdash; Designer &mdash; 2026</div>
 </footer>
 
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="Enlarged view">
+  <span class="lightbox-hint">Click or press Esc to close</span>
+</div>
+
 <script>
   const reveals = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver(entries => {
@@ -520,6 +537,40 @@
   document.querySelectorAll('.hero > *').forEach((el,i) => {
     el.style.cssText = `opacity:0;transform:translateY(16px);transition:opacity 0.6s ease ${i*0.1}s,transform 0.6s ease ${i*0.1}s`;
     setTimeout(() => { el.style.opacity='1'; el.style.transform='none'; }, 80);
+  });
+
+  function openLightbox(src) {
+    var img = document.getElementById('lightbox-img');
+    img.src = src;
+    img.style.width = '';
+    img.style.height = '';
+    img.onload = function() {
+      var viewportWidth = window.innerWidth * 0.95;
+      var viewportHeight = window.innerHeight * 0.95;
+      var dpr = window.devicePixelRatio || 1;
+      var maxCrispWidth = img.naturalWidth / dpr;
+      var maxCrispHeight = img.naturalHeight / dpr;
+      var widthRatio = viewportWidth / maxCrispWidth;
+      var heightRatio = viewportHeight / maxCrispHeight;
+      var scale = Math.min(widthRatio, heightRatio, 1);
+      img.style.width = (maxCrispWidth * scale) + 'px';
+      img.style.height = 'auto';
+    };
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.artifact img').forEach(function(img) {
+    img.classList.add('clickable-img');
+    img.addEventListener('click', function() {
+      openLightbox(this.src);
+    });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
   });
 </script>
 
