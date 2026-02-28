@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Specifications Craft | Ofir Levy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --paper: #f5f2ec;
+    --mid: #7a7570;
+    --rule: #d9d4cc;
+    --accent: #0082E3;
+    --accent-dark: #0066b3;
+    --dark-bg: #1a1a1a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 1.25rem 3rem;
+    background: rgba(245,242,236,0.93);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-logo { display: inline-flex; align-items: center; text-decoration: none; transition: opacity 0.2s; }
+  .nav-logo:hover { opacity: 0.6; }
+  .nav-logo svg { height: 24px; width: auto; display: block; fill: var(--ink); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+
+  .hero {
+    padding: 0 3rem 5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: calc(57px + 66px);
+  }
+  .hero-meta { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 70px; }
+  .tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; color: var(--mid); text-transform: uppercase; }
+  .tag::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--mid); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.4rem,5vw,4.2rem); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); max-width: 900px; margin-bottom: 54px; }
+  h1 em { font-style: italic; color: var(--accent-dark); }
+  .hero-description { font-size: 1.15rem; line-height: 1.7; color: #3a3632; max-width: 900px; margin-bottom: 70px; }
+
+  .hero-stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .hero-stat { background: var(--paper); padding: 1.25rem; }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.35rem; }
+  .stat-value { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
+
+  .section { max-width: 1200px; margin: 0 auto; padding: 3rem 3rem; }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+  h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.6rem,3vw,2.6rem); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1.5rem; }
+  h3 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--ink); margin-bottom: 0.85rem; margin-top: 2rem; }
+  p { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: 860px; }
+  p + p { margin-top: 1rem; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .pullquote { border-left: 3px solid var(--accent-dark); padding: 1rem 0 1rem 2rem; margin: 2.5rem 0; font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.45rem; line-height: 1.4; color: var(--ink); max-width: 640px; }
+
+  .card-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-top: 2rem; }
+  .card { background: var(--paper); padding: 1.75rem 1.5rem; }
+  .card:first-child { background: var(--dark-bg); color: var(--paper); }
+  .card:first-child h3, .card:first-child .card-num { color: var(--paper); }
+  .card:first-child p { color: rgba(245,242,236,0.7); }
+  .card-num { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 1.25rem; }
+  .card:first-child .card-num { color: var(--accent); opacity: 0.7; }
+  .card h3 { font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500; margin: 0 0 0.7rem 0; }
+  .card p { font-size: 0.82rem; line-height: 1.65; color: #5a5550; max-width: none; }
+
+  .dark-section { background: var(--dark-bg); color: var(--paper); padding: 3rem 3rem; }
+  .dark-inner { max-width: 1200px; margin: 0 auto; }
+  .dark-section .section-label { color: rgba(255,255,255,0.4); }
+  .dark-section .section-label::after { background: rgba(255,255,255,0.1); }
+  .dark-section h2, .dark-section h3 { color: var(--paper); }
+  .dark-section p { color: rgba(245,242,236,0.76); }
+
+  .spec-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 2rem; }
+  .spec-card {
+    border: 1px solid rgba(245,242,236,0.16);
+    background: rgba(255,255,255,0.02);
+    padding: 1.5rem;
+  }
+  .spec-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(245,242,236,0.5); margin-bottom: 0.7rem; }
+  .spec-title { font-family: 'DM Serif Display', serif; font-size: 1.35rem; margin-bottom: 0.7rem; color: var(--paper); }
+  .spec-body { color: rgba(245,242,236,0.82); max-width: none; margin-bottom: 1rem; }
+  .example-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1.5rem; align-items: flex-start; }
+  .example-box { border: 1px solid var(--rule); background: #fff; overflow: hidden; width: fit-content; }
+  .pixel-perfect-img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: none;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    border: 1px solid var(--rule);
+    padding: 0.6rem 1.25rem;
+    transition: all 0.2s;
+    margin-top: 2.5rem;
+  }
+  .back-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .dark-section .back-btn { border-color: rgba(245,242,236,0.35); color: rgba(245,242,236,0.8); margin-top: 0; }
+  .dark-section .back-btn:hover { border-color: var(--paper); color: var(--paper); }
+  .back-btn .ext-icon { width: 7px; height: 7px; display: inline-block; }
+
+  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; border-top: 1px solid var(--rule); }
+  .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .hero, .section, .dark-section, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .two-col, .card-grid, .hero-stat-grid { grid-template-columns: 1fr; }
+    .example-grid { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156.6 42.23"><path d="M13.75,5.58c7.16,0,12.09,5.29,12.09,12.42s-4.93,12.42-12.09,12.42S1.66,25.13,1.66,18,6.59,5.58,13.75,5.58ZM13.75,8.79c-5.15,0-8.39,3.92-8.39,9.21s3.24,9.21,8.39,9.21,8.39-3.96,8.39-9.21-3.31-9.21-8.39-9.21Z"/><path d="M28.04,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v10.65h-3.6V5.98Z"/><path d="M45.9,5.98h3.6v24.01h-3.6V5.98Z"/><path d="M60.8,20.74h-4.5v9.25h-3.6V5.98h10.11c4.57,0,7.7,2.95,7.7,7.38s-2.92,6.62-5.98,7.02l6.16,9.61h-4.18l-5.72-9.25ZM62.35,9.15h-6.05v8.42h6.05c2.59,0,4.46-1.69,4.46-4.21s-1.87-4.21-4.46-4.21Z"/><path d="M79.92,5.98h3.6v20.84h10.91v3.17h-14.51V5.98Z"/><path d="M96.23,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v7.49h12.53v3.17h-16.13V5.98Z"/><path d="M112.21,5.98h4.1l7.67,20.09,7.7-20.09h4.1l-9.54,24.01h-4.5l-9.54-24.01Z"/><path d="M143.42,19.94l-9.4-13.97h4.14l7.06,10.73,6.98-10.73h4.18l-9.36,13.97v10.04h-3.6v-10.04Z"/></svg></a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-meta">
+    <span class="tag">Western Digital · VMware · CloudOne</span>
+    <span class="tag">UI Specifications · Component Craft</span>
+  </div>
+  <h1>The Craft of <em>Product Specifications</em></h1>
+  <p class="hero-description">Over the years, I invested deeply in the craft of diligently and methodically building granulated, chiseled UI components and component styleguides for my development teams. I took, and still take, pride in the research, study, and magnified focus needed to create specifications that are practical, scalable, and precise. This work demanded long hours with teammates and customers, testing component efficacy to the last pixel to ensure quality, consistency, and delight.</p>
+
+  <div class="hero-stat-grid">
+    <div class="hero-stat"><div class="stat-label">Companies</div><div class="stat-value">Western Digital, VMware, CloudOne</div></div>
+    <div class="hero-stat"><div class="stat-label">Spec Books</div><div class="stat-value">5 detailed styleguide references</div></div>
+    <div class="hero-stat"><div class="stat-label">Focus</div><div class="stat-value">Pixel precision, consistency, scalability</div></div>
+    <div class="hero-stat"><div class="stat-label">Outcome</div><div class="stat-value">Aligned product families and dev-ready UI systems</div></div>
+  </div>
+
+  <a href="index.html" class="back-btn">&larr; All work</a>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">01 &mdash; Why This Work Matters</div>
+  <div class="two-col">
+    <div>
+      <h2>Precision as a product strategy</h2>
+      <p>Specifications are not administrative artifacts. They are product quality systems. At their best, they reduce ambiguity, protect brand consistency, accelerate engineering handoff, and help teams ship interfaces that feel coherent across an entire product family.</p>
+      <p>My approach was always hands-on: define clear component behaviors, document edge states, stress-test in implementation, and validate with users and partners in real workflows.</p>
+    </div>
+    <div>
+      <div class="pullquote">“Attention to detail, brand consistency, and product family uniformity are not extras — they are core to building successful and delightful products.”</div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-num">Principle 01</div>
+      <h3>Design for implementation</h3>
+      <p>Every component spec had to be directly useful to engineers with measurable spacing, typography, states, and interaction rules.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">Principle 02</div>
+      <h3>Test to pixel quality</h3>
+      <p>Specs were validated in real product builds, with iterative QA and cross-team reviews to ensure pixel-perfect outcomes.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">Principle 03</div>
+      <h3>Scale across product families</h3>
+      <p>The objective was consistent UX and visual language across desktop, mobile, platform modules, and brand touchpoints.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">Specification Highlights</div>
+  <h2>Mixed examples from UI specification work</h2>
+  <p>These images are representative snapshots from Western Digital, VMware Socialcast, and CloudOne specification efforts. Full styleguide books remain available in Section 02 below.</p>
+  <div class="example-grid">
+    <div class="example-box"><img src="specification_books/6_dispaly_specs_WDMyCloud_1@2x.png" alt="WD MyCloud specification highlight 1" loading="lazy" class="pixel-perfect-img"></div>
+    <div class="example-box"><img src="specification_books/7_dispaly_specs_WDMyCloud_2@2x.png" alt="WD MyCloud specification highlight 2" loading="lazy" class="pixel-perfect-img"></div>
+    <div class="example-box"><img src="specification_books/12_dispaly_specs_socialcast_2@2x.png" alt="Socialcast specification highlight 2" loading="lazy" class="pixel-perfect-img"></div>
+    <div class="example-box"><img src="specification_books/14_dispaly_specs_cloudone_2@2x.png" alt="CloudOne specification highlight 2" loading="lazy" class="pixel-perfect-img"></div>
+    <div class="example-box"><img src="specification_books/10_dispaly_specs_wd2go_2@2x.png" alt="WD2go specification highlight 2" loading="lazy" class="pixel-perfect-img"></div>
+    <div class="example-box"><img src="specification_books/8_dispaly_specs_WDMyCloud_3@2x.png" alt="WD MyCloud specification highlight 3" loading="lazy" class="pixel-perfect-img"></div>
+    <div class="example-box"><img src="specification_books/15_dispaly_specs_cloudone_3@2x.png" alt="CloudOne specification highlight 3" loading="lazy" class="pixel-perfect-img"></div>
+  </div>
+</div>
+
+<div class="dark-section reveal">
+  <div class="dark-inner">
+    <div class="section-label">02 &mdash; Specification Use Cases</div>
+    <h2>Styleguide books and component systems</h2>
+    <p>Below are five specification use cases spanning Western Digital, VMware Socialcast, and CloudOne. Each book captures a specific product challenge and the UI system decisions that supported development quality and consistency.</p>
+
+    <div class="spec-grid">
+      <article class="spec-card">
+        <div class="spec-meta">Use Case 01 · Western Digital</div>
+        <h3 class="spec-title">WD MyCloud Media Storage Desktop App</h3>
+        <p class="spec-body">A production specification book for the MyCloud desktop media application, detailing component structures and UI behavior required for a reliable, cohesive desktop product experience.</p>
+        <a href="specification_books/1_WesternDigital_MyCloud_DesktopApp_UIspecs.pdf" class="back-btn" target="_blank" rel="noopener noreferrer">OPEN SPEC BOOK <img src="icon_open_external.svg" alt="" class="ext-icon"></a>
+      </article>
+
+      <article class="spec-card">
+        <div class="spec-meta">Use Case 02 · Western Digital</div>
+        <h3 class="spec-title">WD2go Mobile App</h3>
+        <p class="spec-body">A mobile-focused specification system for customers managing media files on MyCloud NAS devices, with attention to clarity, portability, and touch-first interaction consistency.</p>
+        <a href="specification_books/2_WesternDigital_WD2go_mobileApp_UIspecs.pdf" class="back-btn" target="_blank" rel="noopener noreferrer">OPEN SPEC BOOK <img src="icon_open_external.svg" alt="" class="ext-icon"></a>
+      </article>
+
+      <article class="spec-card">
+        <div class="spec-meta">Use Case 03 · Western Digital</div>
+        <h3 class="spec-title">Western Digital Product Family Alignment</h3>
+        <p class="spec-body">A cross-product UI and brand alignment specification built to unify visual language and component behavior across the Western Digital digital product portfolio.</p>
+        <a href="specification_books/3_WesternDigital_ProductAlignment_UIspecs.pdf" class="back-btn" target="_blank" rel="noopener noreferrer">OPEN SPEC BOOK <img src="icon_open_external.svg" alt="" class="ext-icon"></a>
+      </article>
+
+      <article class="spec-card">
+        <div class="spec-meta">Use Case 04 · VMware</div>
+        <h3 class="spec-title">VMware Socialcast Platform App</h3>
+        <p class="spec-body">A UI/UX specification framework for Socialcast, VMware’s collaboration and communication platform, supporting consistent interaction patterns across social and chat surfaces.</p>
+        <a href="specification_books/4_VMware_Socialcast_PlatformApp_UIspecs.pdf" class="back-btn" target="_blank" rel="noopener noreferrer">OPEN SPEC BOOK <img src="icon_open_external.svg" alt="" class="ext-icon"></a>
+      </article>
+
+      <article class="spec-card">
+        <div class="spec-meta">Use Case 05 · CloudOne</div>
+        <h3 class="spec-title">CloudOne Unified CRM Platform</h3>
+        <p class="spec-body">A UI/UX styleguide for the CloudOne CRM platform redesign, documenting scalable component patterns to keep dealership and media workflows visually and behaviorally consistent.</p>
+        <a href="specification_books/5_CloudOne_CRMPlatform_UIspecs.pdf" class="back-btn" target="_blank" rel="noopener noreferrer">OPEN SPEC BOOK <img src="icon_open_external.svg" alt="" class="ext-icon"></a>
+      </article>
+    </div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">03 &mdash; Craft Outcome</div>
+  <h2>What this discipline enabled</h2>
+  <p>This specification practice improved design-to-development clarity, reduced implementation drift, and enabled stronger product family cohesion across companies and platforms. More importantly, it created a repeatable quality standard teams could trust and customers could feel.</p>
+  <a href="index.html" class="back-btn">&larr; Return to design case studies</a>
+</div>
+
+<footer>
+  <p class="footer-credit">© 2026 Ofir Levy · Sr. UX Designer</p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const callback = (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  };
+  const observer = new IntersectionObserver(callback, { threshold: 0.1 });
+  reveals.forEach(element => observer.observe(element));
+
+  function applyPixelPerfectSize(image) {
+    if (!image || !image.naturalWidth || !image.naturalHeight) return;
+    const dpr = window.devicePixelRatio || 1;
+    image.style.width = (image.naturalWidth / dpr) + 'px';
+    image.style.height = (image.naturalHeight / dpr) + 'px';
+  }
+
+  function applyPixelPerfectSizing() {
+    const images = document.querySelectorAll('.pixel-perfect-img');
+    images.forEach((image) => applyPixelPerfectSize(image));
+  }
+
+  const pixelPerfectImages = document.querySelectorAll('.pixel-perfect-img');
+  pixelPerfectImages.forEach((image) => {
+    if (image.complete) applyPixelPerfectSize(image);
+    image.addEventListener('load', () => applyPixelPerfectSize(image));
+  });
+
+  window.addEventListener('load', applyPixelPerfectSizing);
+  window.addEventListener('resize', applyPixelPerfectSizing);
+</script>
+
+</body>
+</html>
