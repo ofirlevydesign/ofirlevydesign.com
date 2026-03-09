@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Workflow | Ofir Levy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --paper: #f5f2ec;
+    --mid: #7a7570;
+    --rule: #d9d4cc;
+    --accent: #0082E3;
+    --dark-bg: #1a1a1a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding: 1.25rem 3rem;
+    background: rgba(245,242,236,0.93); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-logo { display: inline-flex; align-items: center; text-decoration: none; transition: opacity 0.2s; }
+  .nav-logo:hover { opacity: 0.6; }
+  .nav-logo svg { height: 24px; width: auto; display: block; fill: var(--ink); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+
+  .hero {
+    padding: 0 3rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: calc(57px + 66px);
+  }
+  .tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; color: var(--mid); text-transform: uppercase; margin-bottom: 2rem; }
+  .tag::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--mid); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.4rem,5vw,4.2rem); line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  h1 em { font-style: italic; color: var(--accent); }
+  .hero-description { font-size: 1.12rem; line-height: 1.8; max-width: 920px; color: #3a3632; }
+  .hero-tools-row {
+    margin-top: calc(2rem + 20px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    max-width: 920px;
+  }
+  .hero-tools-row figure {
+    margin: 0;
+  }
+  .hero-tools-row img {
+    width: 100%;
+    display: block;
+    height: auto;
+    border: 1px solid var(--rule);
+    background: #ece7df;
+  }
+  .hero-tools-row figcaption {
+    margin-top: 0.45rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .hero-tools-row figure.vscode-shift {
+    transform: translateY(30px);
+  }
+
+  .section { max-width: 1200px; margin: 0 auto; padding: 3rem; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1.75rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+  .intro-card {
+    border: 1px solid var(--rule);
+    background: #f0ece4;
+    padding: 1.5rem;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: #3a3632;
+  }
+
+  .dark-section { background: var(--dark-bg); color: var(--paper); padding: 3rem; }
+  .dark-inner { max-width: 1200px; margin: 0 auto; }
+  .dark-section .section-label { color: rgba(255,255,255,0.45); }
+  .dark-section .section-label::after { background: rgba(255,255,255,0.15); }
+  .dark-section h2 { color: var(--paper); }
+
+  h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.7rem,3vw,2.5rem); line-height: 1.2; margin-bottom: 1rem; }
+  p { font-size: 1rem; line-height: 1.8; color: #3a3632; }
+  .dark-section p { color: rgba(245,242,236,0.78); }
+
+  .steps-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 1.75rem; }
+  .step-card {
+    border: 1px solid rgba(245,242,236,0.2);
+    background: rgba(255,255,255,0.02);
+    padding: 1rem 1rem 1.05rem;
+  }
+  .step-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(240px, 0.75fr);
+    gap: 0.9rem;
+    align-items: start;
+  }
+  .step-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+  .step-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.62);
+    margin-bottom: 0.7rem;
+  }
+  .step-content p {
+    margin-bottom: 0.75rem;
+  }
+  .artifact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: fit-content;
+    border: 1px solid rgba(245,242,236,0.35);
+    color: rgba(245,242,236,0.92);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.48rem 0.75rem;
+    transition: all 0.2s;
+    margin-top: auto;
+  }
+  .artifact-btn:hover {
+    border-color: rgba(245,242,236,0.85);
+    color: #ffffff;
+    background: rgba(255,255,255,0.08);
+  }
+  .step-visual {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .step-media {
+    border: 0;
+    background: transparent;
+    margin-bottom: 0;
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .frame-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid rgba(245,242,236,0.16);
+    background: rgba(255,255,255,0.02);
+  }
+  .frame-dots { display: flex; gap: 0.35rem; }
+  .frame-dots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(245,242,236,0.35);
+    display: inline-block;
+  }
+  .frame-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.72);
+  }
+  .frame-body { padding: 0.65rem 0.7rem 0.7rem; }
+  .frame-body.fill {
+    flex: 1;
+    min-height: 170px;
+  }
+  .frame-image {
+    width: min(100%, 430px);
+    height: auto;
+    min-height: 0;
+    max-height: 280px;
+    object-fit: contain;
+    object-position: right center;
+    display: block;
+    border-top: 0;
+    background: transparent;
+  }
+  .frame-line {
+    height: 8px;
+    background: rgba(245,242,236,0.18);
+    border-radius: 2px;
+    margin-bottom: 0.45rem;
+  }
+  .frame-line.short { width: 68%; }
+  .frame-line.mid { width: 82%; }
+  .frame-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.35rem; }
+  .frame-tags span {
+    border: 1px solid rgba(245,242,236,0.25);
+    padding: 0.2rem 0.42rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.74);
+  }
+
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--mid); text-decoration: none;
+    border: 1px solid var(--rule);
+    padding: 0.6rem 1.25rem;
+    transition: all 0.2s;
+    margin-top: 2rem;
+  }
+  .back-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; border-top: 1px solid var(--rule); }
+  .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    .hero, .section, .dark-section, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .hero-tools-row { grid-template-columns: 1fr; }
+    .step-layout { grid-template-columns: 1fr; }
+    .step-visual { justify-content: flex-start; }
+    .frame-image { width: 100%; max-height: 240px; object-position: left center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156.6 42.23"><path d="M13.75,5.58c7.16,0,12.09,5.29,12.09,12.42s-4.93,12.42-12.09,12.42S1.66,25.13,1.66,18,6.59,5.58,13.75,5.58ZM13.75,8.79c-5.15,0-8.39,3.92-8.39,9.21s3.24,9.21,8.39,9.21,8.39-3.96,8.39-9.21-3.31-9.21-8.39-9.21Z"/><path d="M28.04,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v10.65h-3.6V5.98Z"/><path d="M45.9,5.98h3.6v24.01h-3.6V5.98Z"/><path d="M60.8,20.74h-4.5v9.25h-3.6V5.98h10.11c4.57,0,7.7,2.95,7.7,7.38s-2.92,6.62-5.98,7.02l6.16,9.61h-4.18l-5.72-9.25ZM62.35,9.15h-6.05v8.42h6.05c2.59,0,4.46-1.69,4.46-4.21s-1.87-4.21-4.46-4.21Z"/><path d="M79.92,5.98h3.6v20.84h10.91v3.17h-14.51V5.98Z"/><path d="M96.23,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v7.49h12.53v3.17h-16.13V5.98Z"/><path d="M112.21,5.98h4.1l7.67,20.09,7.7-20.09h4.1l-9.54,24.01h-4.5l-9.54-24.01Z"/><path d="M143.42,19.94l-9.4-13.97h4.14l7.06,10.73,6.98-10.73h4.18l-9.36,13.97v10.04h-3.6v-10.04Z"/></svg></a>
+  <ul class="nav-links">
+    <li><a href="ai-workflow.html">AI Workflow</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="tag">Design Practice · AI Workflow</div>
+  <h1>UX Workflow Using <em>AI Tools</em></h1>
+  <p class="hero-description">I leverage AI tools to accelerate and innovate my UX design workflow. This site includes past case studies that demonstrate my process and thinking. With the strong emergence of AI tools, not only the design process is changing, but also people and product dynamics. I have been actively evolving with this transformation, and this page captures the workflow I use when starting and driving a new project journey.</p>
+  <div class="hero-tools-row">
+    <figure>
+      <img src="ai-workflow-assets/AI-workflow_Claude.png" alt="Claude workflow reference">
+      <figcaption>Claude workflow output</figcaption>
+    </figure>
+    <figure class="vscode-shift">
+      <img src="ai-workflow-assets/AI-workflow_VSCode_VibeCoding.png" alt="VS Code vibe coding workflow reference">
+      <figcaption>VS Code vibe coding session</figcaption>
+    </figure>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">Workflow Foundation</div>
+  <div class="intro-card">
+    I treat project work as structured practice: clear objectives first, then production. Strong project documentation and a high-quality knowledge base improve prompting quality, strengthen collaboration, and reduce drift across the full lifecycle from ideation to post-production improvement.
+  </div>
+</div>
+
+<div class="dark-section">
+  <div class="dark-inner">
+    <div class="section-label">7-Step Process</div>
+    <h2>Current AI-assisted UX workflow</h2>
+    <div class="steps-grid">
+      <article class="step-card">
+        <div class="step-layout">
+          <div class="step-content">
+            <div class="step-title">Step 1 · Project specification and documentation</div>
+            <p>Everything starts with organization and clarity. I draft a project brief with objective, customer problem, and initial solution direction. Even as AI reveals additional insights later, solid specs at the start are essential. I use Notion, Claude, ChatGPT, or Amazon Quick Suite to build this foundation and make prompts more precise and effective.</p>
+            <a class="artifact-btn" href="ai-workflow-assets/1_SMUS_Release_Center_UX_Design_Brief.pdf" target="_blank" rel="noopener noreferrer">Open external artifact ↗</a>
+          </div>
+          <div class="step-visual">
+            <img class="frame-image" src="ai-workflow-assets/1_AI-workflow_step1_UX-design-brief.png" alt="Step 1 artifact preview">
+          </div>
+        </div>
+      </article>
+
+      <article class="step-card">
+        <div class="step-layout">
+          <div class="step-content">
+            <div class="step-title">Step 2 · Persona clarification, competitive analysis, and research</div>
+            <p>I use LLMs to deepen user and market understanding by importing project specs and prompting for robust competitor analysis and persona artifacts. I ask for complete end-to-end user stories (user, problem, solution, growth) to align partners quickly. All artifacts are added to a project knowledge base that travels with the project lifecycle.</p>
+            <a class="artifact-btn" href="ai-workflow-assets/2_SMUS_Release_Center_Competitive_Analysis.pdf" target="_blank" rel="noopener noreferrer">Open external artifact ↗</a>
+          </div>
+          <div class="step-visual">
+            <img class="frame-image" src="ai-workflow-assets/2_AI-workflow_step2_competitive-analysis.png" alt="Step 2 competitive analysis preview">
+          </div>
+        </div>
+      </article>
+
+      <article class="step-card">
+        <div class="step-layout">
+          <div class="step-content">
+            <div class="step-title">Step 3 · Problem-area brainstorming and ideation</div>
+            <p>I intensify collaboration with PMs, developers, and designers. Using FigJam (with AI support), I create collaborative boards for mood boards, journeys, workflows, object-action models, IA diagrams, and early “napkin” sketches. Nothing is built in a vacuum; this stage is partnership-driven by design.</p>
+          </div>
+          <div class="step-visual">
+            <img class="frame-image" src="ai-workflow-assets/3_AI-workflow_step3_collaboration.png" alt="Step 3 collaboration preview">
+          </div>
+        </div>
+      </article>
+
+      <article class="step-card">
+        <div class="step-layout">
+          <div class="step-content">
+            <div class="step-title">Step 4 · Workflows and rough wireframes</div>
+            <p>With a stronger knowledge base, I begin workflow and wireframe generation in my VS Code IDE, vibe coding with the latest ChatGPT Codex, Claude Opus or Sonnet, or Gemini to generate artifacts. I reference project artifacts and MCP-enabled tooling to generate relevant outputs quickly. I also pull in product design system context early to move toward accurate structures.</p>
+            <a class="artifact-btn" href="https://www.figma.com/proto/7b2PckGSix6g8DJW7r0165/portf_RC_early-work?node-id=1-6693&p=f&t=emwlIBPwyi0OstdX-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A6693&show-proto-sidebar=1" target="_blank" rel="noopener noreferrer">Open external artifact ↗</a>
+          </div>
+          <div class="step-visual">
+            <img class="frame-image" src="ai-workflow-assets/4_AI-workflow_step4_wireframes.png" alt="Step 4 workflow and rough wireframe preview">
+          </div>
+        </div>
+      </article>
+
+      <article class="step-card">
+        <div class="step-layout">
+          <div class="step-content">
+            <div class="step-title">Step 5 · Higher-fidelity wireframes, mockups, and shareable prototype</div>
+            <p>At this point I generate key screens, interactions, and transitions and start assembling a realistic prototype path. I import generated screens into Figma for iterative prototyping and visual correction, including pixel and component refinement using the design system. I continuously share artifacts for alignment and decision-making through publishable prototype links for cross-functional review.</p>
+            <a class="artifact-btn" href="https://www.figma.com/proto/Od5wY3Csz66Zg1hAndZbAT/portf_RC1?node-id=1-183142&p=f&t=hnk3O9MXQs4924hK-1&scaling=scale-down-width&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A183142" target="_blank" rel="noopener noreferrer">Open external artifact ↗</a>
+          </div>
+          <div class="step-visual">
+            <img class="frame-image" src="ai-workflow-assets/5_AI-workflow_step5_mocks.png" alt="Step 5 higher-fidelity wireframe preview">
+          </div>
+        </div>
+      </article>
+
+      <article class="step-card">
+        <div class="step-layout">
+          <div class="step-content">
+            <div class="step-title">Step 6 · Testing and validation</div>
+            <p>With a working prototype, I evaluate for accessibility and UX heuristics. My knowledge base includes WCAG and heuristic frameworks (including Nielsen Norman references). In AWS contexts, I can use Quick Suite validation spaces to upload prototypes and generate structured evaluation reports for teammates and correction planning.</p>
+            <a class="artifact-btn" href="ai-workflow-assets/6_SMUS_Release_Center_User_Test_Plan.pdf" target="_blank" rel="noopener noreferrer">Open external artifact ↗</a>
+          </div>
+          <div class="step-visual">
+            <img class="frame-image" src="ai-workflow-assets/7_AI-workflow_step7_user-testing.png" alt="Step 7 user testing preview">
+          </div>
+        </div>
+      </article>
+
+      <article class="step-card">
+        <div class="step-title">Step 7 · Post-production validation and improvement loop</div>
+        <p>I generate testing scripts and surveys with AI tools in VS Code (ChatGPT Codex, Claude Opus or Sonnet, or Gemini), and with Quick Suite when relevant. I collect feedback and feed results back into the project knowledge base. Then I prompt for improvement recommendations, apply corrections, and continue iterative improvement toward stronger production outcomes.</p>
+      </article>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">Closing Note</div>
+  <p>This workflow is intentionally adaptive. AI accelerates output, but the core remains the same: clear problem framing, strong collaboration, careful validation, and disciplined iteration with users and partners.</p>
+  <a href="index.html" class="back-btn">&larr; All work</a>
+</div>
+
+<footer>
+  <p class="footer-credit">© 2026 Ofir Levy · Sr. UX Designer</p>
+</footer>
+
+</body>
+</html>
