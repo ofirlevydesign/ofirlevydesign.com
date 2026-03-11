@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Athena Query Editor + Usage Widget Prototype</title>
+<style>
+  :root {
+    --ink: #16191f;
+    --muted: #5f6b7a;
+    --line: #d5dbdb;
+    --soft: #f8f8f8;
+    --aws-top: #0f1b2a;
+    --aws-purple: #7b61ff;
+    --blue: #0972d3;
+    --run: #ec7211;
+    --run-border: #b76013;
+    --success-bg: #ebf6ec;
+    --success-fg: #037f0c;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    background: #0f1824;
+    color: var(--ink);
+  }
+
+  .frame {
+    width: min(1500px, calc(100vw - 24px));
+    margin: 12px auto;
+    border: 1px solid #2f3b4e;
+    background: #fff;
+    box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+  }
+
+  .aws-topbar {
+    height: 42px;
+    background: var(--aws-top);
+    color: #d9e3f0;
+    display: grid;
+    grid-template-columns: 130px 1fr auto;
+    align-items: center;
+    padding: 0 12px;
+    gap: 12px;
+    font-size: 12px;
+  }
+
+  .aws-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+  }
+
+  .spark {
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+    background: var(--aws-purple);
+    display: inline-block;
+  }
+
+  .search {
+    border: 1px solid #3b4a62;
+    background: #111f31;
+    color: #8fa1bb;
+    height: 28px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    max-width: 500px;
+  }
+
+  .service-strip {
+    height: 28px;
+    background: #131f31;
+    border-top: 1px solid #2d3b52;
+    border-bottom: 1px solid #2d3b52;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px;
+    overflow: hidden;
+  }
+
+  .chip {
+    font-size: 11px;
+    color: #c0d1ea;
+    border: 1px solid #384965;
+    border-radius: 4px;
+    padding: 2px 6px;
+    white-space: nowrap;
+  }
+
+  .athena-head {
+    height: 50px;
+    border-bottom: 1px solid #e8eaed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+
+  .crumbs {
+    font-size: 22px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .crumbs small {
+    font-size: 18px;
+    font-weight: 500;
+    color: #526274;
+  }
+
+  .tabs {
+    height: 46px;
+    border-bottom: 1px solid var(--line);
+    padding: 0 14px;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+  }
+
+  .tab-list { display: flex; gap: 4px; }
+  .tab {
+    padding: 10px 12px 8px;
+    font-size: 17px;
+    color: #425466;
+    border-bottom: 3px solid transparent;
+  }
+
+  .tab.active {
+    color: var(--blue);
+    border-bottom-color: var(--blue);
+    font-weight: 700;
+  }
+
+  .wg {
+    font-size: 14px;
+    color: #4f6173;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 6px 12px;
+  }
+
+  .workspace {
+    position: relative;
+    display: grid;
+    grid-template-columns: 305px 1fr;
+    min-height: 610px;
+  }
+
+  .left {
+    border-right: 1px solid var(--line);
+    background: #f7f7f7;
+    padding: 14px;
+  }
+
+  .left h3 {
+    margin: 0 0 10px;
+    font-size: 32px;
+    font-weight: 700;
+  }
+
+  .field {
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+
+  .field label {
+    display: block;
+    margin-bottom: 4px;
+    color: #3a4a5b;
+    font-weight: 700;
+  }
+
+  .select {
+    height: 30px;
+    border: 1px solid #b7c0cb;
+    border-radius: 8px;
+    background: #fff;
+    color: #303f50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+
+  .mini-btn {
+    margin-top: 8px;
+    border: 1px solid var(--blue);
+    color: var(--blue);
+    background: #fff;
+    border-radius: 18px;
+    padding: 4px 16px;
+    font-weight: 700;
+    width: fit-content;
+  }
+
+  .panel-row {
+    margin-top: 10px;
+    color: #4b5c6e;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+  }
+
+  .query-tabs {
+    height: 38px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 10px;
+    font-size: 22px;
+  }
+
+  .query-tab { color: #526274; }
+  .query-tab.active { color: var(--blue); font-weight: 700; }
+
+  .editor {
+    min-height: 255px;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 30px;
+    line-height: 42px;
+  }
+
+  .line-nums {
+    background: #f5f7f8;
+    border-right: 1px solid var(--line);
+    text-align: right;
+    color: #6b7886;
+    padding: 8px 8px 8px 0;
+    user-select: none;
+  }
+
+  .sql {
+    white-space: pre;
+    padding: 8px 12px;
+  }
+
+  .kw { color: #a13f3f; font-weight: 700; }
+  .id { color: #1f4f2f; }
+
+  .toolbar {
+    height: 58px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .btn {
+    border-radius: 20px;
+    border: 1px solid #b9c4cf;
+    background: #fff;
+    padding: 8px 16px;
+    font-size: 22px;
+    color: #4e6276;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .btn.run {
+    background: var(--run);
+    border-color: var(--run-border);
+    color: #fff;
+  }
+
+  .btn.explain {
+    border-color: #7eb4e2;
+    color: var(--blue);
+  }
+
+  .results {
+    padding: 12px 14px;
+  }
+
+  .result-tabs {
+    display: flex;
+    gap: 24px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    font-size: 31px;
+  }
+
+  .result-tabs .active {
+    color: var(--blue);
+    font-weight: 700;
+    border-bottom: 4px solid var(--blue);
+    padding-bottom: 8px;
+  }
+
+  .status-chip {
+    display: none;
+    border: 1px solid #95d19b;
+    color: var(--success-fg);
+    background: var(--success-bg);
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .results-grid {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 21px;
+    display: none;
+  }
+
+  .results-grid th,
+  .results-grid td {
+    border: 1px solid var(--line);
+    text-align: left;
+    padding: 6px 9px;
+  }
+
+  .placeholder {
+    color: #6d7986;
+    font-size: 21px;
+    margin-top: 10px;
+  }
+
+  .widget {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    width: 340px;
+    border: 1px solid #1f5f90;
+    box-shadow: 0 14px 34px rgba(0, 47, 84, 0.25);
+    border-radius: 12px;
+    background: #f7fbff;
+    overflow: hidden;
+    z-index: 5;
+  }
+
+  .widget-head {
+    background: #0f3f66;
+    color: #fff;
+    padding: 10px 12px;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .widget-head button {
+    border: 1px solid rgba(255,255,255,0.45);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    line-height: 1;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .widget.collapsed .widget-body {
+    display: none;
+  }
+
+  .widget-body {
+    padding: 10px 12px 12px;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .metric {
+    border: 1px solid #c4d7e8;
+    border-radius: 8px;
+    background: #fff;
+    padding: 8px;
+  }
+
+  .metric .k {
+    font-size: 10px;
+    color: #57738f;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    margin-bottom: 2px;
+  }
+
+  .metric .v {
+    font-size: 24px;
+    font-weight: 700;
+    color: #103551;
+    line-height: 1.1;
+  }
+
+  .trend {
+    font-size: 11px;
+    color: #0a7a18;
+    font-weight: 700;
+    margin-top: 2px;
+  }
+
+  .mini-bars {
+    border: 1px solid #c4d7e8;
+    border-radius: 8px;
+    background: #fff;
+    padding: 8px;
+    margin-bottom: 8px;
+    font-size: 11px;
+  }
+
+  .bar {
+    display: grid;
+    grid-template-columns: 55px 1fr 24px;
+    align-items: center;
+    gap: 6px;
+    margin: 5px 0;
+  }
+
+  .track {
+    height: 8px;
+    background: #e8eef4;
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .fill {
+    height: 100%;
+    width: 0;
+    background: #2c7fc1;
+    transition: width .35s ease;
+  }
+
+  .activity {
+    border: 1px solid #c4d7e8;
+    border-radius: 8px;
+    background: #fff;
+    padding: 8px;
+    font-size: 11px;
+    color: #2f4760;
+  }
+
+  .activity ul {
+    margin: 6px 0 0;
+    padding-left: 16px;
+  }
+
+  @media (max-width: 1200px) {
+    .workspace { grid-template-columns: 1fr; }
+    .left { display: none; }
+    .widget {
+      position: static;
+      width: calc(100% - 24px);
+      margin: 10px 12px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="aws-topbar">
+      <div class="aws-brand"><span>aws</span><span class="spark"></span></div>
+      <div class="search">Search</div>
+      <div>United States (N. Virginia) · ofirlevy</div>
+    </div>
+    <div class="service-strip">
+      <span class="chip">EMR</span><span class="chip">Amazon SageMaker</span><span class="chip">CloudFormation</span><span class="chip">IAM</span><span class="chip">S3</span><span class="chip">Amazon Bedrock</span><span class="chip">CodeBuild</span><span class="chip">Amazon Redshift</span><span class="chip">Athena</span><span class="chip">CodePipeline</span>
+    </div>
+
+    <div class="athena-head">
+      <div class="crumbs">Amazon Athena <small>› Query editor</small></div>
+      <div></div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab-list">
+        <div class="tab active">Editor</div>
+        <div class="tab">Recent queries</div>
+        <div class="tab">Saved queries</div>
+        <div class="tab">Query settings</div>
+      </div>
+      <div class="wg">Workgroup&nbsp;&nbsp;<strong>primary</strong></div>
+    </div>
+
+    <section class="workspace">
+      <aside class="left">
+        <h3>Data</h3>
+        <div class="field">
+          <label>Data source</label>
+          <div class="select"><span>AwsDataCatalog</span><span>▾</span></div>
+        </div>
+        <div class="field">
+          <label>Catalog</label>
+          <div class="select"><span>None</span><span>▾</span></div>
+        </div>
+        <div class="field">
+          <label>Database</label>
+          <div class="select"><span>Choose a database</span><span>▾</span></div>
+        </div>
+        <div class="panel-row">Tables and views</div>
+        <div class="mini-btn">Create</div>
+      </aside>
+
+      <main class="main">
+        <div class="query-tabs">
+          <span class="query-tab">Query 1</span>
+          <span class="query-tab active">Query 2</span>
+        </div>
+
+        <div class="editor">
+          <div class="line-nums">1<br>2<br>3</div>
+          <div class="sql"><span class="kw">CREATE EXTERNAL TABLE IF NOT EXISTS</span> new_table_name(
+  column_name1 column_type1, column_name2 column_type2)
+<span class="kw">LOCATION</span> '<span class="id">s3://athena-usage-widget/</span>'</div>
+        </div>
+
+        <div class="toolbar">
+          <button id="runBtn" class="btn run">Run</button>
+          <button class="btn explain">Explain</button>
+          <button class="btn">Cancel</button>
+          <button class="btn">Clear</button>
+          <button class="btn">Create</button>
+        </div>
+
+        <div class="results">
+          <div class="result-tabs"><span class="active">Query results</span><span>Query stats</span></div>
+          <div id="statusChip" class="status-chip">Query succeeded</div>
+          <table id="resultsTable" class="results-grid">
+            <thead>
+              <tr><th>day</th><th>query_count</th><th>scanned_gb</th></tr>
+            </thead>
+            <tbody id="resultRows"></tbody>
+          </table>
+          <div id="placeholder" class="placeholder">Run a query to view results</div>
+        </div>
+      </main>
+
+      <aside class="widget">
+        <div class="widget-head">
+          <span>Q-Meter</span>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span id="widgetState">Ready</span>
+            <button id="widgetToggle" aria-label="Collapse widget" title="Collapse">−</button>
+          </div>
+        </div>
+        <div class="widget-body">
+          <div class="metrics">
+            <div class="metric"><div class="k">Queries today</div><div class="v" id="mQ">41</div><div class="trend" id="tQ">baseline</div></div>
+            <div class="metric"><div class="k">Data scanned (GB)</div><div class="v" id="mS">198.2</div><div class="trend" id="tS">baseline</div></div>
+            <div class="metric"><div class="k">Avg runtime (s)</div><div class="v" id="mR">3.8</div><div class="trend" id="tR">baseline</div></div>
+            <div class="metric"><div class="k">Cost estimate ($)</div><div class="v" id="mC">12.44</div><div class="trend" id="tC">baseline</div></div>
+          </div>
+
+          <div class="mini-bars">
+            <div class="bar"><span>SELECT</span><div class="track"><div id="bSel" class="fill"></div></div><span id="nSel">26</span></div>
+            <div class="bar"><span>CREATE</span><div class="track"><div id="bCre" class="fill"></div></div><span id="nCre">9</span></div>
+            <div class="bar"><span>DDL</span><div class="track"><div id="bDdl" class="fill"></div></div><span id="nDdl">6</span></div>
+          </div>
+
+          <div class="activity">
+            <strong>Latest activity</strong>
+            <ul id="activityList"><li>No query runs yet.</li></ul>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </div>
+
+<script>
+  const runBtn = document.getElementById('runBtn');
+  const resultRows = document.getElementById('resultRows');
+  const resultsTable = document.getElementById('resultsTable');
+  const statusChip = document.getElementById('statusChip');
+  const placeholder = document.getElementById('placeholder');
+  const widgetState = document.getElementById('widgetState');
+  const activityList = document.getElementById('activityList');
+  const widgetToggle = document.getElementById('widgetToggle');
+  const widget = document.querySelector('.widget');
+
+  const mQ = document.getElementById('mQ');
+  const mS = document.getElementById('mS');
+  const mR = document.getElementById('mR');
+  const mC = document.getElementById('mC');
+
+  const tQ = document.getElementById('tQ');
+  const tS = document.getElementById('tS');
+  const tR = document.getElementById('tR');
+  const tC = document.getElementById('tC');
+
+  const bSel = document.getElementById('bSel');
+  const bCre = document.getElementById('bCre');
+  const bDdl = document.getElementById('bDdl');
+  const nSel = document.getElementById('nSel');
+  const nCre = document.getElementById('nCre');
+  const nDdl = document.getElementById('nDdl');
+
+  const state = {
+    runs: 0,
+    q: 41,
+    s: 198.2,
+    r: 3.8,
+    c: 12.44,
+    sel: 26,
+    cre: 9,
+    ddl: 6
+  };
+
+  function updateBars() {
+    const total = state.sel + state.cre + state.ddl;
+    const pct = (value) => (total ? Math.max(6, Math.round((value / total) * 100)) : 0) + '%';
+    bSel.style.width = pct(state.sel);
+    bCre.style.width = pct(state.cre);
+    bDdl.style.width = pct(state.ddl);
+    nSel.textContent = state.sel;
+    nCre.textContent = state.cre;
+    nDdl.textContent = state.ddl;
+  }
+
+  function paintResults() {
+    const rows = [
+      ['2026-03-11', 98, 31.5],
+      ['2026-03-10', 103, 28.9],
+      ['2026-03-09', 87, 24.1],
+      ['2026-03-08', 91, 26.7]
+    ];
+    resultRows.innerHTML = '';
+    rows.forEach((row) => {
+      const tr = document.createElement('tr');
+      row.forEach((value) => {
+        const td = document.createElement('td');
+        td.textContent = value;
+        tr.appendChild(td);
+      });
+      resultRows.appendChild(tr);
+    });
+  }
+
+  function runQuery() {
+    state.runs += 1;
+    const delta = {
+      q: Math.floor(2 + Math.random() * 4),
+      s: 4 + Math.random() * 12,
+      r: 2 + Math.random() * 4,
+      c: 0.2 + Math.random() * 0.8,
+      sel: Math.floor(1 + Math.random() * 4),
+      cre: Math.floor(Math.random() * 2),
+      ddl: Math.floor(Math.random() * 2)
+    };
+
+    state.q += delta.q;
+    state.s += delta.s;
+    state.r = ((state.r * (state.runs - 1)) + delta.r) / state.runs;
+    state.c += delta.c;
+    state.sel += delta.sel;
+    state.cre += delta.cre;
+    state.ddl += delta.ddl;
+
+    mQ.textContent = state.q;
+    mS.textContent = state.s.toFixed(1);
+    mR.textContent = state.r.toFixed(1);
+    mC.textContent = state.c.toFixed(2);
+
+    tQ.textContent = '+ ' + delta.q + ' this run';
+    tS.textContent = '+ ' + delta.s.toFixed(1) + ' GB';
+    tR.textContent = 'last run ' + delta.r.toFixed(1) + 's';
+    tC.textContent = '+ $' + delta.c.toFixed(2);
+
+    updateBars();
+    paintResults();
+
+    statusChip.style.display = 'inline-block';
+    resultsTable.style.display = 'table';
+    placeholder.style.display = 'none';
+    widgetState.textContent = 'Active';
+
+    activityList.innerHTML = '';
+    [
+      'Run #' + state.runs + ': scanned ' + delta.s.toFixed(1) + ' GB',
+      'Updated usage metrics from latest query execution',
+      'Estimated incremental cost + $' + delta.c.toFixed(2)
+    ].forEach((text) => {
+      const li = document.createElement('li');
+      li.textContent = text;
+      activityList.appendChild(li);
+    });
+  }
+
+  function toggleWidget() {
+    const collapsed = widget.classList.toggle('collapsed');
+    widgetToggle.textContent = collapsed ? '+' : '−';
+    widgetToggle.setAttribute('aria-label', collapsed ? 'Expand widget' : 'Collapse widget');
+    widgetToggle.title = collapsed ? 'Expand' : 'Collapse';
+  }
+
+  runBtn.addEventListener('click', runQuery);
+  widgetToggle.addEventListener('click', toggleWidget);
+  updateBars();
+</script>
+</body>
+</html>
