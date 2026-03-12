@@ -125,6 +125,26 @@
   .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; border: 1px solid var(--rule); padding: 0.6rem 1.25rem; transition: all 0.2s; margin-top: 2.5rem; }
   .back-btn:hover { border-color: var(--ink); color: var(--ink); }
   .back-btn .ext-icon { width: 7px; height: 7px; display: inline-block; }
+  .dark-section .back-btn:hover { border-color: rgba(245,242,236,0.55); color: rgba(245,242,236,0.86); background: rgba(255,255,255,0.04); }
+  .hifi-proto-note {
+    max-width: 980px;
+    margin: 60px 0 0 50px;
+  }
+  .hifi-proto-note h3 {
+    margin: 0 0 1rem 0;
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    font-weight: 400;
+  }
+  .hifi-proto-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2.5rem;
+    align-items: start;
+  }
+  .hifi-proto-content p { margin: 0; color: rgba(245,242,236,0.78); }
+  .hifi-proto-content .back-btn { margin-top: 0; color: var(--rule); border-color: var(--rule); white-space: nowrap; }
+  .hifi-proto-content .ext-icon { width: auto; height: auto; font-size: 0.95rem; line-height: 1; color: inherit; }
 
   footer { max-width: 1200px; margin: 0 auto; padding: 3rem; border-top: 1px solid var(--rule); }
   .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
@@ -145,6 +165,8 @@
     .hero, .two-col { grid-template-columns: 1fr; }
     .problem-grid, .link-grid { grid-template-columns: 1fr; }
     .outcome-inner { grid-template-columns: 1fr; }
+    .hifi-proto-content { grid-template-columns: 1fr; align-items: start; }
+    .hifi-proto-content .back-btn { margin-top: 0.5rem; white-space: normal; }
     nav { padding: 1rem 1.5rem; }
     .nav-links { gap: 1.5rem; }
     .section, .dark-section { padding: 3.5rem 1.5rem; }
@@ -156,6 +178,7 @@
 <nav>
   <a href="index.html" class="nav-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156.6 42.23"><path d="M13.75,5.58c7.16,0,12.09,5.29,12.09,12.42s-4.93,12.42-12.09,12.42S1.66,25.13,1.66,18,6.59,5.58,13.75,5.58ZM13.75,8.79c-5.15,0-8.39,3.92-8.39,9.21s3.24,9.21,8.39,9.21,8.39-3.96,8.39-9.21-3.31-9.21-8.39-9.21Z"/><path d="M28.04,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v10.65h-3.6V5.98Z"/><path d="M45.9,5.98h3.6v24.01h-3.6V5.98Z"/><path d="M60.8,20.74h-4.5v9.25h-3.6V5.98h10.11c4.57,0,7.7,2.95,7.7,7.38s-2.92,6.62-5.98,7.02l6.16,9.61h-4.18l-5.72-9.25ZM62.35,9.15h-6.05v8.42h6.05c2.59,0,4.46-1.69,4.46-4.21s-1.87-4.21-4.46-4.21Z"/><path d="M79.92,5.98h3.6v20.84h10.91v3.17h-14.51V5.98Z"/><path d="M96.23,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v7.49h12.53v3.17h-16.13V5.98Z"/><path d="M112.21,5.98h4.1l7.67,20.09,7.7-20.09h4.1l-9.54,24.01h-4.5l-9.54-24.01Z"/><path d="M143.42,19.94l-9.4-13.97h4.14l7.06,10.73,6.98-10.73h4.18l-9.36,13.97v10.04h-3.6v-10.04Z"/></svg></a>
   <ul class="nav-links">
+    <li><a href="ai-workflow.html">AI Workflow</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
@@ -201,15 +224,6 @@
 
   <div class="artifact">
     <div class="artifact-header">
-      <span class="artifact-label">E2E Story Diagram</span>
-      <span class="artifact-title">Release Center end-to-end workflow narrative</span>
-    </div>
-    <img src="smus-releasecenter-assets/ReleaseCenter_E2E_workflow_stages.png" alt="Release Center end-to-end story diagram" loading="lazy">
-    <div class="artifact-caption">This diagram illustrates the project’s end-to-end story: domain and project setup, stage-aware artifact operations (Dev/Test/Pre-prod/Prod), and controlled progression toward production release inside the SMUS workflow.</div>
-  </div>
-
-  <div class="artifact">
-    <div class="artifact-header">
       <span class="artifact-label">Context</span>
       <span class="artifact-title">SMUS product structure</span>
     </div>
@@ -238,30 +252,29 @@
     <div class="artifact-caption">This end-to-end SMUS workflow shows how teams move from domain onboarding and project setup, into data discovery, query and transformation work, notebook/model/app artifact creation, repository commits, and collaboration handoffs. It also highlights where release operations were historically disconnected from the in-product creation flow, clarifying why stage-aware Release Center integration is critical for moving artifacts from active development toward controlled production readiness.</div>
   </div>
 
+</div>
+
+<div class="section reveal">
+  <div class="section-label">02 &mdash; Customer problem</div>
+  <h2>Why release handoff was breaking for customers</h2>
+  <p>Customers could build notebooks, models, and AI artifacts inside SMUS, but release progression often depended on disconnected tools and fragmented handoffs. That gap reduced confidence, slowed delivery, and made production readiness harder to track.</p>
+  <p>The recurring request was clear: keep release intent and stage progression visible inside the same product flow used to create artifacts, so teams can move from build to release without losing context.</p>
+
   <div class="artifact">
     <div class="artifact-header">
-      <span class="artifact-label">Context</span>
-      <span class="artifact-title">Customer problem framing</span>
+      <span class="artifact-label">Customer Problem</span>
+      <span class="artifact-title">Release Center customer problem framing</span>
     </div>
     <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_context_customer-problem.png" alt="Release Center customer problem context" loading="lazy">
     <div class="artifact-caption">Context artifact showing why build and release fragmentation created friction across SMUS personas.</div>
   </div>
-
-  <div class="artifact">
-    <div class="artifact-header">
-      <span class="artifact-label">Context</span>
-      <span class="artifact-title">Key Subject terms Relevant to Release Center</span>
-    </div>
-    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_context_key-terms.png" alt="SMUS key terms and contextual model" loading="lazy">
-    <div class="artifact-caption">Shared language used with partners and customers to align how domains, projects, artifacts, and release stages connect.</div>
-  </div>
 </div>
 
 <div class="section reveal">
-  <div class="section-label">02 &mdash; DevOps + Stages</div>
+  <div class="section-label">03 &mdash; Solution: Integration of DevOps + Stages</div>
   <h2>Bringing DevOps and CI/CD stages into the SMUS experience</h2>
   <p>DevOps combines development and operations practices so teams can continuously build, validate, and release software through CI/CD pipelines. In SMUS, users previously created artifacts, notebooks, models, and AI apps, then depended on external tools to manage release and deployment workflows.</p>
-  <p>Release Center introduces in-product stage awareness so users can work within Dev, Test, Pre-prod, and Prod contexts and move artifacts down a defined CD path while keeping delivery intent visible in SMUS.</p>
+  <p>To address this problem, the SMUS team introduced <strong>Release Center</strong>: an in-product, stage-aware release orchestration experience that brings Dev, Test, Pre-prod, and Prod contexts directly into SMUS. Release Center gives teams a clear, governed path to promote artifacts through defined CD stages while keeping release intent, status, and decision points visible without leaving the product.</p>
 
   <div class="artifact">
     <div class="artifact-header">
@@ -289,10 +302,19 @@
     <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_10-MVP-workflows.png" alt="Release Center 10 MVP workflows" loading="lazy">
     <div class="artifact-caption">Detailed workflow set illustrating release actions, responsibilities, and system boundaries.</div>
   </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Context</span>
+      <span class="artifact-title">Key Subject terms Relevant to Release Center</span>
+    </div>
+    <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_context_key-terms.png" alt="SMUS key terms and contextual model" loading="lazy">
+    <div class="artifact-caption">Shared language used with partners and customers to align how domains, projects, artifacts, and release stages connect.</div>
+  </div>
 </div>
 
 <div class="section reveal">
-  <div class="section-label">03 &mdash; Work Process</div>
+  <div class="section-label">04 &mdash; Work Process</div>
   <h2>Collaboration process across design, engineering, PM, and customers</h2>
   <p>This work required intensive collaboration with back-end and front-end engineers, product managers, and technical writers, plus repeated customer conversations to validate release-stage assumptions and real-world pipeline behavior.</p>
   <p>Customer discussions with Intuit, Siemens, and Oracle informed the journey mapping, stage semantics, and release guardrails represented in the final UX direction.</p>
@@ -317,7 +339,7 @@
 </div>
 
 <div class="section reveal wireframe-section">
-  <div class="section-label">04 &mdash; Wireframes</div>
+  <div class="section-label">05 &mdash; Wireframes</div>
   <h2>Design work in progress: wireframe exploration</h2>
   <p>Wireframes were used to test information architecture, stage visibility, and commit/promotion interactions before visual polish. The focus was behavior clarity first, then visual refinement.</p>
 
@@ -370,7 +392,7 @@
 
 <div class="dark-section reveal hifi-section">
   <div class="dark-inner">
-    <div class="section-label">05 &mdash; Hi-Fi Comps</div>
+    <div class="section-label">06 &mdash; Hi-Fi Comps</div>
     <h2>Integrating DevOps stages into domains and projects</h2>
     <p>Hi-fi comps formalized the core interaction concept: admins configure DevOps stages at domain level, then every project created in that domain inherits stage-aware release contexts. Users can work on artifacts in any stage and advance artifacts down the CD pipeline, while pipeline monitoring and management remain connected to third-party tools such as GitHub and GitLab.</p>
 
@@ -445,11 +467,19 @@
       <img src="smus-releasecenter-assets/SMUS_ReleaseCenter_project-homepage_Stages_change.png" alt="Hi-fi stage change on project homepage" loading="lazy">
       <div class="artifact-caption">Stage-change controls support explicit release progression while preserving environment separation.</div>
     </div>
+
+    <div class="hifi-proto-note">
+      <h3>Project Prototype</h3>
+      <div class="hifi-proto-content">
+        <p>Let&rsquo;s now take a look at the feature E2E design prototype. The prototype includes 10 chapters, from the administrative tasks of setting up DevOps resources and stages in a domain, to project creation, opening a project with stages, and then pushing project artifacts to production through those stages.</p>
+        <a href="https://www.figma.com/proto/Od5wY3Csz66Zg1hAndZbAT/portf_RC1?node-id=1-183142&p=f&t=hnk3O9MXQs4924hK-1&scaling=scale-down-width&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A183142" class="back-btn" target="_blank" rel="noopener noreferrer">PROJECT PROTOTYPE <span class="ext-icon" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="section reveal">
-  <div class="section-label">06 &mdash; Outcome</div>
+  <div class="section-label">07 &mdash; Outcome Information Architecture</div>
   <h2>Safer, faster release operations inside the SMUS platform</h2>
   <p>Release Center adds structured stage isolation and governance into everyday SMUS workflows. Teams can isolate risk, apply guardrails at each stage, and still move faster because release context stays connected to artifact creation and collaboration.</p>
   <p>The result is a more reliable release loop: clearer ownership, safer promotions, and expedited delivery pipelines for analytics and AI artifacts.</p>
