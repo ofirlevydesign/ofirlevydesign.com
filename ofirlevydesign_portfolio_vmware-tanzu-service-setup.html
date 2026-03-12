@@ -68,8 +68,15 @@
   h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.6rem,3vw,2.6rem); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1.5rem; }
   h3 { font-family: 'DM Sans', sans-serif; font-size: 0.98rem; font-weight: 500; margin-bottom: 0.6rem; margin-top: 0; }
   .story-subheader { margin-top: 40px; }
-  p { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: 700px; }
+  p { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: none; }
   p + p { margin-top: 1rem; }
+
+  .definitions-list { margin-top: 1.25rem; display: grid; gap: 1.35rem; max-width: 980px; }
+  .definitions-section { margin: 20px 0; }
+  .definition-item { display: grid; grid-template-columns: 92px 1fr; gap: 1rem; align-items: center; }
+  .definition-icon { width: 84px; height: 84px; object-fit: contain; display: block; }
+  .definition-title { font-family: 'DM Sans', sans-serif; font-size: 0.96rem; font-weight: 600; line-height: 1.3; color: #3a3632; margin-bottom: 0.15rem; }
+  .definition-text { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: none; }
 
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
   .pullquote { border-left: 3px solid var(--accent-dark); padding: 1rem 0 1rem 2rem; margin: 2.5rem 0; font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.45rem; line-height: 1.4; color: var(--ink); max-width: 640px; }
@@ -123,6 +130,9 @@
     .hero, .two-col { grid-template-columns: 1fr; }
     .problem-grid { grid-template-columns: 1fr; }
     .outcome-inner { grid-template-columns: 1fr; }
+    .definition-item { grid-template-columns: 1fr; gap: 0.75rem; }
+    .definition-icon { width: 72px; height: 72px; }
+    .definition-title { font-size: 0.9rem; }
     nav { padding: 1rem 1.5rem; }
     .nav-links { gap: 1.5rem; }
     .section, .dark-section { padding: 3.5rem 1.5rem; }
@@ -134,6 +144,7 @@
 <nav>
   <a href="index.html" class="nav-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156.6 42.23"><path d="M13.75,5.58c7.16,0,12.09,5.29,12.09,12.42s-4.93,12.42-12.09,12.42S1.66,25.13,1.66,18,6.59,5.58,13.75,5.58ZM13.75,8.79c-5.15,0-8.39,3.92-8.39,9.21s3.24,9.21,8.39,9.21,8.39-3.96,8.39-9.21-3.31-9.21-8.39-9.21Z"/><path d="M28.04,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v10.65h-3.6V5.98Z"/><path d="M45.9,5.98h3.6v24.01h-3.6V5.98Z"/><path d="M60.8,20.74h-4.5v9.25h-3.6V5.98h10.11c4.57,0,7.7,2.95,7.7,7.38s-2.92,6.62-5.98,7.02l6.16,9.61h-4.18l-5.72-9.25ZM62.35,9.15h-6.05v8.42h6.05c2.59,0,4.46-1.69,4.46-4.21s-1.87-4.21-4.46-4.21Z"/><path d="M79.92,5.98h3.6v20.84h10.91v3.17h-14.51V5.98Z"/><path d="M96.23,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v7.49h12.53v3.17h-16.13V5.98Z"/><path d="M112.21,5.98h4.1l7.67,20.09,7.7-20.09h4.1l-9.54,24.01h-4.5l-9.54-24.01Z"/><path d="M143.42,19.94l-9.4-13.97h4.14l7.06,10.73,6.98-10.73h4.18l-9.36,13.97v10.04h-3.6v-10.04Z"/></svg></a>
   <ul class="nav-links">
+    <li><a href="ai-workflow.html">AI Workflow</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
@@ -176,6 +187,43 @@
     </div>
   </div>
 
+  <div class="definitions-section">
+    <h3 class="story-subheader">Key Platform Definitions</h3>
+    <div class="definitions-list">
+      <div class="definition-item">
+        <img class="definition-icon" src="tanzu-service-setup-assets/icon_tanzu.png" alt="VMware Tanzu icon" loading="lazy">
+        <div>
+          <div class="definition-title">VMware Tanzu</div>
+          <p class="definition-text">VMware&rsquo;s Kubernetes platform used to build, run, and manage modern containerized applications across environments.</p>
+        </div>
+      </div>
+
+      <div class="definition-item">
+        <img class="definition-icon" src="tanzu-service-setup-assets/icon_k8s.png" alt="Kubernetes icon" loading="lazy">
+        <div>
+          <div class="definition-title">Kubernetes containers</div>
+          <p class="definition-text">Lightweight, portable application packages managed by Kubernetes to automate deployment, scaling, and operations.</p>
+        </div>
+      </div>
+
+      <div class="definition-item">
+        <img class="definition-icon" src="tanzu-service-setup-assets/icon_vsphere.png" alt="vSphere icon" loading="lazy">
+        <div>
+          <div class="definition-title">vSphere</div>
+          <p class="definition-text">VMware&rsquo;s virtualization platform for running and managing virtual machines and core datacenter infrastructure.</p>
+        </div>
+      </div>
+
+      <div class="definition-item">
+        <img class="definition-icon" src="tanzu-service-setup-assets/icon_vmware-cloud.png" alt="VMware Cloud icon" loading="lazy">
+        <div>
+          <div class="definition-title">VMware Cloud</div>
+          <p class="definition-text">VMware-managed cloud services that run VMware infrastructure in public cloud environments with consistent operations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="artifact">
     <div class="artifact-header">
       <span class="artifact-label">Context Visual</span>
@@ -195,6 +243,76 @@
     </div>
     <img src="tanzu-service-setup-assets/TKGS_5.png" alt="Tanzu service parameter detail showing customer problem and solution framing" loading="lazy">
     <div class="artifact-caption">Placed at the beginning to explain the end-to-end customer problem and the solution strategy before detailed flow steps.</div>
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">03 &mdash; Design Challenges</div>
+  <h2>Three constraints that shaped the setup framework</h2>
+  <p>Research and cross-functional feedback highlighted recurring friction that informed the final interaction model.</p>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-num">Complexity</div>
+      <h3>Too many setup variables too early</h3>
+      <p>Users were exposed to advanced settings before establishing baseline service intent. The design introduced staged disclosure to protect flow continuity.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">Confidence</div>
+      <h3>Unclear impact of decisions</h3>
+      <p>Configuration choices lacked immediate consequence visibility. Inline guidance and contextual feedback reduced guesswork and rework.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">Continuity</div>
+      <h3>Weak transition between setup and operations</h3>
+      <p>Completion states were not always actionable. Final states were reframed around readiness, dependencies, and next-step clarity.</p>
+    </div>
+  </div>
+</div>
+
+<div class="dark-section reveal">
+  <div class="dark-inner">
+    <div class="section-label">04 &mdash; Collaborative team work</div>
+    <h2>Mapping the User Journey</h2>
+    <p>I worked closely with a cross-functional team of PMs, frontend and backend developers, and UX writers to map the user workflow end-to-end. Together, we aligned on decision points, dependencies, and system feedback patterns to craft a thorough E2E journey that was both technically feasible and clear for users.</p>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Frame 06</span>
+        <span class="artifact-title">Infrastructure checks</span>
+      </div>
+      <img src="tanzu-service-setup-assets/TKGS_6.png" alt="Tanzu setup frame 6" loading="lazy">
+    </div>
+
+    <div class="artifact">
+      <div class="artifact-header">
+        <span class="artifact-label">Frame 07</span>
+        <span class="artifact-title">Progress state and remediation</span>
+      </div>
+      <img src="tanzu-service-setup-assets/TKGS_7.png" alt="Tanzu setup frame 7" loading="lazy">
+    </div>
+
+  </div>
+</div>
+
+<div class="section reveal">
+  <div class="section-label">05 - Design and Development process</div>
+  <h2>Design and Asset Preparation for Dev Handoff</h2>
+  <p>I created wireframes, mockups, and interactive prototypes for the full E2E workflow, then reviewed each stage with PMs, frontend and backend developers, and UX writers. Through feedback and iteration cycles, we refined the journey, interaction details, and content guidance until the designs were implementation-ready, and I handed off a complete dev-ready package to the engineering team.</p>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Frame 04</span>
+      <span class="artifact-title">Configuration expansion</span>
+    </div>
+    <img src="tanzu-service-setup-assets/TKGS_4.png" alt="Tanzu setup frame 4" loading="lazy">
+  </div>
+
+  <div class="artifact">
+    <div class="artifact-header">
+      <span class="artifact-label">Frame 08</span>
+      <span class="artifact-title">Dependency status visibility</span>
+    </div>
+    <img src="tanzu-service-setup-assets/TKGS_8.png" alt="Tanzu setup frame 8" loading="lazy">
   </div>
 </div>
 
@@ -232,78 +350,7 @@
 </div>
 
 <div class="section reveal">
-  <div class="section-label">03 &mdash; Design Challenges</div>
-  <h2>Three constraints that shaped the setup framework</h2>
-  <p>Research and cross-functional feedback highlighted recurring friction that informed the final interaction model.</p>
-  <div class="problem-grid">
-    <div class="problem-card">
-      <div class="problem-num">Complexity</div>
-      <h3>Too many setup variables too early</h3>
-      <p>Users were exposed to advanced settings before establishing baseline service intent. The design introduced staged disclosure to protect flow continuity.</p>
-    </div>
-    <div class="problem-card">
-      <div class="problem-num">Confidence</div>
-      <h3>Unclear impact of decisions</h3>
-      <p>Configuration choices lacked immediate consequence visibility. Inline guidance and contextual feedback reduced guesswork and rework.</p>
-    </div>
-    <div class="problem-card">
-      <div class="problem-num">Continuity</div>
-      <h3>Weak transition between setup and operations</h3>
-      <p>Completion states were not always actionable. Final states were reframed around readiness, dependencies, and next-step clarity.</p>
-    </div>
-  </div>
-</div>
-
-<div class="dark-section reveal">
-  <div class="dark-inner">
-    <div class="section-label">04 &mdash; Setup Sequence</div>
-    <h2>Core setup sequence frames</h2>
-    <p>These extracted frames capture key moments in the service-setup lifecycle and document how users progress through progressively deeper configuration.</p>
-
-    <div class="artifact">
-      <div class="artifact-header">
-        <span class="artifact-label">Frame 04</span>
-        <span class="artifact-title">Configuration expansion</span>
-      </div>
-      <img src="tanzu-service-setup-assets/TKGS_4.png" alt="Tanzu setup frame 4" loading="lazy">
-    </div>
-
-    <div class="artifact">
-      <div class="artifact-header">
-        <span class="artifact-label">Frame 06</span>
-        <span class="artifact-title">Infrastructure checks</span>
-      </div>
-      <img src="tanzu-service-setup-assets/TKGS_6.png" alt="Tanzu setup frame 6" loading="lazy">
-    </div>
-
-    <div class="artifact">
-      <div class="artifact-header">
-        <span class="artifact-label">Frame 07</span>
-        <span class="artifact-title">Progress state and remediation</span>
-      </div>
-      <img src="tanzu-service-setup-assets/TKGS_7.png" alt="Tanzu setup frame 7" loading="lazy">
-    </div>
-
-    <div class="artifact">
-      <div class="artifact-header">
-        <span class="artifact-label">Frame 08</span>
-        <span class="artifact-title">Dependency status visibility</span>
-      </div>
-      <img src="tanzu-service-setup-assets/TKGS_8.png" alt="Tanzu setup frame 8" loading="lazy">
-    </div>
-
-    <div class="artifact">
-      <div class="artifact-header">
-        <span class="artifact-label">Frame 10</span>
-        <span class="artifact-title">Ready-state handoff</span>
-      </div>
-      <img src="tanzu-service-setup-assets/TKGS_10.png" alt="Tanzu setup frame 10" loading="lazy">
-    </div>
-  </div>
-</div>
-
-<div class="section reveal">
-  <div class="section-label">05 &mdash; Outcome</div>
+  <div class="section-label">06 &mdash; Outcome</div>
   <h2>A more navigable setup experience for enterprise platform teams</h2>
   <p>The final concept positioned Tanzu setup as a guided workflow: clear entry point, predictable progression, and meaningful feedback at every stage. This strengthened onboarding confidence while preserving the flexibility expected by advanced operators.</p>
   <p>The complete case narrative and supporting visuals are also available in the project presentation.</p>

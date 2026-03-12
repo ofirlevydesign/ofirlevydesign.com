@@ -70,7 +70,7 @@
   
   h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.6rem,3vw,2.6rem); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1.5rem; }
   h3 { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--ink); margin-bottom: 0.75rem; margin-top: 2rem; }
-  p { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: 680px; }
+  p { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: none; }
   p + p { margin-top: 1rem; }
   
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
@@ -123,6 +123,14 @@
   .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
   .reveal.visible { opacity: 1; transform: none; }
 
+  /* Lightbox modal */
+  .clickable-img { cursor: zoom-in; transition: opacity 0.2s; }
+  .clickable-img:hover { opacity: 0.85; }
+  .lightbox { display:none; position:fixed; inset:0; z-index:9999; background:rgba(15,15,15,0.92); backdrop-filter:blur(6px); overflow:auto; padding:2rem; cursor:zoom-out; }
+  .lightbox.open { display:flex; }
+  .lightbox img { display:block; margin:auto; box-shadow:0 8px 40px rgba(0,0,0,0.5); flex-shrink:0; max-width:95vw; max-height:95vh; width:auto; height:auto; image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges; }
+  .lightbox-hint { position:absolute; bottom:1.5rem; left:50%; transform:translateX(-50%); font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.35); }
+
   /* RESPONSIVE */
   @media (max-width: 900px) {
     .hero, .two-col { grid-template-columns: 1fr; }
@@ -139,6 +147,7 @@
 <nav>
   <a href="index.html" class="nav-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156.6 42.23"><path d="M13.75,5.58c7.16,0,12.09,5.29,12.09,12.42s-4.93,12.42-12.09,12.42S1.66,25.13,1.66,18,6.59,5.58,13.75,5.58ZM13.75,8.79c-5.15,0-8.39,3.92-8.39,9.21s3.24,9.21,8.39,9.21,8.39-3.96,8.39-9.21-3.31-9.21-8.39-9.21Z"/><path d="M28.04,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v10.65h-3.6V5.98Z"/><path d="M45.9,5.98h3.6v24.01h-3.6V5.98Z"/><path d="M60.8,20.74h-4.5v9.25h-3.6V5.98h10.11c4.57,0,7.7,2.95,7.7,7.38s-2.92,6.62-5.98,7.02l6.16,9.61h-4.18l-5.72-9.25ZM62.35,9.15h-6.05v8.42h6.05c2.59,0,4.46-1.69,4.46-4.21s-1.87-4.21-4.46-4.21Z"/><path d="M79.92,5.98h3.6v20.84h10.91v3.17h-14.51V5.98Z"/><path d="M96.23,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v7.49h12.53v3.17h-16.13V5.98Z"/><path d="M112.21,5.98h4.1l7.67,20.09,7.7-20.09h4.1l-9.54,24.01h-4.5l-9.54-24.01Z"/><path d="M143.42,19.94l-9.4-13.97h4.14l7.06,10.73,6.98-10.73h4.18l-9.36,13.97v10.04h-3.6v-10.04Z"/></svg></a>
   <ul class="nav-links">
+    <li><a href="ai-workflow.html">AI Workflow</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
@@ -365,6 +374,11 @@
   <div class="footer-credit">&copy; Ofir Levy &middot; Sr. UX Designer</div>
 </footer>
 
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="Enlarged view">
+  <span class="lightbox-hint">Click or press Esc to close</span>
+</div>
+
 <script>
   // Scroll reveal animation
   const reveals = document.querySelectorAll('.reveal');
@@ -377,6 +391,40 @@
   document.querySelectorAll('.hero > div > *').forEach((el,i) => {
     el.style.cssText = `opacity:0;transform:translateY(16px);transition:opacity 0.6s ease ${i*0.1}s,transform 0.6s ease ${i*0.1}s`;
     setTimeout(() => { el.style.opacity='1'; el.style.transform='none'; }, 80);
+  });
+
+  function openLightbox(src) {
+    var img = document.getElementById('lightbox-img');
+    img.src = src;
+    img.style.width = '';
+    img.style.height = '';
+    img.onload = function() {
+      var viewportWidth = window.innerWidth * 0.95;
+      var viewportHeight = window.innerHeight * 0.95;
+      var dpr = window.devicePixelRatio || 1;
+      var maxCrispWidth = img.naturalWidth / dpr;
+      var maxCrispHeight = img.naturalHeight / dpr;
+      var widthRatio = viewportWidth / maxCrispWidth;
+      var heightRatio = viewportHeight / maxCrispHeight;
+      var scale = Math.min(widthRatio, heightRatio, 1);
+      img.style.width = (maxCrispWidth * scale) + 'px';
+      img.style.height = 'auto';
+    };
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.artifact img').forEach(function(img) {
+    img.classList.add('clickable-img');
+    img.addEventListener('click', function() {
+      openLightbox(this.src);
+    });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
   });
 </script>
 
