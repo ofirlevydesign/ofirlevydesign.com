@@ -122,6 +122,54 @@
   footer { max-width: 1200px; margin: 0 auto; padding: 3rem; border-top: 1px solid var(--rule); }
   .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
 
+  /* PROJECT SUMMARY */
+  .project-summary {
+    max-width: 1200px; margin: 0 auto; padding: 0.25rem 3rem 3rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: calc(1.5rem + 20px); align-items: start;
+  }
+  .project-summary-image img {
+    width: 100%; height: auto; display: block; border: 1px solid var(--rule);
+  }
+  .project-summary p.project-summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 0; margin-bottom: 12px; color: var(--ink);
+  }
+  .project-summary p {
+    font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: none;
+  }
+
+  /* E2E WORKFLOW INFOGRAPHIC */
+  .e2e-workflow {
+    max-width: 1200px; margin: 0 auto; padding: 0 3rem 6rem;
+  }
+  .e2e-workflow p.project-summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 40px; margin-bottom: 24px; color: var(--ink);
+  }
+  .workflow-infographic { display: flex; flex-direction: column; gap: 24px; }
+  .workflow-row { display: flex; align-items: stretch; }
+  .workflow-step-box {
+    flex: 1; min-height: 160px; border: 1px solid var(--rule);
+    padding: 1rem; display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .workflow-step-box .step-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: rgb(236, 114, 17);
+  }
+  .workflow-step-box .step-title {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    line-height: 1.45; color: var(--ink); max-width: none; margin: 0;
+  }
+  .workflow-step-box .step-desc {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+    line-height: 1.55; color: #3a3632; text-align: left; max-width: none; margin: 0;
+  }
+  .workflow-h-arrow {
+    width: 36px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .workflow-h-arrow svg { display: block; }
+
   /* SCROLL REVEAL */
   .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
   .reveal.visible { opacity: 1; transform: none; }
@@ -246,6 +294,109 @@
 
   <a href="index.html" class="back-btn">&larr; All work</a>
   <a href="https://www.figma.com/proto/UNDm7kogjOaAUmMUt2dmNd/Entity-tables?page-id=1%3A147253&node-id=4-38670&p=f&viewport=712%2C426%2C0.02&t=SY5PpAy8e3xCrF7W-1&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=4%3A38670" class="back-btn" style="margin-left:1.25rem;" target="_blank" rel="noopener noreferrer">PROJECT PRESENTATION <img src="icon_open_external.svg" alt="" class="ext-icon"></a>
+</div>
+
+<!-- PROJECT SUMMARY -->
+<div class="project-summary reveal">
+  <div class="project-summary-image">
+    <img src="entity-tables-assets/project_preview_projectentitytables@2x.png" alt="Project Entity Tables preview">
+  </div>
+  <div class="project-summary-text">
+    <p class="project-summary-label">Project summary</p>
+    <p>I redesigned how data builders find and access the things they've created inside Amazon SageMaker Unified Studio. Before this project, if you built a model, a pipeline, or an app, there was no easy way to find it later from the project overview. I designed a scalable entity table system that surfaces everything you've made — all in one place, the moment you land on your project.</p>
+  </div>
+</div>
+
+<!-- E2E WORKFLOW -->
+<div class="e2e-workflow reveal">
+  <p class="project-summary-label">Project E2E workflow</p>
+  <div class="workflow-infographic">
+
+    <!-- Row 1: Steps 1–4 -->
+    <div class="workflow-row">
+      <div class="workflow-step-box">
+        <span class="step-num">01</span>
+        <p class="step-title">Platform Research</p>
+        <p class="step-desc">Mapped the SMUS product hierarchy — domains, projects, tools — and how entities are created across different tool categories.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">02</span>
+        <p class="step-title">Problem Framing</p>
+        <p class="step-desc">Identified why entities built inside tools weren't surfacing on the project overview, leaving builders unable to find what they'd created.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">03</span>
+        <p class="step-title">System Context Analysis</p>
+        <p class="step-desc">Understood how project profiles and tool blueprints control which entity types exist per project, defining the core logic for the design.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">04</span>
+        <p class="step-title">Competitive Research</p>
+        <p class="step-desc">Analyzed how other data platforms surface asset inventories to inform layout patterns and interaction conventions.</p>
+      </div>
+    </div>
+
+    <!-- Row 2: Steps 5–8 -->
+    <div class="workflow-row">
+      <div class="workflow-step-box">
+        <span class="step-num">05</span>
+        <p class="step-title">Design Explorations</p>
+        <p class="step-desc">Explored multiple layout and interaction directions for surfacing project entities at the overview level.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">06</span>
+        <p class="step-title">Design Proposals</p>
+        <p class="step-desc">Developed final proposals for a scalable entity table system covering all tool categories present in a project.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">07</span>
+        <p class="step-title">Design Impact</p>
+        <p class="step-desc">Documented the design's effect on discoverability, team workflows, and the platform's ability to scale as new tool categories are added.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">08</span>
+        <p class="step-title">Engineering Handoff</p>
+        <p class="step-desc">Delivered finalized specs, component patterns, and documentation. Engineering handoff completed January 2025.</p>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!-- ──────────── 01 CONTEXT ──────────── -->
