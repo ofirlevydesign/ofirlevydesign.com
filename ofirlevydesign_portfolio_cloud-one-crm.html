@@ -137,6 +137,54 @@
   footer { max-width: 1200px; margin: 0 auto; padding: 3rem; border-top: 1px solid var(--rule); }
   .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
 
+  /* PROJECT SUMMARY */
+  .project-summary {
+    max-width: 1200px; margin: 0 auto; padding: 0.25rem 3rem 3rem;
+    display: grid; grid-template-columns: 400px 1fr; gap: calc(1.5rem + 20px); align-items: start;
+  }
+  .project-summary-image img {
+    width: 400px; height: 240px; display: block; border: 1px solid var(--rule);
+  }
+  .project-summary p.project-summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 0; margin-bottom: 12px; color: var(--ink);
+  }
+  .project-summary p {
+    font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: none;
+  }
+
+  /* E2E WORKFLOW INFOGRAPHIC */
+  .e2e-workflow {
+    max-width: 1200px; margin: 0 auto; padding: 0 3rem 6rem;
+  }
+  .e2e-workflow p.project-summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 40px; margin-bottom: 24px; color: var(--ink);
+  }
+  .workflow-infographic { display: flex; flex-direction: column; gap: 24px; }
+  .workflow-row { display: flex; align-items: stretch; }
+  .workflow-step-box {
+    flex: 1; min-height: 160px; border: 1px solid var(--rule);
+    padding: 1rem; display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .workflow-step-box .step-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: rgb(236, 114, 17);
+  }
+  .workflow-step-box .step-title {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    line-height: 1.45; color: var(--ink); max-width: none; margin: 0;
+  }
+  .workflow-step-box .step-desc {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+    line-height: 1.55; color: #3a3632; text-align: left; max-width: none; margin: 0;
+  }
+  .workflow-h-arrow {
+    width: 36px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .workflow-h-arrow svg { display: block; }
+
   /* SCROLL REVEAL */
   .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
   .reveal.visible { opacity: 1; transform: none; }
@@ -189,6 +237,109 @@
   </div>
   <a href="http://www.ofirlevydesign.com/" class="back-btn">&larr; All work</a>
   <a href="https://drive.google.com/file/d/19YEY1DbRah1rmVih5pWbkBsH70SjFTBj/view?usp=drive_link" class="back-btn" style="margin-left:1.25rem;" target="_blank" rel="noopener noreferrer">PROJECT PRESENTATION <img src="icon_open_external.svg" alt="" class="ext-icon"></a>
+</div>
+
+<!-- PROJECT SUMMARY -->
+<div class="project-summary reveal">
+  <div class="project-summary-image">
+    <img src="cloudone-assets/project_preview_cloudone@2x.png" alt="CloudOne CRM Platform preview">
+  </div>
+  <div class="project-summary-text">
+    <p class="project-summary-label">Project summary</p>
+    <p>CloudOne was offering four separate, disjointed data management platforms to car dealerships and advertising agencies. Customers were frustrated having to switch between them just to manage leads and customer data. I designed the new CloudOne CRM, a unified platform that consolidated all four tools into one clean, modern product, making it easier for dealership teams and ad agencies to track customers, manage campaigns, and drive more sales from a single place.</p>
+  </div>
+</div>
+
+<!-- E2E WORKFLOW -->
+<div class="e2e-workflow reveal">
+  <p class="project-summary-label">Project E2E workflow</p>
+  <div class="workflow-infographic">
+
+    <!-- Row 1: Steps 1–4 -->
+    <div class="workflow-row">
+      <div class="workflow-step-box">
+        <span class="step-num">01</span>
+        <p class="step-title">Problem Definition</p>
+        <p class="step-desc">Identified how four separate, disjointed platforms were frustrating car dealership and ad agency users trying to manage customer and campaign data.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">02</span>
+        <p class="step-title">Discovery & Research</p>
+        <p class="step-desc">Gathered user feedback and analyzed pain points across the four existing platforms to understand what needed to be unified and how.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">03</span>
+        <p class="step-title">Design Process</p>
+        <p class="step-desc">Defined the information architecture and UX principles for the unified CRM, mapping workflows across lead management, campaigns, and reporting.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">04</span>
+        <p class="step-title">Design System</p>
+        <p class="step-desc">Built a component library and visual language to ensure consistency and scalability across the entire unified platform.</p>
+      </div>
+    </div>
+
+    <!-- Row 2: Steps 5–8 -->
+    <div class="workflow-row">
+      <div class="workflow-step-box">
+        <span class="step-num">05</span>
+        <p class="step-title">Key Features Design</p>
+        <p class="step-desc">Designed core CRM features: lead and contact management, campaign tracking, customer profiles, and dealership activity dashboards.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">06</span>
+        <p class="step-title">Final Designs</p>
+        <p class="step-desc">Produced hi-fidelity screens across all platform sections, covering the full range of dealership and agency user workflows.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">07</span>
+        <p class="step-title">Before & After</p>
+        <p class="step-desc">Documented the transformation from the old fragmented four-platform experience to the new unified CRM, demonstrating the impact of the consolidation.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">08</span>
+        <p class="step-title">Additional Features & Reflection</p>
+        <p class="step-desc">Extended the design to cover additional use cases and documented key learnings from the platform consolidation process.</p>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!-- 01 OVERVIEW -->
