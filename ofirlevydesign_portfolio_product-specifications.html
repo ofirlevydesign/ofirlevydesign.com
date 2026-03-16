@@ -142,6 +142,51 @@
   .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
   .reveal.visible { opacity: 1; transform: none; }
 
+  /* PROJECT SUMMARY */
+  .project-summary {
+    max-width: 1200px; margin: 0 auto; padding: 0.25rem 3rem 3rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: calc(1.5rem + 20px); align-items: start;
+  }
+  .project-summary-image img {
+    width: 100%; display: block; border: 1px solid var(--rule);
+  }
+  .project-summary p.project-summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 0; margin-bottom: 12px; color: var(--ink);
+  }
+  .project-summary p {
+    font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: none;
+  }
+  /* E2E WORKFLOW INFOGRAPHIC */
+  .e2e-workflow { max-width: 1200px; margin: 0 auto; padding: 0 3rem 6rem; }
+  .e2e-workflow p.project-summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 40px; margin-bottom: 24px; color: var(--ink);
+  }
+  .workflow-infographic { display: flex; flex-direction: column; gap: 24px; }
+  .workflow-row { display: flex; align-items: stretch; }
+  .workflow-step-box {
+    flex: 1; min-height: 160px; border: 1px solid var(--rule);
+    padding: 1rem; display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .workflow-step-box .step-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: rgb(236, 114, 17);
+  }
+  .workflow-step-box .step-title {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    line-height: 1.45; color: var(--ink); max-width: none; margin: 0;
+  }
+  .workflow-step-box .step-desc {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+    line-height: 1.55; color: #3a3632; text-align: left; max-width: none; margin: 0;
+  }
+  .workflow-h-arrow {
+    width: 36px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .workflow-h-arrow svg { display: block; }
+
   @media (max-width: 900px) {
     nav { padding: 1rem 1.5rem; }
     .nav-links { gap: 1.5rem; }
@@ -178,6 +223,72 @@
   </div>
 
   <a href="index.html" class="back-btn">&larr; All work</a>
+</div>
+
+<div class="project-summary reveal">
+  <div class="project-summary-image">
+    <img src="specification_books/project_preview_styleguides3@2x.png" alt="Product Specifications project preview">
+  </div>
+  <div class="project-summary-text">
+    <p class="project-summary-label">Project summary</p>
+    <p>Five styleguide books. Three companies. One principle: if a developer has to guess, the spec has failed. Before the era of Figma design systems, I created UI specification systems for Western Digital, VMware, and CloudOne covering everything from button radius to icon pixel grids to interaction timing. I documented the material in structured books that engineering and QA teams could use as a live reference throughout development. The result was software that shipped with fewer regressions, stronger brand consistency, and a shared visual language every team member could rely on.</p>
+  </div>
+</div>
+
+<div class="e2e-workflow reveal">
+  <p class="project-summary-label">Project E2E workflow</p>
+  <div class="workflow-infographic">
+    <div class="workflow-row">
+      <div class="workflow-step-box">
+        <span class="step-num">Step 01</span>
+        <p class="step-title">Design Context &amp; Intent</p>
+        <p class="step-desc">Understanding each product's audience, technical constraints, and team structure to set the right scope and level of detail for the specification work ahead.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 02</span>
+        <p class="step-title">Component Audit</p>
+        <p class="step-desc">Reviewing existing UI patterns across product surfaces to identify inconsistencies, redundancies, and opportunities for system alignment and consolidation.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 03</span>
+        <p class="step-title">Research &amp; Standards</p>
+        <p class="step-desc">Studying typography, spacing, color, and interaction standards to make informed, grounded decisions for each component in the system.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 04</span>
+        <p class="step-title">Component Definition</p>
+        <p class="step-desc">Defining each UI element with exact measurements, type scales, color values, interaction states, and behavior rules that engineers could implement directly.</p>
+      </div>
+    </div>
+    <div class="workflow-row">
+      <div class="workflow-step-box">
+        <span class="step-num">Step 05</span>
+        <p class="step-title">Spec Documentation</p>
+        <p class="step-desc">Translating component decisions into structured styleguide books — organized, annotated, and formatted so development and QA teams could use them as a live reference.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 06</span>
+        <p class="step-title">Cross-team Collaboration</p>
+        <p class="step-desc">Validating specs with engineering, product, and design stakeholders through long review sessions to ensure feasibility, alignment, and shared ownership.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 07</span>
+        <p class="step-title">QA &amp; Pixel Validation</p>
+        <p class="step-desc">Testing component implementations in real product builds, comparing rendered output against spec, and iterating until the experience was pixel-perfect and production-ready.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 08</span>
+        <p class="step-title">Delivery &amp; Handoff</p>
+        <p class="step-desc">Delivering five complete specification books across Western Digital, VMware, and CloudOne — each aligned to its product family and ready for development use.</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="section reveal">

@@ -50,7 +50,6 @@
     grid-template-columns: 1fr 380px;
     gap: 4rem;
     align-items: end;
-    border-bottom: 1px solid var(--rule);
   }
   .hero-meta { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
   .tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; color: var(--mid); text-transform: uppercase; }
@@ -173,6 +172,51 @@
   .lightbox img { display:block; margin:auto; box-shadow:0 8px 40px rgba(0,0,0,0.5); flex-shrink:0; max-width:95vw; max-height:95vh; width:auto; height:auto; }
   .lightbox-hint { position:absolute; bottom:1.5rem; left:50%; transform:translateX(-50%); font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.35); }
 
+  /* PROJECT SUMMARY */
+  .project-summary {
+    max-width: 1200px; margin: 0 auto; padding: 0.25rem 3rem 3rem;
+    display: grid; grid-template-columns: 267px 1fr; gap: calc(1.5rem + 20px); align-items: start;
+  }
+  .project-summary-image img {
+    width: 267px; height: 259px; display: block; border: 1px solid var(--rule);
+  }
+  .project-summary p.project-summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 0; margin-bottom: 12px; color: var(--ink);
+  }
+  .project-summary p {
+    font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: none;
+  }
+  /* E2E WORKFLOW INFOGRAPHIC */
+  .e2e-workflow { max-width: 1200px; margin: 0 auto; padding: 0 3rem 6rem; }
+  .e2e-workflow p.project-summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 40px; margin-bottom: 24px; color: var(--ink);
+  }
+  .workflow-infographic { display: flex; flex-direction: column; gap: 24px; }
+  .workflow-row { display: flex; align-items: stretch; }
+  .workflow-step-box {
+    flex: 1; min-height: 160px; border: 1px solid var(--rule);
+    padding: 1rem; display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .workflow-step-box .step-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: rgb(236, 114, 17);
+  }
+  .workflow-step-box .step-title {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    line-height: 1.45; color: var(--ink); max-width: none; margin: 0;
+  }
+  .workflow-step-box .step-desc {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+    line-height: 1.55; color: #3a3632; text-align: left; max-width: none; margin: 0;
+  }
+  .workflow-h-arrow {
+    width: 36px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .workflow-h-arrow svg { display: block; }
+
   @media (max-width: 900px) {
     .hero, .two-col { grid-template-columns: 1fr; }
     .problem-grid { grid-template-columns: 1fr; }
@@ -213,6 +257,72 @@
       <div class="hero-stat"><div class="stat-label">Scope</div><div class="stat-value">Information Architecture + Widget UX</div></div>
       <div class="hero-stat"><div class="stat-label">Output</div><div class="stat-value">Filed Patent (US 20150095776)</div></div>
       <div class="hero-stat"><div class="stat-label">Stage</div><div class="stat-value">Concept, Prototype, Patent Filing</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="project-summary reveal">
+  <div class="project-summary-image">
+    <img src="wd-mycloud-mediahub-assets/project_preview_mediahub@2x.png" alt="WD MyCloud Media Desktop Widget project preview">
+  </div>
+  <div class="project-summary-text">
+    <p class="project-summary-label">Project summary</p>
+    <p>Western Digital MyCloud is a personal home storage device that lets you save and access your photos, videos, and files from anywhere. I designed a desktop widget — a small app that lives on your computer screen — that lets you drag files into your MyCloud storage and instantly play back your media without opening a browser. The interaction had to feel like a native desktop utility, while still communicating cloud storage and sharing behavior. The design was original enough that Western Digital filed it as a U.S. patent in my name.</p>
+  </div>
+</div>
+
+<div class="e2e-workflow reveal">
+  <p class="project-summary-label">Project E2E workflow</p>
+  <div class="workflow-infographic">
+    <div class="workflow-row">
+      <div class="workflow-step-box">
+        <span class="step-num">Step 01</span>
+        <p class="step-title">Context &amp; Background</p>
+        <p class="step-desc">Understanding MyCloud as a personal home NAS device and identifying the opportunity to design a native desktop surface for upload and media access.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 02</span>
+        <p class="step-title">Problem Definition</p>
+        <p class="step-desc">Identifying the core friction: users had to open a browser every time they wanted to upload or access media on their home storage device.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 03</span>
+        <p class="step-title">E2E Flow Mapping</p>
+        <p class="step-desc">Mapping the full user journey from drag-and-drop upload through media playback and sharing, all within a single lightweight widget context.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 04</span>
+        <p class="step-title">Concept Exploration</p>
+        <p class="step-desc">Exploring widget layouts, interaction patterns, and visual directions that felt native to the desktop while reflecting MyCloud's product design language.</p>
+      </div>
+    </div>
+    <div class="workflow-row">
+      <div class="workflow-step-box">
+        <span class="step-num">Step 05</span>
+        <p class="step-title">Upload Interaction Design</p>
+        <p class="step-desc">Designing the drag-and-drop upload mechanics with personality and feedback moments to make the experience feel immediate and human.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 06</span>
+        <p class="step-title">Playback &amp; Media Access</p>
+        <p class="step-desc">Designing the in-widget media playback states and navigation, so users could browse and play stored files without leaving the widget.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 07</span>
+        <p class="step-title">Interactive Preview</p>
+        <p class="step-desc">Building an interactive prototype to validate the widget interactions and flows before moving to patent documentation.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 08</span>
+        <p class="step-title">Patent Filing &amp; Outcome</p>
+        <p class="step-desc">Documenting the interaction design inventions and filing with Western Digital, resulting in U.S. Patent US 20150095776.</p>
+      </div>
     </div>
   </div>
 </div>
