@@ -45,7 +45,7 @@
   .hero {
     padding: 9rem 3rem 5rem; max-width: 1200px; margin: 0 auto;
     display: grid; grid-template-columns: 1fr 380px; gap: 4rem;
-    align-items: end; border-bottom: 1px solid var(--rule);
+    align-items: end;
   }
   .hero-meta { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
   .tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; color: var(--mid); text-transform: uppercase; }
@@ -219,6 +219,60 @@
   .footer-nav a { font-size: 0.78rem; color: var(--mid); text-decoration: none; transition: color 0.2s; }
   .footer-nav a:hover { color: var(--ink); }
 
+  /* PROJECT SUMMARY */
+  .project-summary {
+    max-width: 1200px; margin: 0 auto; padding: 0.25rem 3rem 3rem;
+    display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: start;
+  }
+  .project-summary-image img {
+    width: 100%; height: auto; display: block; border: 1px solid var(--rule);
+  }
+  .project-summary p.project-summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 0; margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .project-summary p {
+    font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: none;
+  }
+
+  /* E2E WORKFLOW INFOGRAPHIC */
+  .e2e-workflow {
+    max-width: 1200px; margin: 0 auto; padding: 0 3rem 6rem;
+  }
+  .e2e-workflow p.project-summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 40px; margin-bottom: 24px;
+    color: var(--ink);
+  }
+  .workflow-infographic { display: flex; flex-direction: column; gap: 24px; }
+  .workflow-row { display: flex; align-items: stretch; }
+  .workflow-step-box {
+    flex: 1; min-height: 160px;
+    border: 1px solid var(--rule);
+    padding: 1rem;
+    display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .workflow-step-box .step-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgb(236, 114, 17);
+  }
+  .workflow-step-box .step-title {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    line-height: 1.45; color: var(--ink); max-width: none; margin: 0;
+  }
+  .workflow-step-box .step-desc {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+    line-height: 1.55; color: #3a3632; text-align: left; max-width: none;
+    margin: 0;
+  }
+  .workflow-h-arrow {
+    width: 36px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .workflow-h-arrow svg { display: block; }
+
   /* SCROLL REVEAL */
   .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
   .reveal.visible { opacity: 1; transform: none; }
@@ -245,6 +299,7 @@
     .nav-links { gap: 1.5rem; }
     .section, .dark-section { padding: 3.5rem 1.5rem; }
     footer { flex-direction: column; gap: 1.5rem; }
+    
   }
 </style>
 </head>
@@ -279,6 +334,109 @@
       <div class="hero-stat"><div class="stat-label">Status</div><div class="stat-value">Concept Proposal</div></div>
       <div class="hero-stat"><div class="stat-label">Phase</div><div class="stat-value">Validation</div></div>
     </div>
+  </div>
+</div>
+
+<!-- PROJECT SUMMARY -->
+<div class="project-summary reveal">
+  <div class="project-summary-image">
+    <img src="athena-query-editor-usage-widget-assets/project_preview.png" alt="Amazon Athena Usage Companion Widget preview">
+  </div>
+  <div class="project-summary-text">
+    <p class="project-summary-label">Project summary</p>
+    <p>I built a small in-console helper for Amazon Athena that shows estimated query costs in real time so people don't get surprised by bills. It gives instant cost estimates and simple warnings so users can manage spend without leaving the Athena workspace.</p>
+  </div>
+</div>
+
+<!-- E2E WORKFLOW -->
+<div class="e2e-workflow reveal">
+  <p class="project-summary-label">Project E2E workflow</p>
+  <div class="workflow-infographic">
+
+    <!-- Row 1: Steps 1–4 -->
+    <div class="workflow-row">
+      <div class="workflow-step-box">
+        <span class="step-num">01</span>
+        <p class="step-title">Customer Feedback Analysis</p>
+        <p class="step-desc">Analyzed Athena user feedback using AWS Aperture AI tool to surface patterns in July–August 2025 data.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">02</span>
+        <p class="step-title">Problem Definition</p>
+        <p class="step-desc">Identified real-time cost visibility gaps, Free Tier tracking issues, and competitive risk.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">03</span>
+        <p class="step-title">Persona Research</p>
+        <p class="step-desc">Defined primary user persona and mapped daily frustrations around cost unpredictability.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">04</span>
+        <p class="step-title">Solution Ideation</p>
+        <p class="step-desc">Conceptualized Q-Meter, a persistent in-console usage companion with real-time cost tracking.</p>
+      </div>
+    </div>
+
+    <!-- Row 2: Steps 5–8 -->
+    <div class="workflow-row">
+      <div class="workflow-step-box">
+        <span class="step-num">05</span>
+        <p class="step-title">User Workflow Mapping</p>
+        <p class="step-desc">Defined interaction scenarios and user decision flows for cost-aware query execution.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">06</span>
+        <p class="step-title">Design Approach</p>
+        <p class="step-desc">Established visual framework, component principles, and UX guidelines for the widget.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">07</span>
+        <p class="step-title">Wireframing</p>
+        <p class="step-desc">Created low-fidelity layout explorations to validate information hierarchy and placement.</p>
+      </div>
+      <div class="workflow-h-arrow">
+        <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/>
+          <polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="workflow-step-box">
+        <span class="step-num">08</span>
+        <p class="step-title">High-Fidelity Mockups</p>
+        <p class="step-desc">Produced final mockups using an AI-assisted design workflow and validated with stakeholders.</p>
+      </div>
+    </div>
+
   </div>
 </div>
 
