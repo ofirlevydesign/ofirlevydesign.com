@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero Motorcycles Ride App | Ofir Levy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --paper: #f5f2ec;
+    --mid: #7a7570;
+    --rule: #d9d4cc;
+    --accent: #D4600A;
+    --accent-dark: #B34E08;
+    --dark-bg: #1a1a1a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 1.25rem 3rem;
+    background: rgba(245,242,236,0.93);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-logo { display: inline-flex; align-items: center; text-decoration: none; transition: opacity 0.2s; }
+  .nav-logo:hover { opacity: 0.6; }
+  .nav-logo svg { height: 24px; width: auto; display: block; fill: var(--ink); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+
+  .hero {
+    padding: 0 3rem 5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: calc(57px + 66px);
+  }
+  .hero-meta { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 70px; }
+  .tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; color: var(--mid); text-transform: uppercase; }
+  .tag::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--mid); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.4rem,5vw,4.2rem); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); max-width: 900px; margin-bottom: 54px; }
+  h1 em { font-style: italic; color: var(--accent-dark); }
+  .hero-description { font-size: 1.15rem; line-height: 1.7; color: #3a3632; max-width: none; margin-bottom: 70px; }
+
+  .hero-stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .hero-stat { background: var(--paper); padding: 1.25rem; }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.35rem; }
+  .stat-value { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
+
+  .section { max-width: 1200px; margin: 0 auto; padding: 3rem 3rem; }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+  h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.6rem,3vw,2.6rem); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1.5rem; }
+  h3 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--ink); margin-bottom: 0.85rem; margin-top: 2rem; }
+  p { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: none; }
+  p + p { margin-top: 1rem; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .pullquote { border-left: 3px solid var(--accent-dark); padding: 1rem 0 1rem 2rem; margin: 2.5rem 0; font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.45rem; line-height: 1.4; color: var(--ink); max-width: 640px; }
+
+  .card-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-top: 2rem; }
+  .card { background: var(--paper); padding: 1.75rem 1.5rem; }
+  .card:first-child { background: var(--dark-bg); color: var(--paper); }
+  .card:first-child h3, .card:first-child .card-num { color: var(--paper); }
+  .card:first-child p { color: rgba(245,242,236,0.7); }
+  .card-num { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 1.25rem; }
+  .card:first-child .card-num { color: var(--accent); opacity: 0.9; }
+  .card h3 { font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500; margin: 0 0 0.7rem 0; }
+  .card p { font-size: 0.82rem; line-height: 1.65; color: #5a5550; max-width: none; }
+  .card:first-child p { color: rgba(245,242,236,0.7); }
+
+  .dark-section { background: var(--dark-bg); color: var(--paper); padding: 3rem 3rem; }
+  .dark-inner { max-width: 1200px; margin: 0 auto; }
+  .dark-section .section-label { color: rgba(255,255,255,0.4); }
+  .dark-section .section-label::after { background: rgba(255,255,255,0.1); }
+  .dark-section h2, .dark-section h3 { color: var(--paper); }
+  .dark-section p { color: rgba(245,242,236,0.76); }
+
+  .full-img { width: 100%; display: block; border: 1px solid var(--rule); margin-top: 2rem; }
+  .full-img-dark { width: 100%; display: block; border: 1px solid rgba(245,242,236,0.12); margin-top: 2rem; }
+
+  .example-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1.5rem; align-items: flex-start; }
+  .example-box { border: 1px solid var(--rule); background: #fff; overflow: hidden; }
+  .example-box img { display: block; max-width: 100%; height: auto; }
+
+  .mock-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+    margin-top: 2rem;
+  }
+  .mock-item { border: 1px solid var(--rule); background: #fff; overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+  .mock-item:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+  .mock-item img { display: block; width: 100%; height: auto; }
+
+  .mock-grid-dark {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+    margin-top: 2rem;
+  }
+  .mock-item-dark { border: 1px solid rgba(245,242,236,0.12); background: #111; overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+  .mock-item-dark:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+  .mock-item-dark img { display: block; width: 100%; height: auto; }
+
+  .gauge-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 2rem;
+    align-items: flex-end;
+  }
+  .gauge-item { background: #111; border: 1px solid rgba(245,242,236,0.1); overflow: hidden; }
+  .gauge-item img { display: block; width: auto; height: 140px; }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    border: 1px solid var(--rule);
+    padding: 0.6rem 1.25rem;
+    transition: all 0.2s;
+    margin-top: 2.5rem;
+  }
+  .back-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .dark-section .back-btn { border-color: rgba(245,242,236,0.35); color: rgba(245,242,236,0.8); }
+  .dark-section .back-btn:hover { border-color: var(--paper); color: var(--paper); }
+
+  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; border-top: 1px solid var(--rule); }
+  .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* PROJECT SUMMARY */
+  .project-summary {
+    max-width: 1200px; margin: 0 auto; padding: 0.25rem 3rem 3rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: calc(1.5rem + 20px); align-items: start;
+  }
+  .project-summary-image img { width: 100%; display: block; border: 1px solid var(--rule); }
+  .project-summary p.project-summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 0; margin-bottom: 12px; color: var(--ink);
+  }
+  .project-summary p { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: none; }
+  p.project-summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 0; margin-bottom: 12px; color: var(--ink);
+  }
+
+  /* E2E WORKFLOW INFOGRAPHIC */
+  .e2e-workflow { max-width: 1200px; margin: 0 auto; padding: 0 3rem 6rem; }
+  .e2e-workflow p.project-summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 40px; margin-bottom: 24px; color: var(--ink);
+  }
+  .workflow-infographic { display: flex; flex-direction: column; gap: 24px; }
+  .workflow-row { display: flex; align-items: stretch; }
+  .workflow-step-box {
+    flex: 1; min-height: 160px; border: 1px solid var(--rule);
+    padding: 1rem; display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .workflow-step-box .step-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+  }
+  .workflow-step-box .step-title {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    line-height: 1.45; color: var(--ink); max-width: none; margin: 0;
+  }
+  .workflow-step-box .step-desc {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+    line-height: 1.55; color: #3a3632; text-align: left; max-width: none; margin: 0;
+  }
+  .workflow-h-arrow {
+    width: 36px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .workflow-h-arrow svg { display: block; }
+
+  /* LIGHTBOX */
+  .lightbox-overlay {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.88); cursor: zoom-out;
+    align-items: center; justify-content: center;
+  }
+  .lightbox-overlay.active { display: flex; }
+  .lightbox-overlay img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
+  .lightbox-close {
+    position: absolute; top: 1.5rem; right: 2rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.1em; color: rgba(255,255,255,0.6);
+    cursor: pointer; text-transform: uppercase;
+  }
+  .lightbox-close:hover { color: #fff; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .hero, .section, .dark-section, footer, .e2e-workflow, .project-summary { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .two-col, .card-grid, .hero-stat-grid { grid-template-columns: 1fr; }
+    .project-summary { grid-template-columns: 1fr; }
+    .mock-grid, .mock-grid-dark { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156.6 42.23"><path d="M13.75,5.58c7.16,0,12.09,5.29,12.09,12.42s-4.93,12.42-12.09,12.42S1.66,25.13,1.66,18,6.59,5.58,13.75,5.58ZM13.75,8.79c-5.15,0-8.39,3.92-8.39,9.21s3.24,9.21,8.39,9.21,8.39-3.96,8.39-9.21-3.31-9.21-8.39-9.21Z"/><path d="M28.04,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v10.65h-3.6V5.98Z"/><path d="M45.9,5.98h3.6v24.01h-3.6V5.98Z"/><path d="M60.8,20.74h-4.5v9.25h-3.6V5.98h10.11c4.57,0,7.7,2.95,7.7,7.38s-2.92,6.62-5.98,7.02l6.16,9.61h-4.18l-5.72-9.25ZM62.35,9.15h-6.05v8.42h6.05c2.59,0,4.46-1.69,4.46-4.21s-1.87-4.21-4.46-4.21Z"/><path d="M79.92,5.98h3.6v20.84h10.91v3.17h-14.51V5.98Z"/><path d="M96.23,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v7.49h12.53v3.17h-16.13V5.98Z"/><path d="M112.21,5.98h4.1l7.67,20.09,7.7-20.09h4.1l-9.54,24.01h-4.5l-9.54-24.01Z"/><path d="M143.42,19.94l-9.4-13.97h4.14l7.06,10.73,6.98-10.73h4.18l-9.36,13.97v10.04h-3.6v-10.04Z"/></svg></a>
+  <ul class="nav-links">
+    <li><a href="ai-workflow.html">AI Workflow</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-meta">
+    <span class="tag">Zero Motorcycles &middot; 2014</span>
+    <span class="tag">Mobile App &middot; UX Design &middot; iOS &amp; Android</span>
+  </div>
+  <h1>Zero Motorcycles <em>Ride Dashboard</em> App</h1>
+  <p class="hero-description">Zero Motorcycles builds some of the most powerful all-electric bikes on the road. But their riders had a problem: the physical dashboard gave them almost nothing to work with. I designed a Bluetooth-connected mobile app that became the digital brain of the ride &mdash; a live performance dashboard, trip planner, and riding companion that connected the rider to their machine in ways the bike&rsquo;s hardware alone never could.</p>
+
+  <div class="hero-stat-grid">
+    <div class="hero-stat"><div class="stat-label">Platform</div><div class="stat-value">iOS &amp; Android</div></div>
+    <div class="hero-stat"><div class="stat-label">Year</div><div class="stat-value">2014</div></div>
+    <div class="hero-stat"><div class="stat-label">My Role</div><div class="stat-value">UX Design Lead</div></div>
+    <div class="hero-stat"><div class="stat-label">Team</div><div class="stat-value">PM, Head of Design, iOS dev, Android dev</div></div>
+  </div>
+
+  <a href="index.html" class="back-btn">&larr; All work</a>
+</div>
+
+<!-- PROJECT SUMMARY -->
+<div class="section reveal" style="padding-top: 0.25rem; padding-bottom: 3rem;">
+  <p class="project-summary-label">Project summary</p>
+  <div class="two-col" style="margin-bottom: 2.5rem;">
+    <div><p>Zero Motorcycles manufactures all-electric motorcycles known for silent power and immediate torque. The bikes were extraordinary, but they offered minimal data feedback to riders &mdash; a critical gap for customers trying to manage battery range, track performance, and understand their electric riding experience.</p></div>
+    <div><p>I designed a mobile dashboard app that connected to the motorcycle via Bluetooth. The moment the kickstand goes up, the app locks into a live ride. It tracks speed, battery state-of-charge, torque, motor temperature, and rider-defined stats in real time. Off the bike, it becomes a trip planner and historical data log. The app shipped for both iOS and Android, and was received with enthusiasm by Zero&rsquo;s rider community.</p></div>
+  </div>
+  <img src="zero-assets/11_Zero_mocks_finalE2E_workflow@2x.png" alt="Zero Motorcycles app final screens E2E workflow" style="width: 100%; display: block; border: 1px solid var(--rule);">
+</div>
+
+<!-- E2E WORKFLOW -->
+<div class="e2e-workflow reveal">
+  <p class="project-summary-label">Project E2E workflow</p>
+  <div class="workflow-infographic">
+    <div class="workflow-row">
+      <div class="workflow-step-box">
+        <span class="step-num">Step 01</span>
+        <p class="step-title">Rider Research &amp; Discovery</p>
+        <p class="step-desc">Field research with Zero Motorcycles riders to understand how they actually interact with their bikes, what data they craved, and where the physical dashboard left them underserved.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 02</span>
+        <p class="step-title">Problem Framing</p>
+        <p class="step-desc">Synthesizing research into a clear design problem: riders needed a natural, digital extension of the motorcycle that bridged the gap between the electric experience and meaningful performance insight.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 03</span>
+        <p class="step-title">User Workflow &amp; Storyboard</p>
+        <p class="step-desc">Mapping the rider&rsquo;s end-to-end journey to identify key touchpoints, mode transitions, and design principles — followed by a hand-illustrated storyboard bringing the workflow to life as a narrative.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 04</span>
+        <p class="step-title">Information Architecture</p>
+        <p class="step-desc">Defining the app&rsquo;s structural backbone &mdash; how screens, modes, and data relationships organize around the core live-ride and off-ride contexts that shape the entire experience.</p>
+      </div>
+    </div>
+    <div class="workflow-row">
+      <div class="workflow-step-box">
+        <span class="step-num">Step 05</span>
+        <p class="step-title">Wireframing</p>
+        <p class="step-desc">Iterative low-fidelity wireframes for key flows: ride setup, live dashboard configuration, trip stats review, battery monitoring, and settings &mdash; validated with the team and stakeholders before visual design.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 06</span>
+        <p class="step-title">UI Design &amp; Mocks</p>
+        <p class="step-desc">High-fidelity design iterations across dashboard modes, gauge components, and screen states &mdash; building toward a dark-themed, performance-focused visual system tuned for readability at speed.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 07</span>
+        <p class="step-title">Final Comps &amp; Delivery</p>
+        <p class="step-desc">Pixel-precise final screens delivered for iOS and Android development, including a full component library, gauge system, and interaction specifications for the dev team.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 08</span>
+        <p class="step-title">Release &amp; Continuous Learning</p>
+        <p class="step-desc">Post-launch press coverage, rider feedback collection, and ongoing collaborative research with the Zero customer community to evolve the app experience over time.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 01: CONTEXT & PROBLEM -->
+<div class="section reveal">
+  <div class="section-label">01 &mdash; Context &amp; Problem</div>
+  <div class="two-col">
+    <div>
+      <h2>Riding blind on an electric machine</h2>
+      <p>Zero Motorcycles make extraordinary bikes. Silent, fast, and exhilarating &mdash; the electric powertrain delivers instant torque with zero mechanical noise. But that silence came with a cost: riders had almost no visibility into what was happening beneath the bodywork.</p>
+      <p>The physical dashboard showed only basic data. Battery range anxiety was real and common. Riders couldn&rsquo;t track their performance stats, configure what they saw, or review their trips after the fact. For customers who were paying a premium for a technology-forward motorcycle, the data gap felt like a broken promise.</p>
+      <p>The app needed to solve this by becoming the rider&rsquo;s digital cockpit &mdash; an intelligent, Bluetooth-connected extension of the bike that worked both on the road and off it.</p>
+    </div>
+    <div>
+      <div class="pullquote">&ldquo;Riders were investing in a technology-forward machine but had almost no visibility into how it performed. The app was the missing interface.&rdquo;</div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-num">The Challenge</div>
+      <h3>Minimal dashboard, maximal need</h3>
+      <p>The physical instrument panel offered only rudimentary feedback. Riders of electric bikes have fundamentally different data needs than combustion riders &mdash; especially around battery, range, and power consumption.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">The Context</div>
+      <h3>A new kind of riding experience</h3>
+      <p>Electric motorcycles require riders to develop new mental models around energy management, regenerative braking, and battery state. The app had to educate as well as inform, without adding cognitive load mid-ride.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">The Opportunity</div>
+      <h3>A digital extension of the machine</h3>
+      <p>Bluetooth connectivity turned the smartphone into a live instrument cluster &mdash; one that could be personalized, configured before the ride, and reviewed long after the kickstand was back down.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 02: RESEARCH -->
+<div class="section reveal">
+  <div class="section-label">02 &mdash; Research</div>
+  <div class="two-col">
+    <div>
+      <h2>Understanding the electric rider</h2>
+      <p>Research began with direct access to Zero Motorcycles riders &mdash; early adopters who were deeply invested in the technology and vocal about what they needed. We conducted interviews, rode alongside participants, and studied how they currently compensated for the dashboard&rsquo;s limitations.</p>
+      <p>Key findings: riders wanted control over what they saw during a live ride. They wanted to set up their dashboard before departure, not while moving. They tracked their stats obsessively and wanted historical data to compare trips. Battery state-of-charge was the single most important data point &mdash; range anxiety was the defining pain of the electric experience.</p>
+    </div>
+    <div>
+      <p>We also studied how riders interacted with other performance tools &mdash; GPS devices, cycling computers, sports watches &mdash; to understand what conventions translated and what needed to be rethought for a motorcycle context.</p>
+      <p>A significant part of this research phase was spent understanding the technology itself &mdash; how electric motorcycles operate, how their powertrains differ from combustion engines, what the onboard sensors expose, and how existing dashboard instruments communicated data to riders. Understanding the machine was inseparable from understanding the rider&rsquo;s experience of it.</p>
+    </div>
+  </div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 2rem;">
+    <img src="zero-assets/3_zero_research_gauges@2x.png" alt="Research: motorcycle gauges and instrument study" style="width: 100%; display: block; border: 1px solid var(--rule);" loading="lazy">
+    <img src="zero-assets/3_zero_research_motorcycles@2x.png" alt="Research: Zero Motorcycles technology study" style="width: 100%; display: block; border: 1px solid var(--rule);" loading="lazy">
+  </div>
+</div>
+
+<!-- SECTION 03: INFORMATION ARCHITECTURE -->
+<div class="section reveal">
+  <div class="section-label">03 &mdash; Information Architecture</div>
+  <div class="two-col">
+    <div>
+      <h2>From objects and actions to a structured app</h2>
+      <p>Research outputs fed directly into the information architecture work. The first step was building an Object-Action Model &mdash; a rough framework mapping what riders cared about (battery, speed, trip, performance) against the actions they needed to take (configure, monitor, review, compare). This anchored every structural decision in actual rider intent rather than assumed feature lists.</p>
+    </div>
+    <div>
+      <p>The final IA organized the app around two primary contexts: the <strong>off-ride state</strong> (planning, setup, review) and the <strong>live-ride state</strong> (active monitoring, glanceable data). Every screen lived in one of these two modes. The live-ride dashboard was intentionally top-level and full-screen &mdash; once the kickstand was up, everything else stepped aside.</p>
+      <p>Major sections: Dashboard (live ride), Trip Setup &amp; Planning, Performance Stats, Battery &amp; Range, Settings &amp; Personalization, and Support.</p>
+    </div>
+  </div>
+  <img src="zero-assets/1_zero_ObjectActionModelArchitecture_rough_1@2x.png" alt="Object-Action Model architecture sketch" class="full-img" loading="lazy">
+  <img src="zero-assets/2_Zero_InformationArchitecture_final_2.png" alt="Zero app information architecture final" style="width: 100%; display: block; border: 1px solid var(--rule); margin-top: 16px;" loading="lazy">
+</div>
+
+<!-- SECTION 04: USER WORKFLOW -->
+<div class="section reveal">
+  <div class="section-label">04 &mdash; User Workflow</div>
+  <div class="two-col">
+    <div>
+      <h2>Charting the rider&rsquo;s end-to-end journey</h2>
+      <p>Before committing to any structural decisions, the full user workflow was mapped out — every touchpoint from the moment a rider approaches their bike to the moment they review their stats after the ride. This gave the team a shared, concrete picture of where the app lived in the rider&rsquo;s life and what it needed to do at each step.</p>
+      <p>The workflow surfaced a critical split: the rider&rsquo;s needs before a ride (setup, configuration, planning) are fundamentally different from their needs during one (glanceable data, zero cognitive load). Designing for both required a clear mode separation baked into the core architecture.</p>
+    </div>
+    <div>
+      <p>Mapping the workflow also revealed the natural triggers in the experience. The kickstand-up moment was identified here as the automatic transition point into live-ride mode — riders should never need to tap a &ldquo;Start Ride&rdquo; button. The bike signals the app. This principle, surfaced in the workflow phase, shaped every interaction decision that followed.</p>
+      <div class="pullquote">&ldquo;The kickstand-up moment is the natural trigger. The bike tells the app the ride has begun.&rdquo;</div>
+    </div>
+  </div>
+  <img src="zero-assets/3_zero_E2Eworkflow@2x.png" alt="Zero app user workflow sketch" class="full-img" loading="lazy">
+</div>
+
+<!-- SECTION 05: SKETCHING -->
+<div class="section reveal">
+  <div class="section-label">05 &mdash; Sketching the Experience</div>
+  <div class="two-col">
+    <div>
+      <h2>Getting ideas onto paper</h2>
+      <p>With the workflow and architecture defined, early sketching brought the interface to life for the first time. These hand-drawn explorations focused on the two most critical surfaces in the app: the gauge dashboard and the splash screen. Sketching at this stage was fast and deliberate &mdash; the goal was to explore layout, hierarchy, and the relationship between data elements before committing to pixels.</p>
+    </div>
+    <div>
+      <p>The gauge screens explored how to tile multiple stats in a single glanceable view &mdash; a grid of configurable data tiles that the rider could set up before departure. The splash screen sketch focused on the first impression: a strong brand moment that felt appropriate for a performance motorcycle app without adding friction to the time-sensitive act of starting a ride.</p>
+    </div>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 2rem;">
+    <div style="border: 1px solid var(--rule); overflow: hidden;">
+      <img src="zero-assets/9_zero_sketch_gauge-screen@2x.png" alt="Gauge screen sketch" style="width: 100%; display: block;" loading="lazy">
+    </div>
+    <div style="border: 1px solid var(--rule); overflow: hidden;">
+      <img src="zero-assets/9_zero_sketch_gauge-screen2@2x.png" alt="Gauge screen sketch variation" style="width: 100%; display: block;" loading="lazy">
+    </div>
+    <div style="border: 1px solid var(--rule); overflow: hidden;">
+      <img src="zero-assets/9_zero_sketch_splash-screen@2x.png" alt="Splash screen sketch" style="width: 100%; display: block;" loading="lazy">
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 06: STORYBOARD -->
+<div class="section reveal">
+  <div class="section-label">06 &mdash; Storyboarding the Experience</div>
+  <div class="two-col">
+    <div>
+      <h2>Six frames that tell the whole story</h2>
+      <p>Before a single wireframe was drawn, the experience needed to be felt as a narrative. The storyboard walked through the complete rider journey &mdash; from the moment they stand in the garage, helmet in hand, to the live dashboard displaying real-time power and temperature data mid-ride.</p>
+      <p>This storyboard became the shared language for the entire team. It grounded every subsequent design decision in a concrete human scenario, making it clear what the app needed to do and &mdash; equally important &mdash; when and how.</p>
+    </div>
+    <div>
+      <p>Six scenes. One continuous arc: get ready, set up the app, launch it, mount it, ride, and see your machine&rsquo;s data come alive in real time. The storyboard confirmed the two-mode design split &mdash; setup before the kickstand goes up, live dashboard the moment it does.</p>
+      <p>Hand-illustrated for immediacy and approachability, the frames were used in stakeholder presentations to communicate the vision before any high-fidelity work began.</p>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 2.5rem; background: var(--rule); border: 1px solid var(--rule);">
+
+    <div style="background: var(--paper); position: relative;">
+      <img src="zero-assets/zero_storyboard_1.png" alt="Storyboard frame 1: Rider in the garage, helmet in hand, approaching the bike" style="width: 100%; display: block;" loading="lazy">
+      <div style="padding: 0.9rem 1rem 1rem; border-top: 1px solid var(--rule);">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem;">Frame 01</div>
+        <p style="font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--ink); line-height: 1.45; margin: 0 0 0.3rem 0;">The pre-ride moment</p>
+        <p style="font-size: 0.78rem; color: var(--mid); line-height: 1.5; margin: 0;">Rider stands in the garage, helmet in hand. The bike is waiting. The ride hasn&rsquo;t started yet &mdash; but the intent is there.</p>
+      </div>
+    </div>
+
+    <div style="background: var(--paper); position: relative;">
+      <img src="zero-assets/zero_storyboard_2.png" alt="Storyboard frame 2: Rider on the bike, helmet on, setting up the app" style="width: 100%; display: block;" loading="lazy">
+      <div style="padding: 0.9rem 1rem 1rem; border-top: 1px solid var(--rule);">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem;">Frame 02</div>
+        <p style="font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--ink); line-height: 1.45; margin: 0 0 0.3rem 0;">Suited up, app in hand</p>
+        <p style="font-size: 0.78rem; color: var(--mid); line-height: 1.5; margin: 0;">Helmet on, sitting on the bike. The rider configures their dashboard on the phone before departure &mdash; while the kickstand is still down.</p>
+      </div>
+    </div>
+
+    <div style="background: var(--paper); position: relative;">
+      <img src="zero-assets/zero_storyboard_3.png" alt="Storyboard frame 3: Hand holding phone launching the Zero app dashboard" style="width: 100%; display: block;" loading="lazy">
+      <div style="padding: 0.9rem 1rem 1rem; border-top: 1px solid var(--rule);">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem;">Frame 03</div>
+        <p style="font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--ink); line-height: 1.45; margin: 0 0 0.3rem 0;">Launching the app</p>
+        <p style="font-size: 0.78rem; color: var(--mid); line-height: 1.5; margin: 0;">The Zero Real Dashboard app opens. The bike&rsquo;s physical instrument cluster is visible behind it &mdash; the contrast that defines why this app exists.</p>
+      </div>
+    </div>
+
+    <div style="background: var(--paper); position: relative;">
+      <img src="zero-assets/zero_storyboard_4.png" alt="Storyboard frame 4: Phone mounted on handlebar showing app home screen" style="width: 100%; display: block;" loading="lazy">
+      <div style="padding: 0.9rem 1rem 1rem; border-top: 1px solid var(--rule);">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem;">Frame 04</div>
+        <p style="font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--ink); line-height: 1.45; margin: 0 0 0.3rem 0;">Mounted &amp; ready</p>
+        <p style="font-size: 0.78rem; color: var(--mid); line-height: 1.5; margin: 0;">The phone is mounted on the handlebars. The home screen shows navigation, performance, battery, and settings &mdash; the full dashboard within reach.</p>
+      </div>
+    </div>
+
+    <div style="background: var(--paper); position: relative;">
+      <img src="zero-assets/zero_storyboard_5.png" alt="Storyboard frame 5: Live ride view A — speed, range, time to empty" style="width: 100%; display: block;" loading="lazy">
+      <div style="padding: 0.9rem 1rem 1rem; border-top: 1px solid var(--rule);">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem;">Frame 05</div>
+        <p style="font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--ink); line-height: 1.45; margin: 0 0 0.3rem 0;">Live ride &mdash; View A</p>
+        <p style="font-size: 0.78rem; color: var(--mid); line-height: 1.5; margin: 0;">Kickstand up. The live ride mode activates automatically. Speed, dial, miles to empty, and time to empty fill the screen in real time.</p>
+      </div>
+    </div>
+
+    <div style="background: var(--paper); position: relative;">
+      <img src="zero-assets/zero_storyboard_6.png" alt="Storyboard frame 6: Live ride view B — power, watt-hr/mile, amps, temperature" style="width: 100%; display: block;" loading="lazy">
+      <div style="padding: 0.9rem 1rem 1rem; border-top: 1px solid var(--rule);">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem;">Frame 06</div>
+        <p style="font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--ink); line-height: 1.45; margin: 0 0 0.3rem 0;">Live ride &mdash; View B</p>
+        <p style="font-size: 0.78rem; color: var(--mid); line-height: 1.5; margin: 0;">Swipe to the second dashboard configuration: power output, watt-hr/mile efficiency, amps, and motor temperature &mdash; the deeper performance layer.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION 07: WIREFRAMES -->
+<div class="section reveal">
+  <div class="section-label">07 &mdash; Wireframes</div>
+  <div class="two-col">
+    <div>
+      <h2>Iterating on structure before investing in visual design</h2>
+      <p>Wireframes explored the core interaction flows in detail: how a rider sets up their dashboard before departure, how the live ride mode activates and what it shows, how settings are surfaced and organized, and how post-ride data is presented for review.</p>
+      <p>The ride setup flow was particularly complex &mdash; riders needed to select which stats to show, in what arrangement, at what threshold. The wireframes tested multiple approaches to this configuration experience before landing on a drag-and-configurable gauge system.</p>
+    </div>
+    <div>
+      <p>We ran multiple rounds of wireframe review with the team and Zero&rsquo;s Head of Design, iterating on the live-ride screen layout most intensively. The challenge: during a ride, the rider&rsquo;s eyes are mostly on the road. Every piece of information on screen had to justify its presence with immediate, legible value.</p>
+      <p>The wireframe below specifically documents the live riding settings areas &mdash; which stats the rider can configure for their personal live-ride experience.</p>
+    </div>
+  </div>
+  <img src="zero-assets/4_Zero_WiredWorkflow_early.png" alt="Zero app early wired workflow" class="full-img" loading="lazy">
+  <img src="zero-assets/5_Zero_wireframes_workflow_iteration.png" alt="Zero app wireframe workflow iteration" style="width: 100%; display: block; border: 1px solid var(--rule); margin-top: 16px;" loading="lazy">
+  <div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+    <img src="zero-assets/6_zero_wires@2x.png" alt="Zero app wireframes" style="width: 100%; display: block; border: 1px solid var(--rule);" loading="lazy">
+    <img src="zero-assets/7_Zero_wires2@2x.png" alt="Zero app wireframes iteration 2" style="width: 100%; display: block; border: 1px solid var(--rule);" loading="lazy">
+  </div>
+</div>
+
+<!-- SECTION 08: DESIGN ITERATIONS & MOCKS (DARK) -->
+<div class="dark-section reveal">
+  <div class="dark-inner">
+    <div class="section-label">08 &mdash; Design Iterations &amp; Mocks</div>
+    <h2>Finding the right visual language for speed</h2>
+    <p>The visual design direction was non-negotiable: this was a performance app for a performance machine. The UI needed to feel at home in the same context as the motorcycle &mdash; dark, precise, high-contrast, and immediately readable. Cluttered interfaces kill focus. On a motorcycle, lost focus costs more than time.</p>
+    <p>Design iterations explored gauge styles, type hierarchy for speed and legibility, color temperature for day and night riding, and how to make the stat-configuration experience feel tactile and satisfying without being complicated.</p>
+
+    <h3 style="margin-top: 3rem; margin-bottom: 0.75rem;">Component library</h3>
+    <p>A dedicated component pass defined the full gauge library &mdash; each stat type (speed, battery, torque, temperature, time) had a purpose-built visual treatment designed for at-a-glance readability and consistent behavior across the dashboard grid.</p>
+    <img src="zero-assets/9_zero_components1@2x.png" alt="Zero app component library" class="full-img-dark" loading="lazy">
+    <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; color: rgba(245,242,236,0.45); margin-top: 0.75rem;">Adobe Illustrator artboard — the working canvas where I experimented with and built out the app&rsquo;s design language and component library, iterating on gauge styles, color, and typography before translating them into final screen designs.</p>
+
+    <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">Dashboard &amp; screen iterations</h3>
+    <div class="mock-grid-dark">
+      <div class="mock-item-dark" onclick="openLightbox(this)">
+        <img src="zero-assets/9_Zero_mock_dashboard1_iteration.png" alt="Dashboard mock iteration 1" loading="lazy">
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.07em; color: rgba(245,242,236,0.4); padding: 0.6rem 0.75rem; line-height: 1.5;">Iteration for the onboarding welcome &ldquo;Get Started&rdquo; screen.</p>
+      </div>
+      <div class="mock-item-dark" onclick="openLightbox(this)">
+        <img src="zero-assets/10_Zero_mock_dashboard2_iteration.png" alt="Dashboard mock iteration 2" loading="lazy">
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.07em; color: rgba(245,242,236,0.4); padding: 0.6rem 0.75rem; line-height: 1.5;">Iteration for the onboarding welcome &ldquo;Get Started&rdquo; screen.</p>
+      </div>
+      <div class="mock-item-dark" onclick="openLightbox(this)">
+        <img src="zero-assets/11_Zero_mock_splash1_iteration.png" alt="Splash screen mock iteration" loading="lazy">
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.07em; color: rgba(245,242,236,0.4); padding: 0.6rem 0.75rem; line-height: 1.5;">Early iteration for the splash screen.</p>
+      </div>
+      <div class="mock-item-dark" onclick="openLightbox(this)">
+        <img src="zero-assets/12_Zero_mock_settings_iteration.png" alt="Settings mock iteration" loading="lazy">
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.07em; color: rgba(245,242,236,0.4); padding: 0.6rem 0.75rem; line-height: 1.5;">Iteration for the riding gauge settings screen.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 3rem; margin-bottom: 0.75rem;">Gauge components</h3>
+    <p>The live riding mode dashboard is divided into 5 gauge areas. Four quadrants surround a central position, with the middle slot serving as the primary gauge &mdash; the most prominent and largest display, reserved for whichever metric the rider considers most critical. Each of the remaining four quadrants can be independently configured to show any gauge type the rider chooses. This flexible grid meant no two riders needed an identical dashboard, and the setup could be changed before any ride.</p>
+    <p style="margin-top: 0.75rem;">Individual gauge components were designed for each rideable metric, across fill states and data ranges.</p>
+    <div class="gauge-grid">
+      <div class="gauge-item"><img src="zero-assets/gaugecomps/GaugeComps_Speed_V1.png" alt="Speed gauge component" loading="lazy"></div>
+      <div class="gauge-item"><img src="zero-assets/gaugecomps/GaugeComps_SOC_V3.png" alt="State of charge gauge component" loading="lazy"></div>
+      <div class="gauge-item"><img src="zero-assets/gaugecomps/GaugeComps_Torque_V3.png" alt="Torque gauge component" loading="lazy"></div>
+      <div class="gauge-item"><img src="zero-assets/gaugecomps/GaugeComps_Torque_V4_Full.png" alt="Torque gauge full state" loading="lazy"></div>
+      <div class="gauge-item"><img src="zero-assets/gaugecomps/GaugeComps_Torque_V4_Empty.png" alt="Torque gauge empty state" loading="lazy"></div>
+      <div class="gauge-item"><img src="zero-assets/gaugecomps/GaugeComps_Temperature_V3_Full.png" alt="Temperature gauge full state" loading="lazy"></div>
+      <div class="gauge-item"><img src="zero-assets/gaugecomps/GaugeComps_Temperature_V3_Empty.png" alt="Temperature gauge empty state" loading="lazy"></div>
+      <div class="gauge-item"><img src="zero-assets/gaugecomps/GaugeComps_Time.png" alt="Time gauge component" loading="lazy"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 09: FINAL COMPS -->
+<div class="section reveal">
+  <div class="section-label">09 &mdash; Final Comps</div>
+  <h2>The complete ride experience, screen by screen</h2>
+  <p>Final high-fidelity comps covering the full app flow: onboarding and welcome, home dashboard, battery and range monitoring, performance tracking, ride setup configuration, support, and the live-ride experience. Tap any screen to view at full size.</p>
+
+  <h3 style="margin-top: 2.5rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid);">Onboarding &amp; Home</h3>
+  <div class="mock-grid">
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="zero-assets/14_Zero_finalmock_splash1.png" alt="Final mock: splash screen" loading="lazy">
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="zero-assets/15_Zero_finalmock_welcome1.png" alt="Final mock: welcome screen" loading="lazy">
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="zero-assets/16_Zero_finalmock_home1.png" alt="Final mock: home screen 1" loading="lazy">
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="zero-assets/17_Zero_finalmock_home2.png" alt="Final mock: home screen 2" loading="lazy">
+    </div>
+  </div>
+
+  <h3 style="margin-top: 2.5rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid);">Battery &amp; Performance</h3>
+  <div class="mock-grid">
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="zero-assets/18_Zero_finalmock_battery1.png" alt="Final mock: battery screen 1" loading="lazy">
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="zero-assets/19_Zero_finalmock_battery2.png" alt="Final mock: battery screen 2" loading="lazy">
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="zero-assets/20_Zero_finalmock_performance1.png" alt="Final mock: performance screen" loading="lazy">
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="zero-assets/24_Zero_finalmock_support.png" alt="Final mock: support screen" loading="lazy">
+    </div>
+  </div>
+
+  <h3 style="margin-top: 2.5rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid);">Ride Setup</h3>
+  <div class="mock-grid">
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="zero-assets/21_Zero_finalmock_setup1.png" alt="Final mock: ride setup screen 1" loading="lazy">
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="zero-assets/22_Zero_finalmock_setup2.png" alt="Final mock: ride setup screen 2" loading="lazy">
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="zero-assets/23_Zero_finalmock_setup3.png" alt="Final mock: ride setup screen 3" loading="lazy">
+    </div>
+  </div>
+
+  <h3 style="margin-top: 2.5rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid);">Live Ride</h3>
+  <div class="mock-grid">
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="zero-assets/25_Zero_finalmock_live-ride1.png" alt="Final mock: live ride screen 1" loading="lazy">
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="zero-assets/26_Zero_finalmock_live-ride2.png" alt="Final mock: live ride screen 2" loading="lazy">
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 10: PRESS & FEEDBACK (DARK) -->
+<div class="dark-section reveal">
+  <div class="dark-inner">
+    <div class="section-label">10 &mdash; Release &amp; Press Reception</div>
+    <h2>A product the riding community felt immediately</h2>
+    <p>The app launched alongside Zero&rsquo;s 2014 model year motorcycles and was positioned as a core part of the Zero ownership experience. Press and rider community response was strong. Technology and motorcycle publications covered the app as a differentiating feature in the electric motorcycle space, noting that Zero was setting a new bar for digital rider experience at a time when most motorcycle brands had nothing comparable.</p>
+    <p>Riders praised the ability to customize their dashboard, the reliability of the Bluetooth connection, and &mdash; above all &mdash; the battery range visibility that gave them confidence on longer trips. The live-ride dashboard was the feature that generated the most emotional response: seeing your torque, speed, and battery state in real time changed how riders related to their machine.</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(245,242,236,0.1); border: 1px solid rgba(245,242,236,0.1); margin-top: 2.5rem;">
+      <div style="background: var(--dark-bg); padding: 1.75rem 1.5rem;">
+        <p style="font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.05rem; line-height: 1.6; color: var(--paper); margin-bottom: 1.25rem;">&ldquo;The Zero app transforms the smartphone into something the motorcycle should have had from day one. Real-time performance data, range visibility, and a live dashboard that responds to every twist of the throttle. This is what connected riding should feel like.&rdquo;</p>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,242,236,0.45); margin: 0;">Electric Motorcycle press reception &mdash; 2014 launch coverage</p>
+      </div>
+      <div style="background: var(--dark-bg); padding: 1.75rem 1.5rem;">
+        <p style="font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.05rem; line-height: 1.6; color: var(--paper); margin-bottom: 1.25rem;">&ldquo;I&rsquo;ve been riding Zero for two years. This app changes everything about how I plan my commute. I used to guess on range; now I know. I used to wonder what my torque output looked like; now I can see it. It&rsquo;s addictive, honestly.&rdquo;</p>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,242,236,0.45); margin: 0;">Zero Motorcycles owner &mdash; rider community feedback</p>
+      </div>
+      <div style="background: var(--dark-bg); padding: 1.75rem 1.5rem; border-top: 1px solid rgba(245,242,236,0.08);">
+        <p style="font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.05rem; line-height: 1.6; color: var(--paper); margin-bottom: 1.25rem;">&ldquo;Customers loved and appreciated the addition of a performance app to the overall riding experience. It became a clear value-add to the Zero ownership proposition and something riders talked about with genuine enthusiasm.&rdquo;</p>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,242,236,0.45); margin: 0;">Zero Motorcycles internal product feedback &mdash; post-launch</p>
+      </div>
+      <div style="background: var(--dark-bg); padding: 1.75rem 1.5rem; border-top: 1px solid rgba(245,242,236,0.08);">
+        <p style="font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.05rem; line-height: 1.6; color: var(--paper); margin-bottom: 1.25rem;">&ldquo;The setup flow for the ride dashboard is exactly right. I can configure exactly what I want to see, in the order I want to see it, and then the app gets out of my way. That&rsquo;s rare. Most apps like this want to show you everything. This one asks what you care about.&rdquo;</p>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,242,236,0.45); margin: 0;">Zero Motorcycles rider &mdash; post-launch user feedback</p>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 2.5rem;">
+      <div class="mock-item-dark" onclick="openLightbox(this)" style="border: 1px solid rgba(245,242,236,0.12);">
+        <img src="zero-assets/27_Zero_finaloutcome@2x.png" alt="Zero Motorcycles app final outcome" style="width: 100%; display: block;" loading="lazy">
+      </div>
+      <div class="mock-item-dark" onclick="openLightbox(this)" style="border: 1px solid rgba(245,242,236,0.12);">
+        <img src="zero-assets/28_Zero_finaloutcome@2x.png" alt="Zero Motorcycles app final outcome" style="width: 100%; display: block;" loading="lazy">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 11: CONTINUOUS RESEARCH -->
+<div class="section reveal">
+  <div class="section-label">11 &mdash; Continuous Research &amp; Evolution</div>
+  <div class="two-col">
+    <div>
+      <h2>Staying in dialogue with the rider community</h2>
+      <p>Shipping the app wasn&rsquo;t the end of the design process &mdash; it was the beginning of a more direct and data-rich feedback loop. Post-launch, I continued to work closely with Zero&rsquo;s team and their customer community to identify friction, surface unmet needs, and prioritize future development.</p>
+      <p>Riders brought nuanced requests: different gauge configurations for city versus highway riding, the ability to set personal thresholds and alerts for battery percentage, and more detailed trip history with exportable data. These weren&rsquo;t edge-case requests &mdash; they reflected how seriously Zero&rsquo;s customers engaged with performance data.</p>
+    </div>
+    <div>
+      <p>The most meaningful insight from post-launch research was about the emotional dimension of the data. Riders didn&rsquo;t just want information &mdash; they wanted to feel connected to their machine. Understanding torque output, seeing energy regeneration in real time, watching the battery recover on a downhill run: these were not merely utility features. They were part of what made riding a Zero different from riding anything else.</p>
+      <p>This shaped how we thought about future iterations: not just more data, but more meaningful data, presented at the right moment, in a way that deepened the rider&rsquo;s relationship with the experience.</p>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-num">Insight 01</div>
+      <h3>Personalization is a core need</h3>
+      <p>Every rider had different priorities. The ability to configure which stats appeared on the live dashboard was not a feature &mdash; it was a fundamental design requirement that the research validated clearly.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">Insight 02</div>
+      <h3>Data reduces anxiety</h3>
+      <p>Battery range anxiety was the dominant emotional challenge for new Zero riders. Transparent, always-visible range data &mdash; not buried in menus &mdash; had a direct and measurable impact on rider confidence and enjoyment.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">Insight 03</div>
+      <h3>Connection, not just information</h3>
+      <p>The app&rsquo;s highest-value function was emotional: making riders feel connected to the machine. The most appreciated features were those that revealed what the motorcycle was doing, not just what the rider was doing.</p>
+    </div>
+  </div>
+
+  <a href="index.html" class="back-btn">&larr; Return to design case studies</a>
+</div>
+
+<footer>
+  <p class="footer-credit">&copy; 2026 Ofir Levy &middot; Sr. UX Designer</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close" onclick="closeLightbox()">ESC &mdash; Close</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const callback = (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  };
+  const observer = new IntersectionObserver(callback, { threshold: 0.08 });
+  reveals.forEach(element => observer.observe(element));
+
+  function openLightbox(el) {
+    const img = el.querySelector('img');
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox-img').alt = img.alt;
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+
+</body>
+</html>
