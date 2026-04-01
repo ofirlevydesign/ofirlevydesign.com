@@ -67,10 +67,7 @@
     }
 
     .case-study-item {
-      padding: 3rem 0;
       border-bottom: 1px solid var(--rule);
-      display: grid;
-      grid-template-columns: 1fr;
     }
 
     .case-study-item:last-child {
@@ -80,6 +77,31 @@
     .case-study-item a {
       text-decoration: none;
       color: inherit;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 3.5rem;
+      align-items: center;
+      padding: 3rem 0;
+    }
+
+    .case-study-thumb {
+      width: 300px;
+      height: 238px;
+      border: 1px solid #979289;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .case-study-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .case-study-item a:hover .case-study-thumb img {
+      transform: scale(1.03);
     }
 
     .case-study-meta {
@@ -110,7 +132,7 @@
       font-size: 1rem;
       line-height: 1.8;
       color: #3a3632;
-      max-width: 680px;
+      max-width: 580px;
       margin-bottom: 1rem;
     }
 
@@ -125,11 +147,16 @@
     }
 
     .case-study-link {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       color: var(--mid);
       text-decoration: none;
       transition: color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .case-study-item a:hover .case-study-link {
@@ -165,6 +192,8 @@
       .hero { padding-top: calc(57px + 3.5rem); }
       h1 { font-size: clamp(2.8rem, 6vw, 5.5rem); }
       footer { padding: 2rem 1.5rem; }
+      .case-study-item a { grid-template-columns: 1fr; gap: 1.5rem; }
+      .case-study-thumb { width: 100%; height: 220px; }
       .case-study-item h3 { font-size: 1.35rem; }
     }
   </style>
@@ -192,126 +221,172 @@
   <h2>Design Case Studies</h2>
 
   <div class="portfolio-grid">
-    <!-- Case Study 1: Amazon Athena (2025) -->
+
     <div class="case-study-item">
       <a href="ofirlevydesign_portfolio_athena-usage-widget.html">
-        <div class="case-study-meta">AMAZON WEB SERVICES · 2025</div>
-        <h3>Amazon Athena Usage Companion Widget</h3>
-        <p class="case-study-description">Real-time cost visibility widget for serverless query service with AI-powered optimization recommendations.</p>
-        <div class="case-study-status">CONCEPT PROPOSAL</div>
-        <span class="case-study-link">→</span>
+        <div class="case-study-thumb">
+          <img src="home-assets/AthenaUsageWidget_project_preview@2x.png" alt="Amazon Athena Usage Companion Widget preview" loading="lazy">
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-meta">AMAZON WEB SERVICES · 2025</div>
+          <h3>Amazon Athena Usage Companion Widget</h3>
+          <p class="case-study-description">Real-time cost visibility widget for serverless query service with AI-powered optimization recommendations.</p>
+          <div class="case-study-status">CONCEPT PROPOSAL</div>
+          <span class="case-study-link">View case study →</span>
+        </div>
       </a>
     </div>
 
-    <!-- Case Study 2: SMUS ReleaseCenter (2025) -->
     <div class="case-study-item">
       <a href="ofirlevydesign_portfolio_smus-releasecenter.html">
-        <div class="case-study-meta">AMAZON WEB SERVICES · 2025</div>
-        <h3>Amazon SageMaker Unified Studio ReleaseCenter</h3>
-        <p class="case-study-description">DevOps stage workflow integrated into SMUS, connecting artifact creation with in-product release progression across Dev, Test, Pre-prod, and Prod.</p>
-        <div class="case-study-status">E2E WORKFLOW DESIGN</div>
-        <span class="case-study-link">→</span>
+        <div class="case-study-thumb">
+          <img src="home-assets/SMUSReleaseCenter_project_preview@2x.png" alt="Amazon SageMaker Unified Studio ReleaseCenter preview" loading="lazy">
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-meta">AMAZON WEB SERVICES · 2025</div>
+          <h3>Amazon SageMaker Unified Studio ReleaseCenter</h3>
+          <p class="case-study-description">DevOps stage workflow integrated into SMUS, connecting artifact creation with in-product release progression across Dev, Test, Pre-prod, and Prod.</p>
+          <div class="case-study-status">E2E WORKFLOW DESIGN</div>
+          <span class="case-study-link">View case study →</span>
+        </div>
       </a>
     </div>
 
-    <!-- Case Study 3: Amazon SageMaker (2024) -->
     <div class="case-study-item">
       <a href="sagemaker-entity-tables.html">
-        <div class="case-study-meta">AMAZON WEB SERVICES · 2024</div>
-        <h3>Amazon SageMaker Unified Studio Project Entity Tables</h3>
-        <p class="case-study-description">Data table interface design for unified ML and data analytics platform, enabling seamless project management.</p>
-        <div class="case-study-status">DATA INTERFACE</div>
-        <span class="case-study-link">→</span>
+        <div class="case-study-thumb">
+          <img src="home-assets/SMUSEntityTables_project_preview@2x.png" alt="Amazon SageMaker Project Entity Tables preview" loading="lazy">
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-meta">AMAZON WEB SERVICES · 2024</div>
+          <h3>Amazon SageMaker Unified Studio Project Entity Tables</h3>
+          <p class="case-study-description">Data table interface design for unified ML and data analytics platform, enabling seamless project management.</p>
+          <div class="case-study-status">DATA INTERFACE</div>
+          <span class="case-study-link">View case study →</span>
+        </div>
       </a>
     </div>
 
-    <!-- Case Study 4: Amazon EMR Learning Center (2024) -->
     <div class="case-study-item">
       <a href="emr-learning-center.html">
-        <div class="case-study-meta">AMAZON WEB SERVICES · 2023</div>
-        <h3>Amazon EMR Learning Center</h3>
-        <p class="case-study-description">Interactive learning platform introducing users to big data processing on AWS with hands-on tutorials and code examples.</p>
-        <div class="case-study-status">SHIPPED PRODUCT</div>
-        <span class="case-study-link">→</span>
+        <div class="case-study-thumb">
+          <img src="home-assets/EMRLearningCenter_project_preview@2x.png" alt="Amazon EMR Learning Center preview" loading="lazy">
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-meta">AMAZON WEB SERVICES · 2023</div>
+          <h3>Amazon EMR Learning Center</h3>
+          <p class="case-study-description">Interactive learning platform introducing users to big data processing on AWS with hands-on tutorials and code examples.</p>
+          <div class="case-study-status">SHIPPED PRODUCT</div>
+          <span class="case-study-link">View case study →</span>
+        </div>
       </a>
     </div>
 
-    <!-- Case Study 6: VMware Cloud on AWS Outposts (2022) -->
     <div class="case-study-item">
       <a href="ofirlevydesign_portfolio_outposts.html">
-        <div class="case-study-meta">VMWARE · 2022</div>
-        <h3>VMware Cloud on AWS Outposts Ordering Workflow</h3>
-        <p class="case-study-description">End-to-end ordering experience for jointly engineered VMware + AWS on-premises infrastructure solution.</p>
-        <div class="case-study-status">SHIPPED PRODUCT</div>
-        <span class="case-study-link">→</span>
+        <div class="case-study-thumb">
+          <img src="home-assets/VMwareCloudonAWSOutposts_project_preview@2x.png" alt="VMware Cloud on AWS Outposts preview" loading="lazy">
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-meta">VMWARE · 2022</div>
+          <h3>VMware Cloud on AWS Outposts Ordering Workflow</h3>
+          <p class="case-study-description">End-to-end ordering experience for jointly engineered VMware + AWS on-premises infrastructure solution.</p>
+          <div class="case-study-status">SHIPPED PRODUCT</div>
+          <span class="case-study-link">View case study →</span>
+        </div>
       </a>
     </div>
 
-    <!-- Case Study 7: VMware Solution Navigator (2021) -->
     <div class="case-study-item">
       <a href="ofirlevydesign_portfolio_vmware_solution_navigator.html">
-        <div class="case-study-meta">VMWARE · 2021</div>
-        <h3>VMware Solution Navigator</h3>
-        <p class="case-study-description">AI-powered assistant concept developed pre-ChatGPT to help customers navigate VMware's product ecosystem and find solutions.</p>
-        <div class="case-study-status">CONCEPT PROPOSAL</div>
-        <span class="case-study-link">→</span>
+        <div class="case-study-thumb">
+          <img src="home-assets/SolutionNavigatorApp_project_preview@2x.png" alt="VMware Solution Navigator preview" loading="lazy">
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-meta">VMWARE · 2021</div>
+          <h3>VMware Solution Navigator</h3>
+          <p class="case-study-description">AI-powered assistant concept developed pre-ChatGPT to help customers navigate VMware's product ecosystem and find solutions.</p>
+          <div class="case-study-status">CONCEPT PROPOSAL</div>
+          <span class="case-study-link">View case study →</span>
+        </div>
       </a>
     </div>
 
-    <!-- Case Study 7: VMware Tanzu Service Setup (2020) -->
     <div class="case-study-item">
       <a href="ofirlevydesign_portfolio_vmware-tanzu-service-setup.html">
-        <div class="case-study-meta">VMWARE TANZU · 2020</div>
-        <h3>VMware Tanzu Service Setup</h3>
-        <p class="case-study-description">Service setup workflow concept that guides platform teams from intent to validated Tanzu environment readiness.</p>
-        <div class="case-study-status">WORKFLOW DESIGN</div>
-        <span class="case-study-link">→</span>
+        <div class="case-study-thumb">
+          <img src="home-assets/Tanzu_project_preview@2x.png" alt="VMware Tanzu Service Setup preview" loading="lazy">
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-meta">VMWARE TANZU · 2020</div>
+          <h3>VMware Tanzu Service Setup</h3>
+          <p class="case-study-description">Service setup workflow concept that guides platform teams from intent to validated Tanzu environment readiness.</p>
+          <div class="case-study-status">WORKFLOW DESIGN</div>
+          <span class="case-study-link">View case study →</span>
+        </div>
       </a>
     </div>
 
-    <!-- Case Study 8: CloudOne Platform (2016–2017) -->
     <div class="case-study-item">
       <a href="ofirlevydesign_portfolio_cloud-one-crm.html">
-        <div class="case-study-meta">CLOUDONE · 2016–2017</div>
-        <h3>CloudOne Platform Redesign</h3>
-        <p class="case-study-description">Comprehensive dashboard redesign unifying cloud management experience across hybrid infrastructure.</p>
-        <div class="case-study-status">PLATFORM REDESIGN</div>
-        <span class="case-study-link">→</span>
+        <div class="case-study-thumb">
+          <img src="home-assets/CloudOne_project_preview@2x.png" alt="CloudOne Platform Redesign preview" loading="lazy">
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-meta">CLOUDONE · 2016–2017</div>
+          <h3>CloudOne Platform Redesign</h3>
+          <p class="case-study-description">Comprehensive dashboard redesign unifying cloud management experience across hybrid infrastructure.</p>
+          <div class="case-study-status">PLATFORM REDESIGN</div>
+          <span class="case-study-link">View case study →</span>
+        </div>
       </a>
     </div>
 
-    <!-- Case Study 9: Western Digital MyCloud Patent (2013) -->
     <div class="case-study-item">
       <a href="ofirlevydesign_portfolio_wd-mycloud-media-desktop-widget-patent.html">
-        <div class="case-study-meta">WESTERN DIGITAL · 2013</div>
-        <h3>MyCloud Media Desktop Widget Patent</h3>
-        <p class="case-study-description">End-to-end UX patent story connecting concept sketches, product flow, interactive widget prototype, and filed patent artifact.</p>
-        <div class="case-study-status">FILED PATENT</div>
-        <span class="case-study-link">→</span>
+        <div class="case-study-thumb">
+          <img src="home-assets/WDMediaApp-Patent_project_preview@2x.png" alt="MyCloud Media Desktop Widget Patent preview" loading="lazy">
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-meta">WESTERN DIGITAL · 2013</div>
+          <h3>MyCloud Media Desktop Widget Patent</h3>
+          <p class="case-study-description">End-to-end UX patent story connecting concept sketches, product flow, interactive widget prototype, and filed patent artifact.</p>
+          <div class="case-study-status">FILED PATENT</div>
+          <span class="case-study-link">View case study →</span>
+        </div>
       </a>
     </div>
 
-    <!-- Case Study 10: Zero Motorcycles Ride Dashboard App -->
     <div class="case-study-item">
       <a href="ofirlevydesign_portfolio_zero-motorcycles.html">
-        <div class="case-study-meta">ZERO MOTORCYCLES · 2014</div>
-        <h3>Zero Motorcycles Ride Dashboard App</h3>
-        <p class="case-study-description">A Bluetooth-connected mobile dashboard app for iOS and Android that turned the smartphone into a live performance instrument for Zero electric motorcycle riders — with real-time stats, trip planning, and a personalized live-ride experience.</p>
-        <div class="case-study-status">MOBILE APP · iOS &amp; ANDROID</div>
-        <span class="case-study-link">→</span>
+        <div class="case-study-thumb">
+          <img src="home-assets/ZeromotorcycleApp_project_preview@2x.png" alt="Zero Motorcycles Ride Dashboard App preview" loading="lazy">
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-meta">ZERO MOTORCYCLES · 2014</div>
+          <h3>Zero Motorcycles Ride Dashboard App</h3>
+          <p class="case-study-description">A Bluetooth-connected mobile dashboard app for iOS and Android that turned the smartphone into a live performance instrument for Zero electric motorcycle riders — with real-time stats, trip planning, and a personalized live-ride experience.</p>
+          <div class="case-study-status">MOBILE APP · iOS &amp; ANDROID</div>
+          <span class="case-study-link">View case study →</span>
+        </div>
       </a>
     </div>
 
-    <!-- Case Study 11: Product Specifications Craft -->
     <div class="case-study-item">
       <a href="ofirlevydesign_portfolio_product-specifications.html">
-        <div class="case-study-meta">WESTERN DIGITAL · VMWARE · CLOUDONE</div>
-        <h3>Product Specifications Craft</h3>
-        <p class="case-study-description">A cross-company case study on building pixel-precise UI components and styleguide books that enabled consistency, implementation quality, and product-family alignment.</p>
-        <div class="case-study-status">DESIGN SYSTEM PRACTICE</div>
-        <span class="case-study-link">→</span>
+        <div class="case-study-thumb">
+          <img src="home-assets/SpecBooks_project_preview@2x.png" alt="Product Specifications Craft preview" loading="lazy">
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-meta">WESTERN DIGITAL · VMWARE · CLOUDONE</div>
+          <h3>Product Specifications Craft</h3>
+          <p class="case-study-description">A cross-company case study on building pixel-precise UI components and styleguide books that enabled consistency, implementation quality, and product-family alignment.</p>
+          <div class="case-study-status">DESIGN SYSTEM PRACTICE</div>
+          <span class="case-study-link">View case study →</span>
+        </div>
       </a>
     </div>
+
   </div>
 </div>
 
