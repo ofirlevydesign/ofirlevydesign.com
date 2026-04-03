@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WD Remote Mobile App | Ofir Levy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --paper: #f5f2ec;
+    --mid: #7a7570;
+    --rule: #d9d4cc;
+    --accent: #1A6FBF;
+    --accent-dark: #1258A0;
+    --dark-bg: #1a1a1a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 1.25rem 3rem;
+    background: rgba(245,242,236,0.93);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-logo { display: inline-flex; align-items: center; text-decoration: none; transition: opacity 0.2s; }
+  .nav-logo:hover { opacity: 0.6; }
+  .nav-logo svg { height: 24px; width: auto; display: block; fill: var(--ink); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+
+  .hero {
+    padding: 0 3rem 5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: calc(57px + 66px);
+  }
+  .hero-meta { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 70px; }
+  .tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; color: var(--mid); text-transform: uppercase; }
+  .tag::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--mid); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.4rem,5vw,4.2rem); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); max-width: 900px; margin-bottom: 54px; }
+  h1 em { font-style: italic; color: var(--accent-dark); }
+  .hero-description { font-size: 1.15rem; line-height: 1.7; color: #3a3632; max-width: none; margin-bottom: 70px; }
+
+  .hero-stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .hero-stat { background: var(--paper); padding: 1.25rem; }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.35rem; }
+  .stat-value { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
+
+  .section { max-width: 1200px; margin: 0 auto; padding: 3rem 3rem; }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+  h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.6rem,3vw,2.6rem); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1.5rem; }
+  h3 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--ink); margin-bottom: 0.85rem; margin-top: 2rem; }
+  p { font-size: 1rem; line-height: 1.8; color: #3a3632; max-width: none; }
+  p + p { margin-top: 1rem; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .pullquote { border-left: 3px solid var(--accent-dark); padding: 1rem 0 1rem 2rem; margin: 2.5rem 0; font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.45rem; line-height: 1.4; color: var(--ink); max-width: 640px; }
+
+  .card-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-top: 2rem; }
+  .card { background: var(--paper); padding: 1.75rem 1.5rem; }
+  .card:first-child { background: var(--dark-bg); color: var(--paper); }
+  .card:first-child h3, .card:first-child .card-num { color: var(--paper); }
+  .card:first-child p { color: rgba(245,242,236,0.7); }
+  .card-num { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 1.25rem; }
+  .card:first-child .card-num { color: var(--accent); opacity: 0.9; }
+  .card h3 { font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500; margin: 0 0 0.7rem 0; }
+  .card p { font-size: 0.82rem; line-height: 1.65; color: #5a5550; max-width: none; }
+  .card:first-child p { color: rgba(245,242,236,0.7); }
+
+  .dark-section { background: var(--dark-bg); color: var(--paper); padding: 3rem 3rem; }
+  .dark-inner { max-width: 1200px; margin: 0 auto; }
+  .dark-section .section-label { color: rgba(255,255,255,0.4); }
+  .dark-section .section-label::after { background: rgba(255,255,255,0.1); }
+  .dark-section h2, .dark-section h3 { color: var(--paper); }
+  .dark-section p { color: rgba(245,242,236,0.76); }
+
+  .full-img { width: 100%; display: block; border: 1px solid var(--rule); margin-top: 2rem; }
+  .full-img-dark { width: 100%; display: block; border: 1px solid rgba(245,242,236,0.12); margin-top: 2rem; }
+
+  .img-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 2rem; }
+  .img-grid-2 img { width: 100%; display: block; border: 1px solid var(--rule); }
+  .img-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 2rem; }
+  .img-grid-3 img { width: 100%; display: block; border: 1px solid var(--rule); }
+  .img-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 2rem; }
+  .img-grid-4 img { width: 100%; display: block; border: 1px solid var(--rule); }
+
+  .mock-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 2rem;
+  }
+  .mock-item { border: 1px solid var(--rule); background: #fff; overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+  .mock-item:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+  .mock-item img { display: block; width: 100%; height: auto; }
+
+  .mock-grid-dark {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 2rem;
+  }
+  .mock-item-dark { border: 1px solid rgba(245,242,236,0.12); background: #111; overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+  .mock-item-dark:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+  .mock-item-dark img { display: block; width: 100%; height: auto; }
+  .mock-caption { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.07em; color: var(--mid); padding: 0.6rem 0.75rem; line-height: 1.5; }
+  .mock-caption-dark { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.07em; color: rgba(245,242,236,0.4); padding: 0.6rem 0.75rem; line-height: 1.5; }
+
+  .proto-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--accent-dark);
+    text-decoration: none;
+    border: 1px solid var(--accent-dark);
+    padding: 0.7rem 1.4rem;
+    transition: all 0.2s;
+    margin-top: 2rem;
+    margin-right: 1rem;
+  }
+  .proto-btn:hover { background: var(--accent); border-color: var(--accent); }
+  .proto-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    border: 1px solid var(--rule);
+    padding: 0.7rem 1.4rem;
+    transition: all 0.2s;
+    margin-top: 2rem;
+  }
+  .proto-btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    border: 1px solid var(--rule);
+    padding: 0.6rem 1.25rem;
+    transition: all 0.2s;
+    margin-top: 2.5rem;
+  }
+  .back-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .dark-section .back-btn { border-color: rgba(245,242,236,0.35); color: rgba(245,242,236,0.8); }
+  .dark-section .back-btn:hover { border-color: var(--paper); color: var(--paper); }
+
+  p.summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 0; margin-bottom: 12px; color: var(--ink);
+  }
+
+  /* E2E WORKFLOW */
+  .e2e-workflow { max-width: 1200px; margin: 0 auto; padding: 0 3rem 6rem; }
+  .e2e-workflow p.summary-label {
+    font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 34px; margin-top: 40px; margin-bottom: 24px; color: var(--ink);
+  }
+  .workflow-infographic { display: flex; flex-direction: column; gap: 24px; }
+  .workflow-row { display: flex; align-items: stretch; }
+  .workflow-step-box {
+    flex: 1; min-height: 150px; border: 1px solid var(--rule);
+    padding: 1rem; display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .workflow-step-box .step-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+  }
+  .workflow-step-box .step-title {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    line-height: 1.45; color: var(--ink); margin: 0;
+  }
+  .workflow-step-box .step-desc {
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 300;
+    line-height: 1.55; color: #3a3632; margin: 0;
+  }
+  .workflow-h-arrow {
+    width: 36px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .workflow-h-arrow svg { display: block; }
+
+  footer { max-width: 1200px; margin: 0 auto; padding: 3rem; border-top: 1px solid var(--rule); }
+  .footer-credit { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.06em; }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* LIGHTBOX */
+  .lightbox-overlay {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.88); cursor: zoom-out;
+    align-items: center; justify-content: center;
+  }
+  .lightbox-overlay.active { display: flex; }
+  .lightbox-overlay img { max-width: 90vw; max-height: 90vh; width: auto; height: auto; object-fit: contain; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+  .lightbox-close {
+    position: absolute; top: 1.5rem; right: 2rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.1em; color: rgba(255,255,255,0.6);
+    cursor: pointer; text-transform: uppercase;
+  }
+  .lightbox-close:hover { color: #fff; }
+
+  /* SCORING MATRIX */
+  .matrix-wrap { border: 1px solid var(--rule); overflow-x: auto; margin-top: 2rem; }
+  table.matrix { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .matrix thead tr { background: var(--dark-bg); color: var(--paper); }
+  .matrix thead th { padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; text-align: left; }
+  .matrix tbody tr:nth-child(even) { background: #ede8df; }
+  .matrix tbody tr:nth-child(odd) { background: #faf7f2; }
+  .matrix tbody tr.matrix-target { background: #e3eefc; border-top: 2px solid var(--accent); }
+  .matrix tbody td { padding: 12px 16px; border-bottom: 1px solid var(--rule); font-size: 0.82rem; color: #3a3632; }
+  .matrix tbody td:first-child { font-family: 'DM Sans', sans-serif; font-weight: 500; color: var(--ink); white-space: nowrap; }
+  .score { display: inline-flex; align-items: center; gap: 5px; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .score-hi { color: #2A7A3A; } .score-mid { color: #8A6A20; } .score-lo { color: #B03020; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .dot-hi { background: #2A7A3A; } .dot-mid { background: #C09030; } .dot-lo { background: #B03020; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .hero, .section, .dark-section, footer, .e2e-workflow { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .two-col, .card-grid, .hero-stat-grid { grid-template-columns: 1fr; }
+    .img-grid-2, .img-grid-3, .img-grid-4 { grid-template-columns: 1fr; }
+    .mock-grid, .mock-grid-dark { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156.6 42.23"><path d="M13.75,5.58c7.16,0,12.09,5.29,12.09,12.42s-4.93,12.42-12.09,12.42S1.66,25.13,1.66,18,6.59,5.58,13.75,5.58ZM13.75,8.79c-5.15,0-8.39,3.92-8.39,9.21s3.24,9.21,8.39,9.21,8.39-3.96,8.39-9.21-3.31-9.21-8.39-9.21Z"/><path d="M28.04,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v10.65h-3.6V5.98Z"/><path d="M45.9,5.98h3.6v24.01h-3.6V5.98Z"/><path d="M60.8,20.74h-4.5v9.25h-3.6V5.98h10.11c4.57,0,7.7,2.95,7.7,7.38s-2.92,6.62-5.98,7.02l6.16,9.61h-4.18l-5.72-9.25ZM62.35,9.15h-6.05v8.42h6.05c2.59,0,4.46-1.69,4.46-4.21s-1.87-4.21-4.46-4.21Z"/><path d="M79.92,5.98h3.6v20.84h10.91v3.17h-14.51V5.98Z"/><path d="M96.23,5.98h16.13v3.17h-12.53v7.02h12.27v3.17h-12.27v7.49h12.53v3.17h-16.13V5.98Z"/><path d="M112.21,5.98h4.1l7.67,20.09,7.7-20.09h4.1l-9.54,24.01h-4.5l-9.54-24.01Z"/><path d="M143.42,19.94l-9.4-13.97h4.14l7.06,10.73,6.98-10.73h4.18l-9.36,13.97v10.04h-3.6v-10.04Z"/></svg></a>
+  <ul class="nav-links">
+    <li><a href="ai-workflow.html">AI Workflow</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-meta">
+    <span class="tag">Western Digital &middot; 2014</span>
+    <span class="tag">Mobile App &middot; UX Design &middot; iOS</span>
+  </div>
+  <h1>WD Remote &mdash; <em>The Phone as the Remote</em></h1>
+  <p class="hero-description">Western Digital&rsquo;s WDTV media box was a formidable product &mdash; powerful, media-rich, and connected to everything. But it came with a physical remote that riders kept losing, found confusing, and felt limited by. I designed WD Remote: a full-featured iOS app that replaced the hardware remote entirely, turning the phone customers already had in their hands into the most capable WDTV controller ever built.</p>
+
+  <div class="hero-stat-grid">
+    <div class="hero-stat"><div class="stat-label">Platform</div><div class="stat-value">iOS (iPhone &amp; iPad)</div></div>
+    <div class="hero-stat"><div class="stat-label">Year</div><div class="stat-value">2014</div></div>
+    <div class="hero-stat"><div class="stat-label">My Role</div><div class="stat-value">UX Design Lead</div></div>
+    <div class="hero-stat"><div class="stat-label">Team</div><div class="stat-value">PM, iOS developers, QA</div></div>
+  </div>
+
+  <a href="index.html" class="back-btn">&larr; All work</a>
+</div>
+
+<!-- PROJECT SUMMARY -->
+<div class="section reveal" style="padding-top: 0.25rem; padding-bottom: 3rem;">
+  <p class="summary-label">Project summary</p>
+  <div class="two-col" style="margin-bottom: 0;">
+    <div>
+      <p>WDTV was Western Digital&rsquo;s answer to the media box category &mdash; a powerful hub connecting WD NAS devices, WD Passport drives, and streaming services like Netflix, Amazon Prime, and Roku. It was a compelling product, but the hardware remote it shipped with was holding the whole experience back. Customers lost it constantly. When they did find it, they struggled to operate it. And even when they got it working, its limited button layout left the deeper features of WDTV out of reach.</p>
+      <p>WD Remote reimagined what a remote could be. Instead of a plastic device with a handful of buttons, customers now had a rich, intelligent, media-aware app on the phone they were already holding. It connected to WDTV over Wi-Fi, giving full control of playback, navigation, content browsing, and media metadata &mdash; with a visual experience sophisticated enough to match the WDTV product itself.</p>
+    </div>
+    <div>
+      <img src="remote-app_assets/1_WDRemote_preview@2x.png" alt="WD Remote app preview" style="width: 100%; display: block; border: 1px solid var(--rule);">
+    </div>
+  </div>
+</div>
+
+<!-- E2E WORKFLOW -->
+<div class="e2e-workflow reveal">
+  <p class="summary-label">Project E2E workflow</p>
+  <div class="workflow-infographic">
+    <div class="workflow-row">
+      <div class="workflow-step-box">
+        <span class="step-num">Step 01</span>
+        <p class="step-title">Customer Research &amp; Discovery</p>
+        <p class="step-desc">Shadowing WDTV customers in real use, observing behaviors with the physical remote, and identifying the friction, confusion, and unmet needs driving the problem.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 02</span>
+        <p class="step-title">Problem Definition &amp; Brief</p>
+        <p class="step-desc">Translating research findings into a clear design brief and leadership presentations that defined the problem space and framed the mobile app as the right solution.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 03</span>
+        <p class="step-title">Partner Collaboration &amp; Persona</p>
+        <p class="step-desc">Working closely with PM and developers to define the app persona and align on scope through facilitated workshops before design work began.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 04</span>
+        <p class="step-title">User Workflow &amp; Journey Mapping</p>
+        <p class="step-desc">Mapping the full customer journey across device setup, content browsing, playback control, and media metadata display to define the app&rsquo;s structural backbone.</p>
+      </div>
+    </div>
+    <div class="workflow-row">
+      <div class="workflow-step-box">
+        <span class="step-num">Step 05</span>
+        <p class="step-title">Sketches &amp; Wireframes</p>
+        <p class="step-desc">Extensive low-fidelity exploration of the multi-dimensional interaction model &mdash; moving screens, drawers, playback controls, and media content surfaces &mdash; across phone and tablet form factors.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 06</span>
+        <p class="step-title">Visual Design &amp; Components</p>
+        <p class="step-desc">High-fidelity design built on the WD media style guide, extended with custom components, icons, and an industrial dark visual theme that matched WDTV&rsquo;s product identity.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 07</span>
+        <p class="step-title">Onboarding &amp; Prototype Testing</p>
+        <p class="step-desc">Designing coach mark onboarding for the ground-breaking interactions, then testing the gamma build with customers to validate clarity, flow, and enthusiasm before release.</p>
+      </div>
+      <div class="workflow-h-arrow"><svg width="36" height="12" viewBox="0 0 36 12" fill="none"><line x1="0" y1="6" x2="30" y2="6" stroke="#7a7570" stroke-width="1"/><polyline points="24,2 30,6 24,10" fill="none" stroke="#7a7570" stroke-width="1" stroke-linejoin="round"/></svg></div>
+      <div class="workflow-step-box">
+        <span class="step-num">Step 08</span>
+        <p class="step-title">Release &amp; Continuous Improvement</p>
+        <p class="step-desc">App Store launch in 2014, followed by ongoing collaboration with PM and SDEs to itemize, prioritize, and ship customer-driven feature corrections and improvements.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 01: CONTEXT & PROBLEM -->
+<div class="section reveal">
+  <div class="section-label">01 &mdash; Context &amp; Problem</div>
+  <div class="two-col">
+    <div>
+      <h2>A great product held back by its own remote</h2>
+      <p>WDTV was one of Western Digital&rsquo;s most ambitious consumer products &mdash; a media hub that connected WD MyCloud NAS devices, WD Passport drives, and popular streaming services including Netflix, Amazon Prime, and Roku into a single living-room experience. It was a serious competitor to AppleTV.</p>
+      <p>But the hardware remote that shipped with it was a constant source of friction. Customers lost it &mdash; regularly. The device slipped under cushions, got left in other rooms, and simply vanished. When found, it confused people: the button layout was opaque, and even straightforward actions required multiple steps customers couldn&rsquo;t intuitively decode.</p>
+      <p>Worse, the remote was structurally limiting. Its small button set meant only a fraction of WDTV&rsquo;s features were surfaceable. Customers were paying for a premium media experience and accessing only part of it.</p>
+      <div class="pullquote">&ldquo;Customers were paying for a premium media experience and could only access part of it. The remote was the bottleneck.&rdquo;</div>
+    </div>
+    <div>
+      <img src="remote-app_assets/2_WDRemote_context_WDTV_equipment.png" alt="WDTV equipment context" style="width: 100%; display: block; border: 1px solid var(--rule);" loading="lazy">
+      <p style="margin-top: 50px;">The opportunity was clear: the phone customers were already holding was a better remote than anything Western Digital could manufacture and ship. It was always nearby, always charged, had a touchscreen that could surface rich UI, and was a device customers already knew how to use.</p>
+      <p>WD Remote would become the digital equivalent of the physical remote &mdash; and then far exceed it.</p>
+    </div>
+  </div>
+
+  <div class="card-grid" style="margin-top: 3rem;">
+    <div class="card">
+      <div class="card-num">Problem 01</div>
+      <h3>The remote kept going missing</h3>
+      <p>Physical remotes are easy to lose. Customers were regularly unable to operate their WDTV because the remote had disappeared &mdash; ending the experience before it began.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">Problem 02</div>
+      <h3>The remote was hard to operate</h3>
+      <p>Even when found, the button layout confused customers. Simple navigations required non-obvious sequences, creating frustration with a device that was supposed to be effortless.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">Problem 03</div>
+      <h3>The remote was structurally limiting</h3>
+      <p>A handful of physical buttons couldn&rsquo;t surface the full depth of WDTV. The hardware remote was an architectural constraint that prevented customers from accessing everything the product offered.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 02: RESEARCH -->
+<div class="section reveal">
+  <div class="section-label">02 &mdash; Research</div>
+  <div class="two-col">
+    <div>
+      <h2>Getting close to the actual experience</h2>
+      <p>Research began with direct customer observation. I shadowed customers as they interacted with WDTV in real environments &mdash; living rooms, bedrooms, home offices &mdash; and watched how the physical remote shaped (and limited) their behavior. I noted what they did, where they hesitated, what they skipped entirely, and what visibly frustrated them.</p>
+      <p>I documented findings in UX design briefs and summarized insights for leadership presentations, making the case that the remote was not a minor accessory issue but a core product experience failure with a clear design solution.</p>
+    </div>
+    <div>
+      <p>Beyond observation, I surveyed a pool of WDTV customers to pressure-test the mobile app hypothesis. Did customers feel their phone was a natural replacement for the remote? What would they expect from such an app? What would make them trust it over the hardware they&rsquo;d been given?</p>
+      <p>The survey responses were unambiguous: customers were enthusiastic about the concept, particularly the idea of having rich content metadata, intuitive browsing, and playback control all in one place &mdash; something the physical remote fundamentally couldn&rsquo;t offer.</p>
+    </div>
+  </div>
+
+  <div style="margin-top: 3rem;">
+    <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.75rem;">Competitive scoring matrix</p>
+    <p style="margin-bottom: 0.5rem;">Six remote-control and media apps were evaluated across six dimensions on a three-point scale: strong (fully implemented, polished), partial (present but limited or inconsistent), or weak (absent or broken). WD Remote is shown as a target benchmark.</p>
+    <div class="matrix-wrap">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>App</th>
+            <th>Navigation Model</th>
+            <th>Content Browsing</th>
+            <th>Playback Control</th>
+            <th>Media Metadata</th>
+            <th>Multi-source Support</th>
+            <th>Device Pairing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Apple Remote</td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-mid"><span class="dot dot-mid"></span> Partial</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-mid"><span class="dot dot-mid"></span> Partial</span></td>
+            <td><span class="score score-lo"><span class="dot dot-lo"></span> Weak</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+          </tr>
+          <tr>
+            <td>Plex Remote</td>
+            <td><span class="score score-mid"><span class="dot dot-mid"></span> Partial</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-mid"><span class="dot dot-mid"></span> Partial</span></td>
+            <td><span class="score score-mid"><span class="dot dot-mid"></span> Partial</span></td>
+          </tr>
+          <tr>
+            <td>Roku App</td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-mid"><span class="dot dot-mid"></span> Partial</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-lo"><span class="dot dot-lo"></span> Weak</span></td>
+            <td><span class="score score-lo"><span class="dot dot-lo"></span> Weak</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+          </tr>
+          <tr>
+            <td>Samsung SmartView</td>
+            <td><span class="score score-mid"><span class="dot dot-mid"></span> Partial</span></td>
+            <td><span class="score score-mid"><span class="dot dot-mid"></span> Partial</span></td>
+            <td><span class="score score-mid"><span class="dot dot-mid"></span> Partial</span></td>
+            <td><span class="score score-lo"><span class="dot dot-lo"></span> Weak</span></td>
+            <td><span class="score score-lo"><span class="dot dot-lo"></span> Weak</span></td>
+            <td><span class="score score-mid"><span class="dot dot-mid"></span> Partial</span></td>
+          </tr>
+          <tr>
+            <td>Logitech Harmony</td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-lo"><span class="dot dot-lo"></span> Weak</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-lo"><span class="dot dot-lo"></span> Weak</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-mid"><span class="dot dot-mid"></span> Partial</span></td>
+          </tr>
+          <tr>
+            <td>XBMC Remote</td>
+            <td><span class="score score-mid"><span class="dot dot-mid"></span> Partial</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-mid"><span class="dot dot-mid"></span> Partial</span></td>
+            <td><span class="score score-mid"><span class="dot dot-mid"></span> Partial</span></td>
+            <td><span class="score score-lo"><span class="dot dot-lo"></span> Weak</span></td>
+          </tr>
+          <tr class="matrix-target">
+            <td>WD Remote <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; margin-left: 6px;">target</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+            <td><span class="score score-hi"><span class="dot dot-hi"></span> Strong</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 03: PARTNER COLLABORATION -->
+<div class="section reveal">
+  <div class="section-label">03 &mdash; Partner Collaboration</div>
+  <div class="two-col">
+    <div>
+      <h2>Building alignment before building the app</h2>
+      <p>This project required close, early alignment with partners. I worked hand-in-hand with my PM and iOS developers throughout the workflow and journey mapping phase &mdash; not just to validate technical feasibility, but to ensure that design ambition and engineering scope were always calibrated together.</p>
+      <p>I facilitated a series of focused workshops with the core team to define the app&rsquo;s persona: who was this for, what did they value, what moments in the WDTV experience did the app need to elevate, and where did the physical remote&rsquo;s paradigm need to be entirely rethought rather than replicated?</p>
+    </div>
+    <div>
+      <p>These workshops were productive because they were grounded in the research. Patterns from customer observation gave the team shared context, and the persona work that emerged was specific and actionable &mdash; not a generic user archetype but a real picture of the WDTV customer base and what they were trying to accomplish in their living rooms.</p>
+      <p>Alignment at this stage proved critical later. The app&rsquo;s multi-dimensional interaction model &mdash; drawers, playback states, media metadata, remote gestures &mdash; was complex enough that without early shared understanding, design and engineering could have easily diverged.</p>
+    </div>
+  </div>
+  <div style="margin-top: 2.5rem;">
+    <img src="remote-app_assets/4_WDRemote_workshop.png" alt="WD Remote design workshop" style="width: 78%; display: block; border: 1px solid var(--rule); image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;" loading="lazy">
+    <div class="mock-caption" style="margin-top: 0.5rem;">Collaborative on-line workshop to iron out the customer E2E workflow and align on sentiments</div>
+  </div>
+</div>
+
+<!-- SECTION 04: USER WORKFLOW -->
+<div class="section reveal">
+  <div class="section-label">04 &mdash; User Workflow</div>
+  <h2>Mapping the full customer journey</h2>
+  <p>Before any wireframes were drawn, the complete user workflow was laid out: from initial app setup and WDTV pairing, through content source selection (WD NAS, Passport, streaming services), into browsing and playing media, and back out to settings, search, and playback management. Each step in the journey had distinct interaction requirements and UI contexts.</p>
+  <p>This workflow map became the team&rsquo;s shared reference throughout the entire project &mdash; a single document that kept design, PM, and engineering oriented to the same end-to-end experience even as individual screens and interactions were being designed in detail.</p>
+  <img src="remote-app_assets/5_WDRemote_E2E_user-workflow@2x.png" alt="WD Remote E2E user workflow map" class="full-img" loading="lazy">
+</div>
+
+<!-- SECTION 05: SKETCHES -->
+<div class="section reveal">
+  <div class="section-label">05 &mdash; Sketches</div>
+  <div class="two-col">
+    <div>
+      <h2>Working through a multi-dimensional interaction</h2>
+      <p>WD Remote was a genuinely complex interaction design challenge. Unlike a simple content browser or a standard media player, this app had to simultaneously function as a directional controller (replacing the physical d-pad), a content browser (surfacing movies, music, photos from multiple sources), a metadata display (artwork, descriptions, cast information from studio and label databases), and a playback command center.</p>
+      <p>These four modes had to coexist in a single coherent app, across both phone and tablet form factors, and transition between them fluidly as the customer&rsquo;s context changed mid-session.</p>
+    </div>
+    <div>
+      <p>I spent a significant amount of time in sketches &mdash; visualizing interaction flows, navigation architecture, drawer behaviors, and screen transitions before committing to wireframe fidelity. Sketching allowed me to move fast, test ideas on paper, and identify structural problems early when changes were still free.</p>
+      <p>The phone sketches focused on the core remote paradigm: directional control, quick-access playback, and a compact media browsing surface. Tablet sketches explored how the larger canvas could unlock richer layouts, side drawers for services and settings, and more immersive content metadata presentation.</p>
+    </div>
+  </div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 16px; margin-top: 2rem;">
+    <img src="remote-app_assets/3_WDRemote_concept_sketch1.png" alt="WD Remote concept sketch 1" style="width: 100%; display: block; border: 1px solid var(--rule);" loading="lazy">
+    <img src="remote-app_assets/4_WDRemote_concept_sketch2.png" alt="WD Remote concept sketch 2" style="width: 100%; display: block; border: 1px solid var(--rule);" loading="lazy">
+    <img src="remote-app_assets/6_WDRemote_phone_sketches.jpg" alt="WD Remote phone interaction sketches" style="width: 100%; display: block; border: 1px solid var(--rule);" loading="lazy">
+  </div>
+</div>
+
+<!-- SECTION 06: WIREFRAMES -->
+<div class="section reveal">
+  <div class="section-label">06 &mdash; Wireframes</div>
+  <div class="two-col">
+    <div>
+      <h2>Defining structure across phone and tablet</h2>
+      <p>Wireframes translated sketches into a structured, testable layout system. The work covered both form factors in parallel, since the phone and tablet experiences shared the same underlying logic but had meaningfully different layouts, navigation patterns, and content density.</p>
+      <p>Tablet wireframes focused heavily on the main navigation architecture &mdash; how the left and right drawers organized media sources and settings, how the main content area transitioned between browsing and playback states, and how the remote control overlay sat on top of the content experience without obscuring it.</p>
+    </div>
+    <div>
+      <p>Phone wireframes prioritized the hand-held remote paradigm: a compact, gesture-friendly interface where directional control, media browsing, and playback commands were all within thumb reach. The interaction pattern for media source selection required its own dedicated flow, documented in annotated wireframe specs.</p>
+      <p>Content metadata was a significant wireframe focus. Displaying movie art, cast details, album art, and track information from studio and label databases meant designing a flexible metadata layout system that could accommodate varying levels of content richness without breaking.</p>
+    </div>
+  </div>
+
+  <div style="margin-top: 2rem;">
+    <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 1rem;">Tablet wireframes</p>
+    <div class="img-grid-2">
+      <img src="remote-app_assets/7_WDRemote_tablet_main-screen_navigation.png" alt="Tablet main screen navigation wireframe" loading="lazy">
+      <img src="remote-app_assets/9_WDRemote_tablet_side-drawers.png" alt="Tablet side drawers wireframe" loading="lazy">
+    </div>
+    <div class="img-grid-2" style="margin-top: 16px;">
+      <img src="remote-app_assets/11_WDRemote_tablet_wireframe_listing_movies.png" alt="Tablet wireframe: movie listings" loading="lazy">
+      <img src="remote-app_assets/12_WDRemote_tablet_wireframe_movie.png" alt="Tablet wireframe: movie detail" loading="lazy">
+    </div>
+    <div class="img-grid-3" style="margin-top: 16px;">
+      <img src="remote-app_assets/13_WDRemote_tablet_wireframe_music_album-list.png" alt="Tablet wireframe: music album list" loading="lazy">
+      <img src="remote-app_assets/14_WDRemote_tablet_wireframe_music.png" alt="Tablet wireframe: music detail" loading="lazy">
+      <img src="remote-app_assets/15_WDRemote_tablet_wireframe_tv-show.png" alt="Tablet wireframe: TV show" loading="lazy">
+    </div>
+  </div>
+
+  <div style="margin-top: 3rem;">
+    <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 1rem;">Phone wireframes</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 2rem;">
+      <div>
+        <img src="remote-app_assets/20_WDRemote_wireframe_movie.png" alt="Phone wireframe: movie" style="width: 100%; display: block; border: none; background: transparent;" loading="lazy">
+        <div class="mock-caption">Movie detail</div>
+      </div>
+      <div>
+        <img src="remote-app_assets/21_WDRemote_wireframe_photo.png" alt="Phone wireframe: photo" style="width: 100%; display: block; border: none; background: transparent;" loading="lazy">
+        <div class="mock-caption">Photo viewer</div>
+      </div>
+      <div>
+        <img src="remote-app_assets/22_WDRemote_wireframe_song.png" alt="Phone wireframe: song" style="width: 100%; display: block; border: none; background: transparent;" loading="lazy">
+        <div class="mock-caption">Song / music player</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 3rem;">
+    <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 1rem;">Wireframe specifications</p>
+    <div class="img-grid-2">
+      <img src="remote-app_assets/16_WDRemote_tablet_specs_component-layout.png" alt="Tablet specs: component layout" loading="lazy">
+      <img src="remote-app_assets/17_WDRemote_tablet_specs_listings.png" alt="Tablet specs: listings" loading="lazy">
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 16px; margin-top: 16px; align-items: start; max-width: 672px;">
+      <img src="remote-app_assets/18_WDRemote_phone_specs_listings.png" alt="Phone specs: listings" style="width: 100%; display: block; border: 1px solid var(--rule);" loading="lazy">
+      <img src="remote-app_assets/33_WDRemote_specs_boxart_listings.png" alt="Specs: box art and listings" style="width: 100%; display: block; border: 1px solid var(--rule);" loading="lazy">
+    </div>
+    <img src="remote-app_assets/19_WDRemote_tablet_wireframe-spec_movie-listings.png" alt="Tablet wireframe spec: movie listings" style="width: 70%; display: block; border: 1px solid var(--rule); margin-top: 16px;" loading="lazy">
+  </div>
+
+  <div class="img-grid-2" style="margin-top: 3rem;">
+    <img src="remote-app_assets/23_WDRemote_tablet_wireframe_layout_plat-mode.png" alt="Tablet wireframe: play mode layout" loading="lazy">
+    <img src="remote-app_assets/26_WDRemote_tablet_mock_product-map_multi-screen-interaction.png" alt="Tablet product map: multi-screen interaction" loading="lazy">
+  </div>
+</div>
+
+<!-- SECTION 07: COMPONENTS & VISUAL DESIGN (DARK) -->
+<div class="dark-section reveal">
+  <div class="dark-inner">
+    <div class="section-label">07 &mdash; Components &amp; Visual Design</div>
+    <h2>Building the visual language of WD Remote</h2>
+    <p>The visual design was grounded in the existing WD media style guide, but WD Remote needed its own extended component set &mdash; purpose-built for a mobile remote experience. The design direction was industrial, modern, and media-rich: a dark theme that prioritized content artwork, created visual continuity with WDTV&rsquo;s physical product design, and made every interaction feel tactile and immediate.</p>
+    <p>I built a custom component library covering buttons, icons, surfaces, and interaction states, along with a media source selection interaction system and a flexible content metadata layout. These components had to work across phone and tablet, across movies, music, and photos, and across multiple states including browsing, playback, and settings.</p>
+    <img src="remote-app_assets/28_WDRemote_components_artboard.png" alt="WD Remote components artboard" class="full-img-dark" loading="lazy">
+    <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; color: rgba(245,242,236,0.45); margin-top: 0.75rem;">Adobe Illustrator artboard &mdash; component and design language exploration workspace.</p>
+
+    <div class="img-grid-2" style="margin-top: 2.5rem;">
+      <div>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,242,236,0.4); margin-bottom: 1rem;">Button components</p>
+        <img src="remote-app_assets/29_WDRemote_components_buttons.png" alt="WD Remote button components" style="width: 100%; display: block; border: 1px solid rgba(245,242,236,0.12);" loading="lazy">
+      </div>
+      <div>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,242,236,0.4); margin-bottom: 1rem;">Icon set</p>
+        <img src="remote-app_assets/30_WDRemote_components_icons.png" alt="WD Remote icon set" style="width: 80%; display: block; border: 1px solid rgba(245,242,236,0.12);" loading="lazy">
+      </div>
+    </div>
+
+    <p style="margin-top: 2.5rem;">Media source selection was one of the most complex interaction surfaces to design. The app needed to elegantly switch between WD NAS storage, WD Passport, and streaming services &mdash; each with distinct navigation paradigms &mdash; without disorienting the customer.</p>
+    <img src="remote-app_assets/31_WDRemote_phone_specs_interaction_media-source-selection1.png" alt="Phone interaction: media source selection step 1" style="width: 100%; display: block; border: 1px solid rgba(245,242,236,0.12); margin-top: 1.5rem;" loading="lazy">
+  </div>
+</div>
+
+<!-- SECTION 08: HIGH-FIDELITY COMPS -->
+<div class="section reveal">
+  <div class="section-label">08 &mdash; High-Fidelity Comps</div>
+  <h2>A world-class media experience, screen by screen</h2>
+  <p>Final high-fidelity comps across the complete app experience &mdash; phone and tablet, movies, music, and photos, browsing and live playback modes. Tap any screen to view at full size.</p>
+
+  <h3 style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-top: 2.5rem; margin-bottom: 1rem;">Phone &mdash; Near-Final Comps</h3>
+  <div class="mock-grid">
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="remote-app_assets/34_WDRemote_phone_comp_metadata.png" alt="Phone comp: metadata" loading="lazy">
+      <div class="mock-caption">Movie metadata</div>
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="remote-app_assets/35_WDRemote_movies_listing1_comp.png" alt="Phone comp: movies listing 1" loading="lazy">
+      <div class="mock-caption">Movies listing — view 1</div>
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="remote-app_assets/36_WDRemote_movies_listing2_comp.png" alt="Phone comp: movies listing 2" loading="lazy">
+      <div class="mock-caption">Movies listing — view 2</div>
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="remote-app_assets/40_WDRemote_photos_comp.png" alt="Phone comp: photos" loading="lazy">
+      <div class="mock-caption">Photos browser</div>
+    </div>
+  </div>
+
+  <div class="mock-grid" style="margin-top: 2rem;">
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="remote-app_assets/37_WDRemote_movies_play-mode_comp.png" alt="Phone comp: movie play mode" loading="lazy">
+      <div class="mock-caption">Movie — play mode</div>
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="remote-app_assets/38_WDRemote_music_play-mode_comp.png" alt="Phone comp: music play mode" loading="lazy">
+      <div class="mock-caption">Music — play mode</div>
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="remote-app_assets/42_WDRemote_phone_comp_play-mode_finger-scroll.png" alt="Phone comp: play mode finger scroll" loading="lazy">
+      <div class="mock-caption">Play mode — finger scroll gesture</div>
+    </div>
+  </div>
+
+  <h3 style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-top: 2.5rem; margin-bottom: 1rem;">Phone &mdash; final screens</h3>
+  <div class="img-grid-2">
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="remote-app_assets/43_WDRemote_phone_mocks_final_movies@2x.png" alt="Phone final mocks: movies" loading="lazy">
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="remote-app_assets/44_WDRemote_phone_mocks_final_music-photos@2x.png" alt="Phone final mocks: music and photos" loading="lazy">
+    </div>
+  </div>
+
+  <h3 style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-top: 2.5rem; margin-bottom: 1rem;">Tablet &mdash; browsing &amp; play mode</h3>
+  <div class="mock-grid">
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="remote-app_assets/44_WDRemote_music_listing_final.png" alt="Tablet comp: music listing final" loading="lazy">
+    </div>
+    <div class="mock-item" style="background: transparent; border: none;" onclick="openLightbox(this)">
+      <img src="remote-app_assets/46_WDRemote_tablet_play-mode_buttons_final.png" alt="Tablet comp: play mode buttons" loading="lazy">
+      <div class="mock-caption">Play mode — transport controls</div>
+    </div>
+    <div class="mock-item" style="background: transparent; border: none;" onclick="openLightbox(this)">
+      <img src="remote-app_assets/49_WDRemote_tablet_movies_metadata_final.png" alt="Tablet comp: movies metadata" loading="lazy">
+      <div class="mock-caption">Movies — metadata panel</div>
+    </div>
+  </div>
+
+  <h3 style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-top: 2.5rem; margin-bottom: 1rem;">Tablet &mdash; final glorified comps</h3>
+  <div class="img-grid-2">
+    <div class="mock-item" style="background: transparent; border: none;" onclick="openLightbox(this)">
+      <img src="remote-app_assets/45_WDRemote_tablet_mocks_final_main_pad@2x.png" alt="Tablet final comp: main pad" style="border: none;" loading="lazy">
+      <div class="mock-caption">Main remote pad — directional control</div>
+    </div>
+    <div class="mock-item" style="background: transparent; border: none;" onclick="openLightbox(this)">
+      <img src="remote-app_assets/47_WDRemote_tablet_mocks_final_movie-metadata-live-play@2x.png" alt="Tablet final comp: movie metadata live play" style="border: none;" loading="lazy">
+      <div class="mock-caption">Movie metadata — live play mode</div>
+    </div>
+  </div>
+  <div class="img-grid-2" style="margin-top: 16px;">
+    <div class="mock-item" style="background: transparent; border: none;" onclick="openLightbox(this)">
+      <img src="remote-app_assets/48_WDRemote_tablet_mocks_final_movie-metadata-search@2x.png" alt="Tablet final comp: movie metadata search" style="border: none;" loading="lazy">
+      <div class="mock-caption">Movie metadata — search view</div>
+    </div>
+    <div class="mock-item" style="background: transparent; border: none;" onclick="openLightbox(this)">
+      <img src="remote-app_assets/50_WDRemote_tablet_mocks_final_music-live-play@2x.png" alt="Tablet final comp: music live play" style="border: none;" loading="lazy">
+      <div class="mock-caption">Music — live play mode</div>
+    </div>
+  </div>
+
+  <div style="margin-top: 3rem;">
+    <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 1rem;">Interactive prototypes</p>
+    <p>Explore the app interactions live in Figma. Two prototype flows are available: the movie setup and browsing experience, and the live playing mode.</p>
+    <div>
+      <a href="https://www.figma.com/proto/LXZbnJfhmyW5BrJw1m6XRK/WDRemote_iterations?node-id=1-28&t=HJUJdCkHAyBKq6hZ-1&scaling=contain&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A28&show-proto-sidebar=1" class="proto-btn" target="_blank" rel="noopener noreferrer">&#9654;&ensp;Prototype: Movie Setup</a>
+      <a href="https://www.figma.com/proto/LXZbnJfhmyW5BrJw1m6XRK/WDRemote_iterations?node-id=4-54&t=sRR9zSX8iaqDY3ie-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=4%3A54&show-proto-sidebar=1" class="proto-btn" target="_blank" rel="noopener noreferrer">&#9654;&ensp;Prototype: Playing Mode</a>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 09: ONBOARDING (DARK) -->
+<div class="dark-section reveal">
+  <div class="dark-inner">
+    <div class="section-label">09 &mdash; Attention to App On-boarding</div>
+    <h2>Making the ground-breaking feel natural</h2>
+    <p>WD Remote introduced interaction patterns that customers had never encountered in a remote control context before. Moving screens, animated drawers, gesture-based playback, media source switching &mdash; each of these was intuitive once understood, but required deliberate introduction the first time a customer opened the app.</p>
+    <p>I worked closely with my PM and developer partners, as well as directly with customers in test sessions, to design and refine an onboarding workflow built around coach marks. The approach was deliberate: rather than showing everything at once in a tutorial that most customers skip, coach marks surfaced guidance precisely in context &mdash; on the specific screen and at the exact moment the interaction was relevant. Customers learned by doing, not by reading ahead.</p>
+
+    <div class="two-col" style="margin-top: 2.5rem;">
+      <div>
+        <p>The coach mark system was applied to all initial screens and key interaction moments: first app launch, first media source selection, first time the remote control overlay appeared, and the playback gesture interactions. Each mark was written to be brief, specific, and action-oriented.</p>
+        <p>Gamma testing with customers validated the approach. The combination of familiar smartphone conventions, rich visual design, and contextual coach marks meant that customers who had been confused by the physical remote were navigating WD Remote confidently within their first session &mdash; and expressing genuine enthusiasm about what the app could do.</p>
+      </div>
+      <div>
+        <div class="pullquote" style="border-left-color: rgba(245,242,236,0.4); color: var(--paper);">&ldquo;Customers who had been confused by the physical remote were navigating WD Remote confidently within their first session.&rdquo;</div>
+      </div>
+    </div>
+
+    <div class="img-grid-3" style="margin-top: 2rem;">
+      <img src="remote-app_assets/51_WDRemote_onboarding1.png" alt="WD Remote onboarding coach mark screen 1" style="width: 100%; display: block; border: 1px solid rgba(245,242,236,0.12);" loading="lazy">
+      <img src="remote-app_assets/52_WDRemote_onboarding2.png" alt="WD Remote onboarding coach mark screen 2" style="width: 100%; display: block; border: 1px solid rgba(245,242,236,0.12);" loading="lazy">
+      <img src="remote-app_assets/53_WDRemote_onboarding3.png" alt="WD Remote onboarding coach mark screen 3" style="width: 100%; display: block; border: 1px solid rgba(245,242,236,0.12);" loading="lazy">
+    </div>
+
+    <div style="margin-top: 2.5rem;">
+      <p>Experience the full onboarding flow as designed in the interactive prototype below.</p>
+      <a href="https://www.figma.com/proto/LXZbnJfhmyW5BrJw1m6XRK/WDRemote_iterations?node-id=17-108&p=f&t=dFWbRpvbNnnqsEdy-1&scaling=scale-down&content-scaling=fixed&page-id=7%3A87&starting-point-node-id=17%3A108" class="proto-btn" target="_blank" rel="noopener noreferrer">&#9654;&ensp;Prototype: App On-boarding</a>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 10: RELEASE & RESULTS -->
+<div class="section reveal">
+  <div class="section-label">10 &mdash; Release &amp; Post-Launch Results</div>
+  <div class="two-col">
+    <div>
+      <h2>Shipped to the App Store in 2014</h2>
+      <p>WD Remote launched on the Apple App Store in 2014. The reception from WDTV customers was immediate and positive &mdash; the app addressed the exact pain points that research had surfaced, and customers responded with the enthusiasm that gamma testing had predicted.</p>
+      <p>The App Store reviews reflected what the design set out to achieve: customers who had been frustrated by the physical remote now had a tool that was always with them, always functional, and far more capable than anything that came in the box.</p>
+    </div>
+    <div>
+      <p>Post-launch, I continued working closely with the app PM and SDEs to collect, categorize, and prioritize customer feedback. Feature corrections and improvements were iterated in subsequent releases. This wasn&rsquo;t treated as a ship-and-move-on project &mdash; the feedback loop with customers remained active, and each update was grounded in real observed behavior and expressed user need.</p>
+      <div class="pullquote">&ldquo;A tool that was always with them, always functional, and far more capable than anything that came in the box.&rdquo;</div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 3fr; gap: 16px; margin-top: 2rem;">
+    <div style="background: transparent; cursor: default;">
+      <img src="remote-app_assets/54_WDRemote_icon_appstore@2x.png" alt="WD Remote App Store icon" style="width: 100%; display: block;" loading="lazy">
+      <div class="mock-caption" style="text-align: center;">I also designed the app icon</div>
+    </div>
+    <div class="mock-item" onclick="openLightbox(this)">
+      <img src="remote-app_assets/55_WDRemote_reviews.png" alt="WD Remote App Store customer reviews" loading="lazy">
+    </div>
+  </div>
+
+  <a href="index.html" class="back-btn">&larr; Return to design case studies</a>
+</div>
+
+<footer>
+  <p class="footer-credit">&copy; 2026 Ofir Levy &middot; Sr. UX Designer</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close" onclick="closeLightbox()">ESC &mdash; Close</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  function openLightbox(el) {
+    const img = el.querySelector('img');
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox-img').alt = img.alt;
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+</body>
+</html>
