@@ -174,6 +174,55 @@
     }
 
 
+    /* NDA RESTRICTED */
+    .case-study-item.nda-restricted .case-study-thumb img {
+      filter: grayscale(100%);
+      opacity: 0.5;
+    }
+    .case-study-item.nda-restricted h3 {
+      color: var(--mid);
+    }
+    .case-study-item.nda-restricted .case-study-description {
+      color: var(--mid);
+      opacity: 0.7;
+    }
+    .nda-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid);
+      border: 1px solid var(--rule);
+      padding: 0.35rem 0.75rem;
+      margin-top: 0.25rem;
+    }
+    .nda-badge::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--mid);
+      opacity: 0.5;
+      flex-shrink: 0;
+    }
+    .case-study-item.nda-restricted > div {
+      text-decoration: none;
+      color: inherit;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 3.5rem;
+      align-items: center;
+      padding: 3rem 0;
+      cursor: default;
+    }
+    @media (max-width: 900px) {
+      .case-study-item.nda-restricted > div { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+
     /* COMING SOON */
     .coming-soon-label {
       font-family: 'JetBrains Mono', monospace;
@@ -233,8 +282,8 @@
 
   <div class="portfolio-grid">
 
-    <div class="case-study-item" style="display:none;">
-      <a href="ofirlevydesign_portfolio_smus-releasecenter.html">
+    <div class="case-study-item nda-restricted">
+      <div>
         <div class="case-study-thumb">
           <img src="home-assets/SMUSReleaseCenter_project_preview@2x.png" alt="Amazon SageMaker Unified Studio ReleaseCenter preview" loading="lazy">
         </div>
@@ -242,13 +291,14 @@
           <div class="case-study-meta">AMAZON WEB SERVICES · 2025</div>
           <h3>Amazon SageMaker Unified Studio ReleaseCenter</h3>
           <p class="case-study-description">DevOps stage workflow integrated into SMUS, connecting artifact creation with in-product release progression across Dev, Test, Pre-prod, and Prod.</p>
-          <div class="case-study-status">E2E WORKFLOW DESIGN</div><span class="case-study-link">View case study →</span>
+          <div class="case-study-status">E2E WORKFLOW DESIGN</div>
+          <span class="nda-badge">Under NDA — available to discuss privately during an interview</span>
         </div>
-      </a>
+      </div>
     </div>
 
-    <div class="case-study-item" style="display:none;">
-      <a href="ofirlevydesign_portfolio_athena-usage-widget.html">
+    <div class="case-study-item nda-restricted">
+      <div>
         <div class="case-study-thumb">
           <img src="home-assets/AthenaUsageWidget_project_preview@2x.png" alt="Amazon Athena Usage Companion Widget preview" loading="lazy">
         </div>
@@ -256,13 +306,14 @@
           <div class="case-study-meta">AMAZON WEB SERVICES · 2025</div>
           <h3>Amazon Athena Usage Companion Widget</h3>
           <p class="case-study-description">Real-time cost visibility widget for serverless query service with AI-powered optimization recommendations.</p>
-          <div class="case-study-status">CONCEPT PROPOSAL</div><span class="case-study-link">View case study →</span>
+          <div class="case-study-status">CONCEPT PROPOSAL</div>
+          <span class="nda-badge">Under NDA — available to discuss privately during an interview</span>
         </div>
-      </a>
+      </div>
     </div>
 
-    <div class="case-study-item" style="display:none;">
-      <a href="sagemaker-entity-tables.html">
+    <div class="case-study-item nda-restricted">
+      <div>
         <div class="case-study-thumb">
           <img src="home-assets/SMUSEntityTables_project_preview@2x.png" alt="Amazon SageMaker Project Entity Tables preview" loading="lazy">
         </div>
@@ -270,9 +321,10 @@
           <div class="case-study-meta">AMAZON WEB SERVICES · 2024</div>
           <h3>Amazon SageMaker Unified Studio Project Entity Tables</h3>
           <p class="case-study-description">Data table interface design for unified ML and data analytics platform, enabling seamless project management.</p>
-          <div class="case-study-status">DATA INTERFACE</div><span class="case-study-link">View case study →</span>
+          <div class="case-study-status">DATA INTERFACE</div>
+          <span class="nda-badge">Under NDA — available to discuss privately during an interview</span>
         </div>
-      </a>
+      </div>
     </div>
 
     <div class="case-study-item">
